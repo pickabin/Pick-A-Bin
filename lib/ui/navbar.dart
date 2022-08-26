@@ -1,6 +1,9 @@
+import 'package:boilerplate/data/network/exceptions/connectivity_provider.dart';
+import 'package:boilerplate/data/network/exceptions/nointernet_connectivity.dart';
 import 'package:boilerplate/models/sharedpreference/SharedPrefrences.dart';
 import 'package:boilerplate/ui/activity/activity.dart';
 import 'package:boilerplate/ui/activity/user_activity.dart';
+import 'package:boilerplate/ui/connection/error_connection.dart';
 import 'package:boilerplate/ui/home/home_petugas.dart';
 import 'package:boilerplate/ui/home/home_warga.dart';
 import 'package:boilerplate/ui/home/list_petugas.dart';
@@ -9,6 +12,7 @@ import 'package:boilerplate/ui/profile/profile_warga.dart';
 import 'package:boilerplate/ui/schedule/list_schedule.dart';
 import 'package:boilerplate/ui/schedule/tab_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Navbar extends StatefulWidget {
@@ -19,12 +23,13 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   
 
-// @override
-// void initState() async {
-//   super.initState();
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   final String? rule = prefs.getString('role');
-// }
+@override
+void initState(){
+  super.initState();
+  Provider.of<ConnectivityProvider>(context, listen: false).pantauConnectivity();
+}
+
+
 
   int selectedPage = 0;
 
@@ -44,7 +49,10 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return Consumer<ConnectivityProvider>(
+      builder: (context, value, child) {
+        return value.isOnline ?
+        WillPopScope(
       onWillPop: () => _onWillPop(),
       child: FutureBuilder(
         future: _getRole(),
@@ -94,6 +102,8 @@ class _NavbarState extends State<Navbar> {
           }
         },
       ),
+    ) : ErrorConnection();
+      },
     );
   }
 

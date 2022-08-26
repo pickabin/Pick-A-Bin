@@ -3,7 +3,6 @@ import 'package:boilerplate/ui/authentication/choose_role.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
 import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/ui/register/register_petugas.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';

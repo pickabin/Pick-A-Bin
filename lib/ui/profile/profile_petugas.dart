@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
 import 'package:boilerplate/ui/authentication/choose_role.dart';
@@ -8,6 +11,7 @@ import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePetugasPage extends StatefulWidget {
@@ -18,9 +22,85 @@ class ProfilePetugasPage extends StatefulWidget {
 }
 
 class _ProfilePetugasPageState extends State<ProfilePetugasPage> {
+  File? _image;
+  String? fileName;
+  String? url;
   //Read data once from Realtime Database
   final ref = FirebaseDatabase.instance.ref().child('petugas');
   AuthService authService = AuthService();
+
+  // Upload dan get image from firebase storage
+  Future _getImageCamera(key) async {
+    DatabaseReference data = FirebaseDatabase.instance.ref("petugas/$key");
+
+    XFile? selectImage = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+      });
+    }
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+    if (fileName != null) {
+      Reference storageRef = storage.ref().child("imagePetugas/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+          data.update({"imageUrl": url});
+        });
+      });
+    }
+  }
+
+  //Upload dan get image gallery from storage
+  Future _getImageGallery(key) async {
+    DatabaseReference data = FirebaseDatabase.instance.ref("petugas/$key");
+
+    var selectImage = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+      });
+    }
+
+    if (fileName != null) {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference storageRef = storage.ref().child("imagePetugas/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+          data.update({"imageUrl": url});
+        });
+      });
+    }
+  }
+
+//Hapus Image from firebase storage
+  Future _removeImage(key) async {
+    DatabaseReference data = FirebaseDatabase.instance.ref("petugas/$key");
+    setState(() {
+      _image = null;
+      url = null;
+      data.update({"imageUrl": url});
+    });
+  }
 
   @override
   // DatabaseReference ref = FirebaseDatabase.instance.ref("petugas/1001");
@@ -293,15 +373,27 @@ class _ProfilePetugasPageState extends State<ProfilePetugasPage> {
                                           child: Container(
                                             height: 140,
                                             width: 140,
-                                            child: const CircleAvatar(
-                                              radius: 60,
-                                              backgroundColor: Colors.green,
-                                              child: CircleAvatar(
-                                                backgroundImage: AssetImage(
-                                                    'assets/images/user_icon.png'),
-                                                radius: 68,
-                                              ),
-                                            ),
+                                            child: snapshot
+                                                        .child('imageUrl')
+                                                        .value !=
+                                                    null
+                                                ? CircleAvatar(
+                                                    radius: 60,
+                                                    backgroundImage:
+                                                        NetworkImage(snapshot
+                                                            .child('imageUrl')
+                                                            .value
+                                                            .toString()))
+                                                : CircleAvatar(
+                                                    radius: 60,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    child: CircleAvatar(
+                                                      backgroundImage: AssetImage(
+                                                          'assets/images/user_icon.png'),
+                                                      radius: 68,
+                                                    ),
+                                                  ),
                                           ),
                                         ),
                                       ],
@@ -316,7 +408,144 @@ class _ProfilePetugasPageState extends State<ProfilePetugasPage> {
                                           backgroundColor: Colors.green,
                                           radius: 70,
                                           child: IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                        "Pilih Foto",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      content:
+                                                          SingleChildScrollView(
+                                                              child: ListBody(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              var key =
+                                                                  snapshot.key;
+                                                              _getImageCamera(
+                                                                  key);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            splashColor: Colors
+                                                                .greenAccent,
+                                                            child: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .camera,
+                                                                    color: Colors
+                                                                        .green,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  'Camera',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .blue),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              var key =
+                                                                  snapshot.key;
+                                                              _getImageGallery(
+                                                                  key);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            splashColor: Colors
+                                                                .greenAccent,
+                                                            child: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Icon(
+                                                                    Icons.image,
+                                                                    color: Colors
+                                                                        .green,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  'Gallery',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .blue),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              var key =
+                                                                  snapshot.key;
+                                                              _removeImage(key);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            splashColor: Colors
+                                                                .purpleAccent,
+                                                            child: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .remove_circle,
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  'Remove',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .red),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                    );
+                                                  });
+                                            },
                                             icon: Icon(
                                               Icons.camera_alt_rounded,
                                               color: Colors.white,

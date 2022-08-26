@@ -1,3 +1,4 @@
+import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/list_contact.dart';
 import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/ui/schedule/list_schedule.dart';
@@ -14,12 +15,18 @@ class HomePetugasPage extends StatefulWidget {
 }
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
-  bool isChecked = false;
   final ref = FirebaseDatabase.instance
       .ref()
       .child('jadwal')
       .orderByChild('date')
       .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
+
+  // Query refStatus = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('jadwal')
+  //     .orderByChild('status').equalTo(false);
+
+  //panggil petugas controller method cek status
 
   @override
   Widget build(BuildContext context) {
@@ -141,35 +148,43 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                 )),
             FirebaseAnimatedList(
                 shrinkWrap: true,
-                query: ref.limitToFirst(3),
+                //query status sama dengan
+                query: ref,
                 itemBuilder: (BuildContext context, DataSnapshot snapshot,
                     Animation<double> animation, int index) {
-                  bool isChecked = snapshot.child('status').value as bool;
+                  // bool isChecked = snapshot.child('status').value as bool;
+
                   return Column(
                     children: <Widget>[
                       snapshot.child('status').value.toString() == 'false'
                           ? ListTile(
                               title: Text(
-                              snapshot.child('instansi').value.toString() +
-                                  " - " +
-                                  snapshot
-                                      .child('penanggungJawab')
-                                      .value
-                                      .toString(),
-                            ),
-                            subtitle: Text(
+                                snapshot.child('instansi').value.toString() +
+                                    " - " +
+                                    snapshot
+                                        .child('penanggungJawab')
+                                        .value
+                                        .toString(),
+                              ),
+                              subtitle: Text(
                                 snapshot.child('alamat').value.toString(),
-                               ),
-                            leading: CircleAvatar(
-                              backgroundImage: AssetImage("assets/images/building_icon.png",)
-                          ),
-                          trailing: Text(                          
+                              ),
+                              leading: CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                "assets/images/building_icon.png",
+                              )),
+                              trailing: Text(
                                 snapshot.child('date').value.toString(),
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          )
-                          : Container(),
+                              ),
+                            )
+                          : Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: const Text(
+                                "Sampah Sudah diambil",
+                                textAlign: TextAlign.center,
+                              )),
                     ],
                   );
                 }),

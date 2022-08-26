@@ -1,16 +1,16 @@
 import 'package:boilerplate/ui/login/login_petugas.dart';
 import 'package:boilerplate/ui/login/login_warga.dart';
 import 'package:boilerplate/ui/navbar.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:intl/intl.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
- 
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -29,7 +29,6 @@ class AuthService {
 
   void loginUserWarga(context) async {
     try {
-     
       await _auth
           .signInWithEmailAndPassword(
               email: email.text, password: password.text)
@@ -79,7 +78,7 @@ class AuthService {
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (context) => Navbar()))
               });
-    }catch (e) {
+    } catch (e) {
       // print(e.toString());
       showDialog(
         context: context,
@@ -103,15 +102,35 @@ class AuthService {
     }
   }
 
-  Future<String> register(String nama, String email, String password) async {
+  Future<String> registerWarga(String namaInstansi,String penanggungJawab,String email,String password,
+      String alamat,String telp,String jarakPengambilan) async {
     try {
       //cek jika ada duplikat email
 
-
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      await _auth.currentUser?.updateDisplayName(nama);
-      
+      await _auth.currentUser?.updateDisplayName(penanggungJawab);
+      DatabaseReference data = FirebaseDatabase.instance.ref("warga");
+      data.push().set({
+        "instansi": namaInstansi,
+        "penanggungJawab": penanggungJawab,
+        "alamat": alamat,
+        "email": email,
+        "telp": telp,
+        "jarakPengambilan": jarakPengambilan,
+      });
+      DatabaseReference dataJadwal = FirebaseDatabase.instance.ref("jadwal");
+      dataJadwal.push().set({
+        "instansi": namaInstansi,
+        "penanggungJawab": penanggungJawab,
+        "alamat": alamat,
+        "email": email,
+        "telp": telp,
+        "status": false,
+        "date": DateFormat('dd/MM/yyyy').format(DateTime.now()),
+        "jarakPengambilan": jarakPengambilan,
+        "konfirmasi": false,
+      });
 
       Fluttertoast.showToast(
         msg: "Registration Successfully",
@@ -119,11 +138,92 @@ class AuthService {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.green,
         textColor: Colors.white,
-        fontSize: 16.0,);
+        fontSize: 16.0,
+      );
       return "Registration Successfully";
       //Register Successful Notification
 
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(
+          msg: "Email already in use",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Color.fromARGB(255, 231, 56, 43),
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return "Email already in use";
+        // return 'The account already exists for that email.';
+      }else{
+        Fluttertoast.showToast(
+          msg: "Server Error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return "Registration Failed";
+      }
+      return e.toString();
+    }
+  }
+
+  Future<String> registerPetugas(String namaLengkap, String alamat,
+      String email, String password, String telp) async {
+    try {
+      
+                                        
+
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      await _auth.currentUser?.updateDisplayName(namaLengkap);
+      DatabaseReference data = FirebaseDatabase.instance.ref("petugas");
+      data.push().set({
+        "nama": namaLengkap,
+        "alamat": alamat,
+        "email": email,
+        "telp": telp,
+        'status': "petugas"
+      });
+
+      Fluttertoast.showToast(
+        msg: "Registration Successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+  
+      return "Registration Successfully";
+      //Register Successful Notification
+
+    } on FirebaseAuthException catch (e) {
+      //cek jika ada duplikat email
+      if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(
+          msg: "Email already in use",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Color.fromARGB(255, 231, 56, 43),
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return "Email already in use";
+        // return 'The account already exists for that email.';
+      }else{
+        Fluttertoast.showToast(
+          msg: "Server Error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return "Registration Failed";
+      }
       return e.toString();
     }
   }
@@ -135,11 +235,10 @@ class AuthService {
       Fluttertoast.showToast(
         msg: "Sending password reset link successful",
         toastLength: Toast.LENGTH_SHORT,
-        );
+      );
     } on FirebaseAuthException catch (e) {
       return e.toString();
     }
- 
   }
 
   //Update Profile email
@@ -163,14 +262,11 @@ class AuthService {
         backgroundColor: Colors.green,
         textColor: Colors.white,
         fontSize: 16.0,
-
-        );
+      );
     } catch (e) {
       return e.toString();
     }
   }
-  
-   
 
   Future<void> logout() async {
     await _auth.signOut();

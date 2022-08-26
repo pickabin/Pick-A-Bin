@@ -433,80 +433,32 @@ class _RegisterPageState extends State<RegisterPage> {
 
                             if (namaInstansi.isEmpty) {
                               print("Nama Lengkap kosong");
+                            } else if (penanggungJawab.isEmpty) {
+                              print("Penanggung Jawab kosong");
+                            } else if (alamat.isEmpty) {
+                              print("Alamat kosong");
+                            } else if (email.isEmpty) {
+                              print("Email kosong");
+                            } else if (password.isEmpty) {
+                              print("Password kosong");
+                            } else if (telp.isEmpty) {
+                              print("No. Telp kosong");
+                            } else if (jarakPengambilan.isEmpty) {
+                              print("Jarak Pengambilan Sampah kosong");
                             } else {
-                              if (penanggungJawab.isEmpty) {
-                                print("Penanggung Jawab kosong");
-                              } else {
-                                if (alamat.isEmpty) {
-                                  print("Alamat kosong");
-                                } else {
-                                  if (email.isEmpty) {
-                                    print("Email kosong");
-                                  } else {
-                                    if (password.isEmpty) {
-                                      print("Password kosong");
-                                    } else {
-                                      if (telp.isEmpty) {
-                                        print("No. Telp kosong");
-                                      } else {
-                                        if (jarakPengambilan.isEmpty) {
-                                          print(
-                                              "Jarak Pengambilan Sampah kosong");
-                                        } else {
-                                          context
-                                              .read<AuthService>()
-                                              .register(penanggungJawab, email,
-                                                  password)
-                                              .then((value) async {
-                                            DatabaseReference data =
-                                                FirebaseDatabase.instance
-                                                    .ref("warga");
-                                            data.push().set({
-                                              "instansi": namaInstansi,
-                                              "penanggungJawab":
-                                                  penanggungJawab,
-                                              "alamat": alamat,
-                                              "email": email,
-                                              "telp": telp,
-                                              "jarakPengambilan":
-                                                  jarakPengambilan,
-                                            });
-                                            DatabaseReference dataJadwal =
-                                                FirebaseDatabase.instance
-                                                    .ref("jadwal");
-                                            dataJadwal.push().set({
-                                              "instansi": namaInstansi,
-                                              "penanggungJawab":
-                                                  penanggungJawab,
-                                              "alamat": alamat,
-                                              "email": email,
-                                              "telp": telp,
-                                              "status": false,
-                                              "date": DateFormat('dd/MM/yyyy')
-                                                  .format(DateTime.now()),
-                                              "jarakPengambilan":
-                                                  jarakPengambilan,
-                                              "konfirmasi": false,
-                                            });
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "Registration Successfully",
-                                                toastLength:
-                                                    Toast.LENGTH_SHORT);
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        LoginWargaPage()));
-                                          });
-                                          // successful login notification
-
-                                        }
-                                      }
-                                    }
-                                  }
+                              context
+                                  .read<AuthService>()
+                                  .registerWarga(namaInstansi, penanggungJawab, email, password, alamat, telp, jarakPengambilan)
+                                  .then((value) async {
+                                if (value == "Registration Successfully") {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LoginWargaPage()));
                                 }
-                              }
+                              });
+                              // successful login notification
                             }
                           },
                           style: ElevatedButton.styleFrom(

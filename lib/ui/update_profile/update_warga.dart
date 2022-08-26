@@ -80,10 +80,16 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                           Container(
                             height: 140,
                             width: 140,
-                            child: const CircleAvatar(
+                            child: CircleAvatar(
                               radius: 60,
                               backgroundColor: Colors.green,
-                              child: CircleAvatar(
+                              child: snapshot.child('imageUrl').value != null ?
+                              CircleAvatar(
+                                radius: 68,
+                                backgroundImage: NetworkImage(
+                                    snapshot.child('imageUrl').value.toString()),
+                              ) :                        
+                              CircleAvatar(
                                 backgroundImage:
                                     AssetImage('assets/images/user_icon.png'),
                                 radius: 68,

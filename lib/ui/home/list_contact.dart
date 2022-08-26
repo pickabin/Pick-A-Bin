@@ -43,51 +43,56 @@ class _ListContactPageState extends State<ListContactPage> {
         ),
         body: FirebaseAnimatedList(
             query: ref.orderByChild('penanggungJawab'),
-            itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
+            itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                Animation<double> animation, int index) {
               return Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ListTile(
-                          title: Text(
-                            "${snapshot.child('penanggungJawab').value.toString()}",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(snapshot.child('telp').value.toString()),
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage("assets/images/user_icon.png"),
-                          ),
-                          trailing: Wrap(
-                        children: <Widget> [
-                          new IconButton(
-                            icon : Icon(Icons.chat, color: Colors.green),
-                            onPressed: () async{
-                              final _text = 'sms:${snapshot.child('telp').value.toString()}';
-                              // launch('tel:${snapshot.child('telp').value.toString()}');
-                                  if(await canLaunch(_text)) {
-                                    launch(_text);
-                                  } 
-                            },
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ListTile(
+                      title: Text(
+                        "${snapshot.child('penanggungJawab').value.toString()}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(snapshot.child('telp').value.toString()),
+                      leading: snapshot.child('imageUrl').value != null
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  snapshot.child('imageUrl').value.toString()))
+                          : CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/user_icon.png'),
                             ),
-                           new IconButton(
-                            icon : Icon(Icons.phone,color: Colors.green),
+                      trailing: Wrap(
+                        children: <Widget>[
+                          new IconButton(
+                            icon: Icon(Icons.chat, color: Colors.green),
+                            onPressed: () async {
+                              final _text =
+                                  'sms:${snapshot.child('telp').value.toString()}';
+                              // launch('tel:${snapshot.child('telp').value.toString()}');
+                              if (await canLaunch(_text)) {
+                                launch(_text);
+                              }
+                            },
+                          ),
+                          new IconButton(
+                            icon: Icon(Icons.phone, color: Colors.green),
                             onPressed: () {
                               // launch('tel:${snapshot.child('telp').value.toString()}');
-                                  FlutterPhoneDirectCaller.callNumber(
-                                      snapshot.child('telp').value.toString());
+                              FlutterPhoneDirectCaller.callNumber(
+                                  snapshot.child('telp').value.toString());
                             },
-                            ),
+                          ),
                         ],
                       ),
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.black,
-                      )
-                  ],
-                );
-            }
-        )
-    );
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                  )
+                ],
+              );
+            }));
   }
 }

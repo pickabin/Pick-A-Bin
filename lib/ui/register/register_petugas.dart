@@ -348,22 +348,9 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                                     } else {
                                       context
                                           .read<AuthService>()
-                                          .register(
-                                              namaLengkap, email, password)
+                                          .registerPetugas(
+                                              namaLengkap,alamat, email, password,telp)
                                           .then((value) async {
-                                        DatabaseReference data =
-                                            FirebaseDatabase.instance
-                                                .ref("petugas");
-                                        data.push().set({
-                                          "nama": namaLengkap,
-                                          "alamat": alamat,
-                                          "email": email,
-                                          "telp": telp,
-                                          'status': "petugas"
-                                        });
-                                        Fluttertoast.showToast(
-                                            msg: "Registration Successfully",
-                                            toastLength: Toast.LENGTH_SHORT);
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
