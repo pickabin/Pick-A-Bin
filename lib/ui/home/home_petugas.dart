@@ -1,5 +1,6 @@
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/list_contact.dart';
+import 'package:boilerplate/ui/maps/maps_page.dart';
 import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/ui/schedule/list_schedule.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -66,7 +67,12 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                 Column(
                   children: [
                     InkWell(
-                      onTap: () => {},
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MapsMainPage()))
+                      },
                       // showDialog<String>(
                       //   context: context,
                       //   builder: (BuildContext context) => AlertDialog(
@@ -87,13 +93,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                             child: Icon(
                               Icons.location_on_outlined,
                               size: 70,
-                              color: Colors.blueGrey,
+                              color: Colors.green,
                             )),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
                           boxShadow: const [
-                            BoxShadow(color: Colors.blueGrey, spreadRadius: 2),
+                            BoxShadow(color: Colors.green, spreadRadius: 2),
                           ],
                         ),
                       ),

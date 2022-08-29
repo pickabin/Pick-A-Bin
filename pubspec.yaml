@@ -81,6 +81,9 @@ dependencies:
   firebase_storage: ^10.3.1
   image_picker: ^0.8.5+3
   connectivity: ^3.0.6
+  google_maps_flutter: ^2.1.12
+  fancy_bottom_navigation: ^0.3.3
+  convex_bottom_bar: ^3.0.0
 
 dev_dependencies:
   
