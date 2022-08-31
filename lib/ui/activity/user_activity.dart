@@ -80,12 +80,12 @@ class _AktifitasWargaState extends State<AktifitasWarga> {
                                     content: Text(
                                         "Apakah Anda yakin akan menghapus aktivitas ini? "),
                                     actions: [
-                                      FlatButton(
+                                      TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
                                           child: Text("Tidak")),
-                                      FlatButton(
+                                      TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                             var key = snapshot.key;

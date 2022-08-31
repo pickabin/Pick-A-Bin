@@ -1,14 +1,11 @@
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/authentication/choose_role.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
-import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/ui/register/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginWargaPage extends StatefulWidget {

@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapsDistributionPage extends StatefulWidget {
@@ -12,7 +10,7 @@ class MapsDistributionPage extends StatefulWidget {
 }
 
 class _MapsDistributionPageState extends State<MapsDistributionPage> {
-  final _pageOptionsMaps = [MapsDistributionPage()];
+  final pageOptionsMaps = [MapsDistributionPage()];
 
   Completer<GoogleMapController> _controller = Completer();
 
@@ -21,21 +19,90 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
     zoom: 14.4746,
   );
 
+  List<Marker> allMarkers = [];
+
   // Indonesia marker
-  static final Marker markerLocation = Marker(
-    markerId: MarkerId('myMarker'),
-    position: LatLng(-6.17511, 106.82798),
-    infoWindow: InfoWindow(
-      title: 'Indonesia',
-      snippet: 'This is Indonesia',
+  // static final Marker markerLocation = Marker(
+  //   markerId: MarkerId('myMarker'),
+  //   position: LatLng(-6.17511, 106.82798),
+  //   infoWindow: InfoWindow(
+  //     title: 'Indonesia',
+  //     snippet: 'This is Indonesia',
+  //   ),
+  // );
+  final List<Marker> _list = const[
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82798),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
     ),
-  );
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82798),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82798),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82798),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82798),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82898),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('myMarker'),
+      position: LatLng(-6.17511, 106.82698),
+      infoWindow: InfoWindow(
+        title: 'Indonesia',
+        snippet: 'This is Indonesia',
+      ),
+    ),
+  ];
 
   static final CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
-      target: LatLng(-6.17511, 106.82798),
+      target: LatLng(-6.17511, 106.82598),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    allMarkers.addAll(_list);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +115,7 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
         iconTheme: IconThemeData(color: Colors.green),
       ),
       body: GoogleMap(
-        markers: {markerLocation},
+        markers: Set<Marker>.of(allMarkers),
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {

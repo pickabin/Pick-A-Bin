@@ -1,14 +1,9 @@
-import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/ui/login/login_petugas.dart';
 import 'package:boilerplate/ui/login/login_warga.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterPetugasPage extends StatefulWidget {
   const RegisterPetugasPage({Key? key}) : super(key: key);

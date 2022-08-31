@@ -1,5 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
 class NoInternet extends StatelessWidget {
@@ -13,7 +11,7 @@ class NoInternet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('No Internet'),
-          RaisedButton(
+          ElevatedButton(
             child: Text('Refresh'),
             onPressed: () {
               Navigator.pop(context);

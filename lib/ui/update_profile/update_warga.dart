@@ -1,17 +1,12 @@
-import 'package:boilerplate/ui/login/login.dart';
-import 'package:boilerplate/ui/login/login_warga.dart';
 import 'package:boilerplate/ui/navbar.dart';
-import 'package:boilerplate/ui/profile/profile_warga.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/gestures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 
 class UpdateWargaPage extends StatefulWidget {
   const UpdateWargaPage({Key? key}) : super(key: key);
@@ -397,12 +392,12 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                                         "Tanggal Pengambilan Sampah kosong");
                                                   } else {
                                                     print(
-                                                        "penanggungJawab : ${penanggungJawab}");
-                                                    print("email : ${email}");
+                                                        "penanggungJawab : $penanggungJawab");
+                                                    print("email : $email");
                                                     var key = snapshot.key;
                                                     print(
-                                                        "penanggungJawab : ${penanggungJawab}");
-                                                    print("email : ${email}");
+                                                        "penanggungJawab : $penanggungJawab");
+                                                    print("email : $email");
                                                     //  authService
                                                     //       .updateEmail(email);
                                                     authService

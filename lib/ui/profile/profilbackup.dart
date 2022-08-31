@@ -1,8 +1,5 @@
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
 import 'package:boilerplate/ui/authentication/choose_role.dart';
-import 'package:boilerplate/ui/login/login_petugas.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';

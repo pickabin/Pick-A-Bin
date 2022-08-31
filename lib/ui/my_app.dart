@@ -1,29 +1,22 @@
 import 'package:boilerplate/constants/app_theme.dart';
 import 'package:boilerplate/constants/strings.dart';
-import 'package:boilerplate/controllers/errorConnection_controller.dart';
 import 'package:boilerplate/data/network/exceptions/connectivity_provider.dart';
-import 'package:boilerplate/data/network/exceptions/nointernet_connectivity.dart';
 import 'package:boilerplate/data/repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/ui/authentication/choose_role.dart';
 import 'package:boilerplate/ui/connection/error_connection.dart';
-import 'package:boilerplate/ui/login/login_petugas.dart';
 import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/post/post_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
-import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -40,7 +33,7 @@ class _MyAppState extends State<MyApp> {
 
   final UserStore _userStore = UserStore(getIt<Repository>());
 
-  void _forgotPassword(BuildContext context) {
+  void forgotPassword(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
       shape: RoundedRectangleBorder(

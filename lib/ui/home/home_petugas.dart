@@ -1,8 +1,5 @@
-import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/list_contact.dart';
-import 'package:boilerplate/ui/maps/maps_page.dart';
-import 'package:boilerplate/ui/navbar.dart';
-import 'package:boilerplate/ui/schedule/list_schedule.dart';
+import 'package:boilerplate/ui/maps/maps_main_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';

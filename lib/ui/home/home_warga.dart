@@ -1,10 +1,7 @@
-import 'package:boilerplate/ui/activity/activity.dart';
 import 'package:boilerplate/ui/activity/user_activity.dart';
-import 'package:boilerplate/ui/home/list_contact.dart';
 import 'package:boilerplate/ui/home/list_petugas.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -244,12 +241,12 @@ class _HomeWargaState extends State<HomeWarga> {
                                             content: Text(
                                                 "Apakah Anda yakin akan menghapus aktivitas ini? "),
                                             actions: [
-                                              FlatButton(
+                                              TextButton(
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: Text("Tidak")),
-                                              FlatButton(
+                                              TextButton(
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                     var key = snapshot.key;

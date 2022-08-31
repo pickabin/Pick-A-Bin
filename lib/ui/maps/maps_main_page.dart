@@ -1,9 +1,6 @@
-import 'dart:async';
 import 'package:boilerplate/ui/maps/maps_distribution.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapsMainPage extends StatefulWidget {
   @override

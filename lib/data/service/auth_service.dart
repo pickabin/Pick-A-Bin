@@ -4,7 +4,6 @@ import 'package:boilerplate/ui/navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
@@ -46,9 +45,11 @@ class AuthService {
             title: Text("Username atau Password Salah"),
             content: Text("Pastikan Username dan Password Anda Benar"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text("Close"),
-                color: Colors.red,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (BuildContext context) => LoginWargaPage()));
@@ -87,9 +88,11 @@ class AuthService {
             title: Text("Username atau Password Salah"),
             content: Text("Pastikan Username dan Password Anda Benar"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text("Close"),
-                color: Colors.red,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (BuildContext context) => LoginPetugasPage()));
@@ -166,7 +169,7 @@ class AuthService {
         );
         return "Registration Failed";
       }
-      return e.toString();
+      // return e.toString();
     }
   }
 
@@ -224,7 +227,7 @@ class AuthService {
         );
         return "Registration Failed";
       }
-      return e.toString();
+      // return e.toString();
     }
   }
 
