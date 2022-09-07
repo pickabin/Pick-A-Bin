@@ -1,9 +1,10 @@
-import 'package:boilerplate/ui/login/login_petugas.dart';
-import 'package:boilerplate/ui/login/login_warga.dart';
+import 'package:boilerplate/ui/login/login_petugas_page.dart';
+import 'package:boilerplate/ui/login/login_warga_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import '../../data/service/auth_service.dart';
 import 'package:provider/provider.dart';
+
+import '../../data/service/auth_service.dart';
 
 class RegisterPetugasPage extends StatefulWidget {
   const RegisterPetugasPage({Key? key}) : super(key: key);
@@ -343,8 +344,8 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                                     } else {
                                       context
                                           .read<AuthService>()
-                                          .registerPetugas(
-                                              namaLengkap,alamat, email, password,telp)
+                                          .registerPetugas(namaLengkap, alamat,
+                                              email, password, telp)
                                           .then((value) async {
                                         Navigator.pushReplacement(
                                             context,

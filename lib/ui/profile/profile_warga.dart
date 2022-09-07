@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/authentication/choose_role.dart';
+import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/update_profile/update_warga.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -29,7 +29,7 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
 // Upload dan get image from firebase storage
   Future _getImageCamera(key) async {
     DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
-                                            
+
     XFile? selectImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxHeight: 512,
@@ -37,69 +37,67 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
       imageQuality: 90,
     );
 
-    if(selectImage != null){
-    setState(() {
-      _image = File(selectImage.path);
-      fileName = basename(_image!.path);
-    });
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+      });
     }
 
     FirebaseStorage storage = FirebaseStorage.instance;
-    if(fileName != null){
-    Reference storageRef = storage.ref().child("imageUser/" + fileName!);
-    await storageRef.putFile(_image!);
-    
-    storageRef.getDownloadURL().then((value) {
-      setState(() {
-        url = value;
-         data.update({"imageUrl":url});
+    if (fileName != null) {
+      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+          data.update({"imageUrl": url});
+        });
       });
-    });
-    } 
+    }
   }
 
   //Upload dan get image gallery from storage
   Future _getImageGallery(key) async {
     DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
-                                            
+
     var selectImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxHeight: 512,
       maxWidth: 512,
       imageQuality: 90,
     );
-    if(selectImage != null){
-    setState(() {
-      _image = File(selectImage.path);
-      fileName = basename(_image!.path);
-    });
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+      });
     }
 
-    if(fileName != null){
-    FirebaseStorage storage = FirebaseStorage.instance;
-    Reference storageRef = storage.ref().child("imageUser/" + fileName!);
-    await storageRef.putFile(_image!);
-    
-    storageRef.getDownloadURL().then((value) {
-      setState(() {
-        url = value;
-         data.update({"imageUrl":url});
+    if (fileName != null) {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+          data.update({"imageUrl": url});
+        });
       });
-    }); 
-    } 
+    }
   }
 
 //Hapus Image from firebase storage
   Future _removeImage(key) async {
     DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
-      setState(() {   
-        _image = null;
-        url = null;
-        data.update({"imageUrl":url});
-      });
-    }
-
-  
+    setState(() {
+      _image = null;
+      url = null;
+      data.update({"imageUrl": url});
+    });
+  }
 
   @override
   // DatabaseReference ref = FirebaseDatabase.instance.ref("petugas/1001");
@@ -345,7 +343,7 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              ChooseRole()));
+                                                              RoleSelection()));
                                                 },
                                               ),
                                             ),
@@ -400,22 +398,24 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                   children: [
                                     Center(
                                       child: Container(
-                                        height: 140,
-                                        width: 140,
-                                        child: snapshot.child('imageUrl').value != null ? CircleAvatar(
-                                          radius: 60,
-                                          backgroundImage: 
-                                          NetworkImage(
-                                              snapshot
-                                                  .child('imageUrl')
-                                                  .value
-                                                  .toString()) 
-                                        ) : CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: AssetImage(
-                                                'assets/images/user_icon.png'),
-                                        )
-                                      ),
+                                          height: 140,
+                                          width: 140,
+                                          child: snapshot
+                                                      .child('imageUrl')
+                                                      .value !=
+                                                  null
+                                              ? CircleAvatar(
+                                                  radius: 60,
+                                                  backgroundImage: NetworkImage(
+                                                      snapshot
+                                                          .child('imageUrl')
+                                                          .value
+                                                          .toString()))
+                                              : CircleAvatar(
+                                                  radius: 60,
+                                                  backgroundImage: AssetImage(
+                                                      'assets/images/user_icon.png'),
+                                                )),
                                     ),
                                   ],
                                 ),
@@ -447,7 +447,8 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                     children: [
                                                       InkWell(
                                                         onTap: () async {
-                                                          var key = snapshot.key;
+                                                          var key =
+                                                              snapshot.key;
                                                           _getImageCamera(key);
                                                           Navigator.pop(
                                                               context);
@@ -481,11 +482,11 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
-                                                          var key = snapshot.key;
-                                                          _getImageGallery(
-                                                              key);
+                                                          var key =
+                                                              snapshot.key;
+                                                          _getImageGallery(key);
                                                           Navigator.pop(
-                                                              context);                                                      
+                                                              context);
                                                         },
                                                         splashColor:
                                                             Colors.greenAccent,
@@ -516,9 +517,10 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                       ),
                                                       InkWell(
                                                         onTap: () async {
-                                                          var key = snapshot.key;
+                                                          var key =
+                                                              snapshot.key;
                                                           _removeImage(key);
-                                                           Navigator.pop(
+                                                          Navigator.pop(
                                                               context);
                                                         },
                                                         splashColor:

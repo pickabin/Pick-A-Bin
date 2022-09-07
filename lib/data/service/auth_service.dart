@@ -1,5 +1,5 @@
-import 'package:boilerplate/ui/login/login_petugas.dart';
-import 'package:boilerplate/ui/login/login_warga.dart';
+import 'package:boilerplate/ui/login/login_petugas_page.dart';
+import 'package:boilerplate/ui/login/login_warga_page.dart';
 import 'package:boilerplate/ui/navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -45,11 +45,9 @@ class AuthService {
             title: Text("Username atau Password Salah"),
             content: Text("Pastikan Username dan Password Anda Benar"),
             actions: <Widget>[
-              TextButton(
+              FlatButton(
                 child: Text("Close"),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
+                color: Colors.red,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (BuildContext context) => LoginWargaPage()));
@@ -88,11 +86,9 @@ class AuthService {
             title: Text("Username atau Password Salah"),
             content: Text("Pastikan Username dan Password Anda Benar"),
             actions: <Widget>[
-              TextButton(
+              FlatButton(
                 child: Text("Close"),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
+                color: Colors.red,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (BuildContext context) => LoginPetugasPage()));
@@ -106,7 +102,7 @@ class AuthService {
   }
 
   Future<String> registerWarga(String namaInstansi,String penanggungJawab,String email,String password,
-      String alamat,String telp,String jarakPengambilan) async {
+      String location,String telp,String jarakPengambilan, double? lat, double? long) async {
     try {
       //cek jika ada duplikat email
 
@@ -117,16 +113,18 @@ class AuthService {
       data.push().set({
         "instansi": namaInstansi,
         "penanggungJawab": penanggungJawab,
-        "alamat": alamat,
+        "alamat": location,
         "email": email,
         "telp": telp,
         "jarakPengambilan": jarakPengambilan,
+        "lat": lat,
+        "long": long,
       });
       DatabaseReference dataJadwal = FirebaseDatabase.instance.ref("jadwal");
       dataJadwal.push().set({
         "instansi": namaInstansi,
         "penanggungJawab": penanggungJawab,
-        "alamat": alamat,
+        "alamat": location,
         "email": email,
         "telp": telp,
         "status": false,
@@ -169,7 +167,6 @@ class AuthService {
         );
         return "Registration Failed";
       }
-      // return e.toString();
     }
   }
 
@@ -227,7 +224,7 @@ class AuthService {
         );
         return "Registration Failed";
       }
-      // return e.toString();
+      return e.toString();
     }
   }
 

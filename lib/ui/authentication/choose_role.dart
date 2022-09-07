@@ -1,6 +1,6 @@
 // import 'package:boilerplate/constants/font_family.dart';
-import 'package:boilerplate/ui/login/login_petugas.dart';
-import 'package:boilerplate/ui/login/login_warga.dart';
+import 'package:boilerplate/ui/login/login_petugas_page.dart';
+import 'package:boilerplate/ui/login/login_warga_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

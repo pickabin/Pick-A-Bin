@@ -1,4 +1,4 @@
-import 'package:boilerplate/ui/maps/maps_distribution.dart';
+import 'package:boilerplate/ui/maps/maps_distribution_page.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 

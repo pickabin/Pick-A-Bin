@@ -1,14 +1,11 @@
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/authentication/role_selction.dart';
+import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
-import 'package:boilerplate/ui/navbar.dart';
 import 'package:boilerplate/ui/register/register_petugas.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPetugasPage extends StatefulWidget {
@@ -23,7 +20,7 @@ class _LoginPetugasPageState extends State<LoginPetugasPage> {
   final GlobalKey<FormState> _formKey = new GlobalKey();
   bool isLoading = false;
   bool isHidePassword = true;
-  void _togglePasswordVisibility() {
+  void togglePasswordVisibility() {
     setState(() {
       isHidePassword = !isHidePassword;
     });

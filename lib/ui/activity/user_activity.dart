@@ -190,3 +190,4 @@ class _AktifitasWargaState extends State<AktifitasWarga> {
     return nama;
   }
 }
+

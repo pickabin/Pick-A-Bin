@@ -8,7 +8,7 @@ part 'theme_store.g.dart';
 class ThemeStore = _ThemeStore with _$ThemeStore;
 
 abstract class _ThemeStore with Store {
-  final String TAG = "_ThemeStore";
+  final String tag = "_ThemeStore";
 
   // repository instance
   final Repository _repository;

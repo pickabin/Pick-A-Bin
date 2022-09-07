@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/authentication/choose_role.dart';
+import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/update_profile/update_petugas.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -309,7 +309,7 @@ class _ProfilePetugasPageState extends State<ProfilePetugasPage> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                ChooseRole()));
+                                                                RoleSelection()));
                                                   },
                                                 ),
                                               ),

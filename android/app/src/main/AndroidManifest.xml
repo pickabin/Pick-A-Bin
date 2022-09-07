@@ -30,7 +30,7 @@
         android:usesCleartextTraffic="true"
         android:label="Pick A Bin">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBDsxq-mZyutBrCOhNlhEQ1XG_XygOcLFw"/>
+               android:value="AIzaSyAxDHz9wq_emJzteeFbpbGMkIp2yuZXMvs"/>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"

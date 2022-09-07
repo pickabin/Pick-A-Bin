@@ -4,7 +4,7 @@ import 'package:boilerplate/ui/activity/user_activity.dart';
 import 'package:boilerplate/ui/connection/error_connection.dart';
 import 'package:boilerplate/ui/home/home_petugas.dart';
 import 'package:boilerplate/ui/home/home_warga.dart';
-import 'package:boilerplate/ui/home/list_petugas.dart';
+import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas.dart';
 import 'package:boilerplate/ui/profile/profile_warga.dart';
 import 'package:boilerplate/ui/schedule/tab_bar.dart';

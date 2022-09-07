@@ -41,7 +41,7 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
 
   @override
   void dispose() {
-    _googleMapController!.dispose();
+    // _googleMapController!.dispose();
     super.dispose();
   }
 
@@ -70,10 +70,14 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
         markerId: MarkerId('myMarker'),
         position: LatLng(-6.17511, 106.82698),
         infoWindow: InfoWindow(
-          title: 'Indonesia',
-          snippet: 'This is Indonesia',
+          title: 'Jakarta',
+          snippet: 'This is Jakarta',
           onTap: (){
-            showModalBottomSheet(
+            MapsUtils.openMap(-6.17511, 106.82700);
+          }
+          ),
+          onTap: () {
+                 showModalBottomSheet(
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -82,15 +86,40 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
               context: context,
               builder: (_) {
                 return FractionallySizedBox(
-                  heightFactor: 0.8,
-                  child: DetailLocationPage(),
+                  heightFactor: 0.6,
+                  child: DetailLocationPage(lat: -6.17511, long: 106.82698),
                 );
               },
             );
+            
+          }
+        ),
+    Marker(
+        markerId: MarkerId('myMarker'),
+        position: LatLng(-7.250445, 112.768845),
+        infoWindow: InfoWindow(
+          title: 'Surabaya',
+          snippet: 'This is Surabaya',
+          onTap: (){
+            MapsUtils.openMap(-7.250445, 112.768845);
           }
           ),
           onTap: () {
-            MapsUtils.openMap(-6.17511, 106.82700);
+                 showModalBottomSheet(
+              isScrollControlled: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+              backgroundColor: Colors.white,
+              context: context,
+              builder: (_) {
+                return FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: DetailLocationPage(lat: -7.250445, long: 112.768845),
+                );
+              },
+            );
+            
           }
         ),
   ];
@@ -161,7 +190,7 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
               ),
           },
           mapType: MapType.normal,
-          initialCameraPosition: _kGooglePlex,
+          initialCameraPosition: _kLake,
           onMapCreated: (GoogleMapController controller) {
             if (!_controller.isCompleted) {
               //first calling is false
@@ -171,23 +200,6 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
               //other calling, later is true,
               //don't call again completer()
             }
-          },
-          onLongPress: (argument) {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20))),
-              backgroundColor: Colors.white,
-              context: context,
-              builder: (_) {
-                return FractionallySizedBox(
-                  heightFactor: 0.8,
-                  child: DetailLocationPage(),
-                );
-              },
-            );
           },
         ),
         if( _info != null )
