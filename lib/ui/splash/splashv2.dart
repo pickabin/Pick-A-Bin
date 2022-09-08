@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:boilerplate/ui/navbar.dart';
+import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -12,7 +12,7 @@ class _SplashPageState extends State<SplashPage> {
     var duration = const Duration(seconds: 5);
     return Timer(duration, () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Navbar()));
+          MaterialPageRoute(builder: (context) => NavbarPage()));
     });
   }
   @override

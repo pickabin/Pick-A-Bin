@@ -1,4 +1,4 @@
-import 'package:boilerplate/ui/navbar.dart';
+import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -451,7 +451,7 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                                         MaterialPageRoute(
                                                             builder:
                                                                 (context) =>
-                                                                    Navbar()));
+                                                                    NavbarPage()));
                                                   }
                                                 }
                                               }

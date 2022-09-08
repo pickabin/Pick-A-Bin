@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:boilerplate/data/network/exceptions/connectivity_provider.dart';
 import 'package:boilerplate/ui/my_app.dart';
-import 'package:boilerplate/ui/navbar.dart';
+import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +27,7 @@ Future<void> main() async {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: uid == null? MyApp(): Navbar()),
+        home: uid == null? MyApp(): NavbarPage()),
     ));
   }, (error, stack) {
     print(stack);

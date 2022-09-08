@@ -5,7 +5,7 @@ import 'package:boilerplate/data/repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/connection/error_connection.dart';
-import 'package:boilerplate/ui/navbar.dart';
+import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/post/post_store.dart';
@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
                         // Built-in localization of basic text for Cupertino widgets
                         GlobalCupertinoLocalizations.delegate,
                       ],
-                      home: _userStore.isLoggedIn ? Navbar() : RoleSelection(),
+                      home: _userStore.isLoggedIn ? NavbarPage() : RoleSelection(),
                     );
                   },
                 ),

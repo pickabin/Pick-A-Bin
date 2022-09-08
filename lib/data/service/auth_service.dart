@@ -1,6 +1,6 @@
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
 import 'package:boilerplate/ui/login/login_warga_page.dart';
-import 'package:boilerplate/ui/navbar.dart';
+import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class AuthService {
           .then((value) => {
                 print("Login Successfully"),
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Navbar()))
+                    context, MaterialPageRoute(builder: (context) => NavbarPage()))
               });
     } catch (e) {
       // print(e.toString());
@@ -75,7 +75,7 @@ class AuthService {
           .then((value) => {
                 print("Login Successfully"),
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Navbar()))
+                    context, MaterialPageRoute(builder: (context) => NavbarPage()))
               });
     } catch (e) {
       // print(e.toString());

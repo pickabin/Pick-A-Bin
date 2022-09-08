@@ -1,4 +1,4 @@
-import 'package:boilerplate/ui/navbar.dart';
+import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -272,7 +272,7 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          Navbar()));
+                                                          NavbarPage()));
                                             }
                                           }
                                         }

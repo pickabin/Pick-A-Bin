@@ -13,6 +13,11 @@ class HomePetugasPage extends StatefulWidget {
 }
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
+  // final ref = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('jadwal')
+  //     .orderByChild('date')
+  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
   final ref = FirebaseDatabase.instance
       .ref()
       .child('jadwal')
@@ -149,48 +154,51 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                   "Jadwal Terbaru",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 )),
-            FirebaseAnimatedList(
-                shrinkWrap: true,
-                //query status sama dengan
-                query: ref,
-                itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                    Animation<double> animation, int index) {
-                  // bool isChecked = snapshot.child('status').value as bool;
-
-                  return Column(
-                    children: <Widget>[
-                      snapshot.child('status').value.toString() == 'false'
-                          ? ListTile(
-                              title: Text(
-                                snapshot.child('instansi').value.toString() +
-                                    " - " +
-                                    snapshot
-                                        .child('penanggungJawab')
-                                        .value
-                                        .toString(),
-                              ),
-                              subtitle: Text(
-                                snapshot.child('alamat').value.toString(),
-                              ),
-                              leading: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                "assets/images/building_icon.png",
-                              )),
-                              trailing: Text(
-                                snapshot.child('date').value.toString(),
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          : Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: const Text(
-                                "Sampah Sudah diambil",
-                                textAlign: TextAlign.center,
-                              )),
-                    ],
-                  );
-                }),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: FirebaseAnimatedList(
+                  shrinkWrap: true,
+                  //query status sama dengan
+                  query: ref,
+                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                      Animation<double> animation, int index) {
+                    // bool isChecked = snapshot.child('status').value as bool;
+            
+                    return Column(
+                      children: <Widget>[
+                        snapshot.child('status').value.toString() == 'false'
+                            ? ListTile(
+                                title: Text(
+                                  snapshot.child('instansi').value.toString() +
+                                      " - " +
+                                      snapshot
+                                          .child('penanggungJawab')
+                                          .value
+                                          .toString(),
+                                ),
+                                subtitle: Text(
+                                  snapshot.child('alamat').value.toString(),
+                                ),
+                                leading: CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                  "assets/images/building_icon.png",
+                                )),
+                                trailing: Text(
+                                  snapshot.child('date').value.toString(),
+                                  style: TextStyle(
+                                      fontSize: 15, fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                child: const Text(
+                                  "Sampah Sudah diambil",
+                                  textAlign: TextAlign.center,
+                                )),
+                      ],
+                    );
+                  }),
+            ),
           ],
         ),
       ),
