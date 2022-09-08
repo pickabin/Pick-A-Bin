@@ -2,7 +2,7 @@ import 'package:boilerplate/data/network/exceptions/connectivity_provider.dart';
 import 'package:boilerplate/ui/activity/activity.dart';
 import 'package:boilerplate/ui/activity/user_activity.dart';
 import 'package:boilerplate/ui/connection/error_connection.dart';
-import 'package:boilerplate/ui/home/home_petugas.dart';
+import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_warga.dart';
 import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas.dart';
