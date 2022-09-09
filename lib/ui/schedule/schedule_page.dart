@@ -15,16 +15,9 @@ class _SchedulePageState extends State<SchedulePage> {
       .orderByChild('date')
       .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
 
-  
-   
-    
-
-   
-
   // bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-   
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(

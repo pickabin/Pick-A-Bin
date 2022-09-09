@@ -1,5 +1,5 @@
-import 'package:boilerplate/ui/schedule/list_done.dart';
-import 'package:boilerplate/ui/schedule/list_schedule.dart';
+import 'package:boilerplate/ui/schedule/list_done_page.dart';
+import 'package:boilerplate/ui/schedule/schedule_page.dart';
 import 'package:flutter/material.dart';
 
 class StackOver extends StatefulWidget {

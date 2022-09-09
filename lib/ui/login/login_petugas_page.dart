@@ -1,7 +1,7 @@
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
-import 'package:boilerplate/ui/register/register_petugas.dart';
+import 'package:boilerplate/ui/register/register_petugas_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
@@ -261,10 +261,7 @@ class _LoginPetugasPageState extends State<LoginPetugasPage> {
                                                 user.displayName.toString());
                                           }
                                         });
-                                        // final String? uid = await authService.getCurrentUID();
-                                        // print('uid: $uid');
-                                        // prefs.setString('uid', uid!);
-                                        // prefs.setString('uid', uid!);
+
                                         prefs.setString(
                                             'email', authService.email.text);
                                         var email = prefs.getString('email');
@@ -277,17 +274,6 @@ class _LoginPetugasPageState extends State<LoginPetugasPage> {
                                             isLoading = false;
                                           });
                                         });
-                                        //firebase auth
-                                        // context
-                                        //     .read<AuthService>()
-                                        //     .login(email, password).then((value) => {
-                                        //           print(value),
-                                        //           Navigator.pushReplacement(
-                                        //               context,
-                                        //               MaterialPageRoute(
-                                        //                   builder: (context) =>
-                                        //                       Navbar()))
-                                        //         });
                                       }
                                     }
                                   },

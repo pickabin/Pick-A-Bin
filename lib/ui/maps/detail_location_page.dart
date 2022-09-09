@@ -130,7 +130,7 @@ class _DetailLocationPageState extends State<DetailLocationPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    value: true, 
+                    value: true,
                     onChanged: (value) {
                       setState(() {
                         value = true;
@@ -143,28 +143,28 @@ class _DetailLocationPageState extends State<DetailLocationPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Container(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            child: const Center(
-                              child: Text(
-                                    'Direction',
-                                     style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    style: ElevatedButton.styleFrom(
-                                         primary: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:BorderRadius.circular(20.0),
-                                ),
-                              ),
-                              onPressed: (){
-                                MapsUtils.openMap(widget.lat, widget.long);
-                              },
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: const Center(
+                          child: Text(
+                            'Direction',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
                           ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          MapsUtils.openMap(widget.lat, widget.long);
+                        },
                       ),
+                    ),
                   ),
                 ],
               ),

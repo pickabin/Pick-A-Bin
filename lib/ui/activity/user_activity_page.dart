@@ -3,17 +3,16 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../data/service/auth_service.dart';
 
-class AktifitasWarga extends StatefulWidget {
-  AktifitasWarga({Key? key}) : super(key: key);
+class UserActivityPage extends StatefulWidget {
+  UserActivityPage({Key? key}) : super(key: key);
 
   @override
-  State<AktifitasWarga> createState() => _AktifitasWargaState();
+  State<UserActivityPage> createState() => _UserActivityPageState();
 }
 
-class _AktifitasWargaState extends State<AktifitasWarga> {
+class _UserActivityPageState extends State<UserActivityPage> {
   final ref = FirebaseDatabase.instance.ref().child('aktivitas');
 
 

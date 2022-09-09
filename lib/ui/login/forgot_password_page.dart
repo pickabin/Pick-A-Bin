@@ -12,10 +12,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   AuthService authService = AuthService();
   final TextEditingController _emailController = new TextEditingController();
   @override
-  void dispose(){
+  void dispose() {
     _emailController.dispose();
     super.dispose();
   }
+
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -88,7 +89,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                       ),
                       TextFormField(
-                         controller: _emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.email,
@@ -108,15 +109,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   color: Colors.green,
                                 ),
                               ))),
-                      SizedBox(height: 25,),
+                      SizedBox(
+                        height: 25,
+                      ),
                       Container(
                         height: 50,
                         width: double.infinity,
                         child: RaisedButton(
                           onPressed: () {
-                            final String email =
-                                _emailController.text.trim();
-                            authService.resetPassword(email);                          
+                            final String email = _emailController.text.trim();
+                            authService.resetPassword(email);
                           },
                           color: Colors.green,
                           shape: RoundedRectangleBorder(

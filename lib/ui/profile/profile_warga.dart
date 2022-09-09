@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
-import 'package:boilerplate/ui/update_profile/update_warga.dart';
+import 'package:boilerplate/ui/update_profile/update_warga_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_storage/firebase_storage.dart';

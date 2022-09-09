@@ -37,8 +37,6 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
   //   );
   // }
 
-     
-
   @override
   void dispose() {
     // _googleMapController!.dispose();
@@ -52,36 +50,31 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
     zoom: 14.4746,
   );
 
- 
-
   static final CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(-6.17511, 106.82598),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
- 
-
   @override
   Widget build(BuildContext context) {
-
-  final List<Marker> _list = [
-    Marker(
-        markerId: MarkerId('myMarker'),
-        position: LatLng(-6.17511, 106.82698),
-        infoWindow: InfoWindow(
-          title: 'Jakarta',
-          snippet: 'This is Jakarta',
-          onTap: (){
-            MapsUtils.openMap(-6.17511, 106.82700);
-          }
-          ),
+    final List<Marker> _list = [
+      Marker(
+          markerId: MarkerId('myMarker'),
+          position: LatLng(-6.17511, 106.82698),
+          infoWindow: InfoWindow(
+              title: 'Jakarta',
+              snippet: 'This is Jakarta',
+              onTap: () {
+                MapsUtils.openMap(-6.17511, 106.82700);
+              }),
           onTap: () {
-                 showModalBottomSheet(
+            showModalBottomSheet(
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20))),
               backgroundColor: Colors.white,
               context: context,
               builder: (_) {
@@ -91,25 +84,23 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
                 );
               },
             );
-            
-          }
-        ),
-    Marker(
-        markerId: MarkerId('myMarker'),
-        position: LatLng(-7.250445, 112.768845),
-        infoWindow: InfoWindow(
-          title: 'Surabaya',
-          snippet: 'This is Surabaya',
-          onTap: (){
-            MapsUtils.openMap(-7.250445, 112.768845);
-          }
-          ),
+          }),
+      Marker(
+          markerId: MarkerId('myMarker'),
+          position: LatLng(-7.250445, 112.768845),
+          infoWindow: InfoWindow(
+              title: 'Surabaya',
+              snippet: 'This is Surabaya',
+              onTap: () {
+                MapsUtils.openMap(-7.250445, 112.768845);
+              }),
           onTap: () {
-                 showModalBottomSheet(
+            showModalBottomSheet(
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20))),
               backgroundColor: Colors.white,
               context: context,
               builder: (_) {
@@ -119,12 +110,8 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
                 );
               },
             );
-            
-          }
-        ),
-  ];
-
-    
+          }),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -173,9 +160,7 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
           )
         ],
       ),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
+      body: Stack(alignment: Alignment.center, children: [
         GoogleMap(
           markers: Set.from(_list),
           polylines: {
@@ -202,7 +187,7 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
             }
           },
         ),
-        if( _info != null )
+        if (_info != null)
           Positioned(
             top: 20,
             child: Container(
@@ -247,6 +232,4 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
-
-
 }

@@ -2,24 +2,26 @@ import 'dart:async';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:flutter/material.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashScreenBackup extends StatefulWidget {
   @override
-  _SplashPageState createState() => _SplashPageState();
+  _SplashScreenBackupState createState() => _SplashScreenBackupState();
 }
 
-class _SplashPageState extends State<SplashPage> {
-  startSplashPage() async {
+class _SplashScreenBackupState extends State<SplashScreenBackup> {
+  startSplashScreenBackup() async {
     var duration = const Duration(seconds: 5);
     return Timer(duration, () {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => NavbarPage()));
     });
   }
+
   @override
   void initState() {
     super.initState();
-    startSplashPage();
+    startSplashScreenBackup();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +42,7 @@ class _SplashPageState extends State<SplashPage> {
             height: 24.0,
           ),
           Text(
-            "Pick A Bind",
+            "Pick A Bin",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

@@ -21,13 +21,11 @@ Future<void> main() async {
   return runZonedGuarded(() async {
     runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => ConnectivityProvider()
-        ),
+        ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: uid == null? MyApp(): NavbarPage()),
+          debugShowCheckedModeBanner: false,
+          home: uid == null ? MyApp() : NavbarPage()),
     ));
   }, (error, stack) {
     print(stack);
