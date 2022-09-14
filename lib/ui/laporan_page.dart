@@ -9,13 +9,9 @@ class LaporanPage extends StatefulWidget {
 class _LaporanPageState extends State<LaporanPage> {
   final TextEditingController namaController = new TextEditingController();
   final TextEditingController isiController = new TextEditingController();
-  CollectionReference laporan =
-      FirebaseFirestore.instance.collection('laporan');
 
   @override
   Widget build(BuildContext context) {
-    String nama;
-    String isi;
     return Scaffold(
         appBar: AppBar(
           title: Text("Saran dan Masukan"),
@@ -23,163 +19,166 @@ class _LaporanPageState extends State<LaporanPage> {
         ),
         body: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 14.0, horizontal: 13),
-                    child: Text(
-                      "Saran dan masukan dari anda akan sangat membantu kami dalam mengembangkan aplikasi kedepannya",
-                      style: TextStyle(
-                        fontSize: 17.5,
-                        height: 1.3,
-                        fontFamily: 'RobotoSlab',
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextFormField(
-                      controller: namaController,
-                      decoration: InputDecoration(
-                        fillColor: Color(0xffe6e6e6),
-                        filled: true,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                        hintText: 'Your name',
-                        hintStyle: TextStyle(
-                            color: Colors.blueGrey, fontFamily: 'RobotoSlab'),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.0001,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      textAlign: TextAlign.start,
-                      controller: isiController,
-                      decoration: InputDecoration(
-                        fillColor: Color(0xffe6e6e6),
-                        filled: true,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 35, horizontal: 20),
-                        hintText: 'Your message',
-                        hintStyle: TextStyle(
-                          color: Colors.blueGrey,
+            child: Form(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 13),
+                      child: Text(
+                        "Saran dan masukan dari anda akan sangat membantu kami dalam mengembangkan aplikasi kedepannya",
+                        style: TextStyle(
+                          fontSize: 17.5,
+                          height: 1.3,
                           fontFamily: 'RobotoSlab',
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(17),
-                          ),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(17),
-                          ),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(17),
-                          ),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
+                        textAlign: TextAlign.justify,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
-                  Card(
-                    color: Colors.green[300],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: GestureDetector(
-                      onTap: () async {
-                        nama = namaController.toString();
-                        isi = isiController.toString();
-
-                        setState(() {
-                          laporan
-                              .add({
-                                'nama': nama,
-                                'isi_laporan': isi,
-                              })
-                              .then((value) => print("Laporan Masuk"))
-                              .catchError(
-                                  (error) => print("Failed to add: $error"));
-                        });
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Berhasil'),
-                                  content: const Text('Terima kasih sarannya'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ));
-                      },
-                      child: ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Center(
-                                child: Icon(
-                              Icons.send,
-                              color: Colors.white,
-                            )),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextFormField(
+                        controller: namaController,
+                        decoration: InputDecoration(
+                          fillColor: Color(0xffe6e6e6),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                          hintText: 'Your name',
+                          hintStyle: TextStyle(
+                              color: Colors.blueGrey, fontFamily: 'RobotoSlab'),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
                             ),
-                            Center(
-                                child: Text(
-                              "Send",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'RobotoSlab'),
-                            )),
-                          ],
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                  ),
-                ])));
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.0001,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        textAlign: TextAlign.start,
+                        controller: isiController,
+                        decoration: InputDecoration(
+                          fillColor: Color(0xffe6e6e6),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 35, horizontal: 20),
+                          hintText: 'Your message',
+                          hintStyle: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: 'RobotoSlab',
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(17),
+                            ),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(17),
+                            ),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(17),
+                            ),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    Card(
+                      color: Colors.green[300],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: GestureDetector(
+                        onTap: () async {
+                          print("Ini nama : " + namaController.text.trim());
+                          print("Ini isi : " + isiController.text.trim());
+                          CollectionReference laporan =
+                              FirebaseFirestore.instance.collection('laporan');
+
+                          setState(() {
+                            laporan
+                                .add({
+                                  'nama': namaController.text.trim(),
+                                  'isi_laporan': isiController.text.trim(),
+                                })
+                                .then((value) => print("Laporan Masuk"))
+                                .catchError(
+                                    (error) => print("Failed to add: $error"));
+                          });
+                          showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    title: const Text('Berhasil'),
+                                    content:
+                                        const Text('Terima kasih sarannya'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'OK'),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ));
+                        },
+                        child: ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                  child: Icon(
+                                Icons.send,
+                                color: Colors.white,
+                              )),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.03,
+                              ),
+                              Center(
+                                  child: Text(
+                                "Send",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'RobotoSlab'),
+                              )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                    ),
+                  ]),
+            )));
   }
 }
