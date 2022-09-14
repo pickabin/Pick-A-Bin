@@ -1,5 +1,6 @@
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
 import 'package:boilerplate/ui/login/login_warga_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,8 @@ class RegisterPetugasPage extends StatefulWidget {
 }
 
 class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
+   // Create a CollectionReference called users that references the firestore collection
+  
   final TextEditingController _namaController = new TextEditingController();
   final TextEditingController _alamatController = new TextEditingController();
   final TextEditingController _emailController = new TextEditingController();

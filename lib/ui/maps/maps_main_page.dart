@@ -1,4 +1,5 @@
 import 'package:boilerplate/ui/maps/maps_distribution_page.dart';
+import 'package:boilerplate/ui/maps/maps_user_page.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +15,8 @@ class MapsMainPageState extends State<MapsMainPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pageOptions = [
-      Center(child: Text('User Maps')),
-      MapsDistributionPage()
+      MapsUserPage(),
+      MapsDistributionPage(),
     ];
 
     return new Scaffold(
@@ -25,7 +26,7 @@ class MapsMainPageState extends State<MapsMainPage> {
         color: Colors.black45,
         backgroundColor: Colors.white,
         items: [
-          TabItem(icon: Icons.people, title: 'Home'),
+          TabItem(icon: Icons.people, title: 'Users'),
           TabItem(icon: Icons.near_me_sharp, title: 'Maps'),
         ],
         initialActiveIndex: 1,

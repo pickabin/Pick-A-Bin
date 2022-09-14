@@ -1,6 +1,7 @@
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
 import 'package:boilerplate/ui/login/login_warga_page.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +132,14 @@ class AuthService {
         "date": DateFormat('dd/MM/yyyy').format(DateTime.now()),
         "jarakPengambilan": jarakPengambilan,
         "konfirmasi": false,
+      });
+
+       CollectionReference lokasi = FirebaseFirestore.instance.collection('lokasi');
+      lokasi.add({
+        "penanggungJawab": penanggungJawab,
+        "alamat": location,
+        "lat": lat,
+        "long": long,
       });
 
       Fluttertoast.showToast(

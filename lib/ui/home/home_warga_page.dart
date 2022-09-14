@@ -263,8 +263,7 @@ class _HomeWargaPageState extends State<HomeWargaPage> {
                                     },
                                     //count the number of data
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
+                                      padding: const EdgeInsets.only(top: 8.0, bottom: 12.0),
                                       child: ListTile(
                                         title: Text.rich(
                                           TextSpan(
@@ -334,7 +333,8 @@ class _HomeWargaPageState extends State<HomeWargaPage> {
                                         ),
                                       ),
                                     )),
-                                Divider(color: Colors.black)
+                                Divider(color: Colors.black),
+                                SizedBox(height: 18),
                               ],
                             );
                           });
