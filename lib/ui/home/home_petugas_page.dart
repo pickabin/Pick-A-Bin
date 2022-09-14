@@ -1,4 +1,4 @@
-import 'package:boilerplate/ui/home/list_contact.dart';
+import 'package:boilerplate/ui/home/list_contact_page.dart';
 import 'package:boilerplate/ui/maps/maps_main_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -13,23 +13,11 @@ class HomePetugasPage extends StatefulWidget {
 }
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
-  // final ref = FirebaseDatabase.instance
-  //     .ref()
-  //     .child('jadwal')
-  //     .orderByChild('date')
-  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
   final ref = FirebaseDatabase.instance
       .ref()
       .child('jadwal')
       .orderByChild('date')
       .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
-
-  // Query refStatus = FirebaseDatabase.instance
-  //     .ref()
-  //     .child('jadwal')
-  //     .orderByChild('status').equalTo(false);
-
-  //panggil petugas controller method cek status
 
   @override
   Widget build(BuildContext context) {
@@ -75,20 +63,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                             MaterialPageRoute(
                                 builder: (context) => MapsMainPage()))
                       },
-                      // showDialog<String>(
-                      //   context: context,
-                      //   builder: (BuildContext context) => AlertDialog(
-                      //     title: const Text('Coming Soon!'),
-                      //     content: const Text(
-                      //         'Fitur ini tersedia di iterasi selanjutnya ^_^'),
-                      //     actions: <Widget>[
-                      //       TextButton(
-                      //         onPressed: () => Navigator.pop(context, 'OK'),
-                      //         child: const Text('OK'),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       child: Container(
                         child: const Padding(
                             padding: EdgeInsets.all(10),
@@ -163,7 +137,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                   itemBuilder: (BuildContext context, DataSnapshot snapshot,
                       Animation<double> animation, int index) {
                     // bool isChecked = snapshot.child('status').value as bool;
-            
+
                     return Column(
                       children: <Widget>[
                         snapshot.child('status').value.toString() == 'false'
@@ -186,7 +160,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                 trailing: Text(
                                   snapshot.child('date').value.toString(),
                                   style: TextStyle(
-                                      fontSize: 15, fontWeight: FontWeight.bold),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               )
                             : Container(

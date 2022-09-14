@@ -1,17 +1,15 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-
-class TambahAcara extends StatefulWidget {
-  TambahAcara({Key? key}) : super(key: key);
+class TambahAcaraPage extends StatefulWidget {
+  TambahAcaraPage({Key? key}) : super(key: key);
 
   @override
-  State<TambahAcara> createState() => _TambahAcaraState();
+  State<TambahAcaraPage> createState() => _TambahAcaraPageState();
 }
 
-class _TambahAcaraState extends State<TambahAcara> {
+class _TambahAcaraPageState extends State<TambahAcaraPage> {
   final ref = FirebaseDatabase.instance.ref().child('petugas');
-  
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +31,9 @@ class _TambahAcaraState extends State<TambahAcara> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListTile(
                 trailing: Wrap(
-                  children: <Widget> [
+                  children: <Widget>[
                     new IconButton(
-                      icon : Icon(Icons.add, color: Colors.green),
+                      icon: Icon(Icons.add, color: Colors.green),
                       onPressed: () {
                         // launch('tel:${snapshot.child('telp').value.toString()}');
                       },
@@ -52,7 +50,6 @@ class _TambahAcaraState extends State<TambahAcara> {
               color: Colors.black,
             )
           ],
-        )
-    );
+        ));
   }
 }

@@ -1,89 +1,185 @@
-import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/ui/authentication/choose_role.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LaporanPage extends StatefulWidget {
-  const LaporanPage({Key? key}) : super(key: key);
-
   @override
-  State<LaporanPage> createState() => _LaporanPageState();
+  _LaporanPageState createState() => _LaporanPageState();
 }
 
 class _LaporanPageState extends State<LaporanPage> {
-  //Read data once from Realtime Database
-  final ref = FirebaseDatabase.instance.ref().child('warga');
-  AuthService authService = AuthService();
-   //get email from shared preferences
-  
-  
-  
-  
-  
+  final TextEditingController namaController = new TextEditingController();
+  final TextEditingController isiController = new TextEditingController();
+  CollectionReference laporan =
+      FirebaseFirestore.instance.collection('laporan');
 
   @override
-  // DatabaseReference ref = FirebaseDatabase.instance.ref("petugas/1001");
-  // Future<void> initState() async {
-  //   super.initState();
-  //   DatabaseEvent event = await ref.once();
-  // }
-
- //get email from shared preference
-//  Future<String?> getEmail() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    String? email = prefs.getString('email');
-//    return email;
-//  }
-
-  
   Widget build(BuildContext context) {
-    
+    String nama;
+    String isi;
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Laporan',
-            style: TextStyle(color: Color(0xff00783E)),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
-      body: FutureBuilder(
-        future: _getPrefs(),
-        builder: (context, snapshot){
-          if(snapshot.hasData){
-            print(snapshot.data);
-            return FirebaseAnimatedList(
-          //get email from shared preference
-          query: ref.orderByChild('email').equalTo("${snapshot.data}"),
-          itemBuilder: (BuildContext context, DataSnapshot snapshot,
-              Animation<double> animation, int index) {
+        appBar: AppBar(
+          title: Text("Saran dan Masukan"),
+          backgroundColor: Colors.green,
+        ),
+        body: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14.0, horizontal: 13),
+                    child: Text(
+                      "Saran dan masukan dari anda akan sangat membantu kami dalam mengembangkan aplikasi kedepannya",
+                      style: TextStyle(
+                        fontSize: 17.5,
+                        height: 1.3,
+                        fontFamily: 'RobotoSlab',
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextFormField(
+                      controller: namaController,
+                      decoration: InputDecoration(
+                        fillColor: Color(0xffe6e6e6),
+                        filled: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                        hintText: 'Your name',
+                        hintStyle: TextStyle(
+                            color: Colors.blueGrey, fontFamily: 'RobotoSlab'),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.0001,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      textAlign: TextAlign.start,
+                      controller: isiController,
+                      decoration: InputDecoration(
+                        fillColor: Color(0xffe6e6e6),
+                        filled: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 35, horizontal: 20),
+                        hintText: 'Your message',
+                        hintStyle: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: 'RobotoSlab',
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(17),
+                          ),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(17),
+                          ),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(17),
+                          ),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Card(
+                    color: Colors.green[300],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: GestureDetector(
+                      onTap: () async {
+                        nama = namaController.toString();
+                        isi = isiController.toString();
 
-            return Column(
-            children: [
-              const SizedBox(
-                height: 60.0,
-              ),
-            ],
-          );
-        });
-          }
-          else{
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-       }),
-    );
-  }
-
-  Future<String?> 
-  _getPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString('email');
-    return email;
+                        setState(() {
+                          laporan
+                              .add({
+                                'nama': nama,
+                                'isi_laporan': isi,
+                              })
+                              .then((value) => print("Laporan Masuk"))
+                              .catchError(
+                                  (error) => print("Failed to add: $error"));
+                        });
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Berhasil'),
+                                  content: const Text('Terima kasih sarannya'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ));
+                      },
+                      child: ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                                child: Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            )),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.03,
+                            ),
+                            Center(
+                                child: Text(
+                              "Send",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'RobotoSlab'),
+                            )),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                  ),
+                ])));
   }
 }

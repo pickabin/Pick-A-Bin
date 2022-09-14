@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
 import 'package:intl/intl.dart';
 
-
 class UpdateWargaPage extends StatefulWidget {
   const UpdateWargaPage({Key? key}) : super(key: key);
 
@@ -34,7 +33,6 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
           'Update Profile',
           style: TextStyle(color: Color(0xff00783E)),
         ),
-       
       ),
       body: FutureBuilder(
           future: _getPrefs(),
@@ -42,7 +40,7 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
             if (snapshot.hasData) {
               print(snapshot.data);
               return FirebaseAnimatedList(
-                shrinkWrap: true,
+                  shrinkWrap: true,
                   query: ref.orderByChild('email').equalTo("${snapshot.data}"),
                   itemBuilder: (BuildContext context, DataSnapshot snapshot,
                       Animation<double> animation, int index) {
@@ -71,28 +69,29 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                 .value
                                 .toString());
                     return SingleChildScrollView(
-                        child: Column(children: [          
-                          Container(
-                            height: 140,
-                            width: 140,
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundColor: Colors.green,
-                              child: snapshot.child('imageUrl').value != null ?
-                              CircleAvatar(
-                                radius: 68,
-                                backgroundImage: NetworkImage(
-                                    snapshot.child('imageUrl').value.toString()),
-                              ) :                        
-                              CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/user_icon.png'),
-                                radius: 68,
-                              ),
-                            ),
-                          ),
-                        
-                      
+                        child: Column(children: [
+                      Container(
+                        height: 140,
+                        width: 140,
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.green,
+                          child: snapshot.child('imageUrl').value != null
+                              ? CircleAvatar(
+                                  radius: 68,
+                                  backgroundImage: NetworkImage(snapshot
+                                      .child('imageUrl')
+                                      .value
+                                      .toString()),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/user_icon.png'),
+                                  radius: 68,
+                                ),
+                        ),
+                      ),
+
                       //create form with border
                       Container(
                         padding: EdgeInsets.all(15),
@@ -345,15 +344,13 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                   height: 50,
                                   child: ElevatedButton(
                                       onPressed: () async {
-                                      
                                         FirebaseAuth.instance
-                                                .authStateChanges()
-                                                .listen((User? user) {
-                                              if (user != null) {
-                                   
-                                                namaLogin = user.displayName;
-                                              }
-                                            });
+                                            .authStateChanges()
+                                            .listen((User? user) {
+                                          if (user != null) {
+                                            namaLogin = user.displayName;
+                                          }
+                                        });
                                         final String namaInstansi =
                                             _instansiController.text.trim();
                                         final String penanggungJawab =
@@ -425,13 +422,14 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                                           dataJadwal =
                                                           FirebaseDatabase
                                                               .instance
-                                                              .ref(
-                                                                  "jadwal");
+                                                              .ref("jadwal");
                                                       dataJadwal.push().set({
                                                         "instansi":
                                                             namaInstansi,
-                                                        "date": DateFormat('dd/MM/yyyy')
-                                                  .format(DateTime.now()),
+                                                        "date": DateFormat(
+                                                                'dd/MM/yyyy')
+                                                            .format(
+                                                                DateTime.now()),
                                                         "penanggungJawab":
                                                             penanggungJawab,
                                                         "alamat": alamat,
@@ -442,16 +440,13 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                                         "konfirmasi": false,
                                                         "status": false,
                                                       });
-
-                                                      
                                                     });
 
                                                     Navigator.pushReplacement(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    NavbarPage()));
+                                                            builder: (context) =>
+                                                                NavbarPage()));
                                                   }
                                                 }
                                               }

@@ -3,7 +3,6 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
-
 class DaftarPetugasPage extends StatefulWidget {
   DaftarPetugasPage({Key? key}) : super(key: key);
 
@@ -13,7 +12,6 @@ class DaftarPetugasPage extends StatefulWidget {
 
 class _DaftarPetugasPageState extends State<DaftarPetugasPage> {
   final ref = FirebaseDatabase.instance.ref().child('petugas');
-  
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +28,9 @@ class _DaftarPetugasPageState extends State<DaftarPetugasPage> {
           leadingWidth: 100,
         ),
         body: FirebaseAnimatedList(
-          defaultChild: Center(
-            child: CircularProgressIndicator(),
-          ),
+            defaultChild: Center(
+              child: CircularProgressIndicator(),
+            ),
             query: ref,
             itemBuilder: (BuildContext context, DataSnapshot snapshot,
                 Animation<double> animation, int index) {
@@ -42,25 +40,23 @@ class _DaftarPetugasPageState extends State<DaftarPetugasPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: ListTile(
                       trailing: Wrap(
-                        children: <Widget> [
+                        children: <Widget>[
                           new IconButton(
-                            icon : Icon(Icons.chat, color: Colors.green),
+                            icon: Icon(Icons.chat, color: Colors.green),
                             onPressed: () {
                               // launch('tel:${snapshot.child('telp').value.toString()}');
-                                  
                             },
-                            ),
-                           new IconButton(
-                            icon : Icon(Icons.phone,color: Colors.green),
+                          ),
+                          new IconButton(
+                            icon: Icon(Icons.phone, color: Colors.green),
                             onPressed: () {
                               // launch('tel:${snapshot.child('telp').value.toString()}');
-                                  FlutterPhoneDirectCaller.callNumber(
-                                      snapshot.child('telp').value.toString());
+                              FlutterPhoneDirectCaller.callNumber(
+                                  snapshot.child('telp').value.toString());
                             },
-                            ),
+                          ),
                         ],
                       ),
-                        
                       title: Text(
                         snapshot.child('nama').value.toString(),
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -68,7 +64,7 @@ class _DaftarPetugasPageState extends State<DaftarPetugasPage> {
                       subtitle: Text(snapshot.child('telp').value.toString()),
                       leading: CircleAvatar(
                         backgroundImage:
-                        AssetImage("assets/images/user_icon.png"),
+                            AssetImage("assets/images/user_icon.png"),
                       ),
                     ),
                   ),

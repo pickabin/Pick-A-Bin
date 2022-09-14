@@ -1,7 +1,7 @@
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
-import 'package:boilerplate/ui/register/register_page.dart';
+import 'package:boilerplate/ui/register/register_warga_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
@@ -14,7 +14,6 @@ class LoginWargaPage extends StatefulWidget {
 }
 
 class _LoginWargaPageState extends State<LoginWargaPage> {
-  // const LoginPage({ Key? key }) : super(key: key);
   AuthService authService = AuthService();
 
   final GlobalKey<FormState> _formKey = new GlobalKey();
@@ -166,10 +165,6 @@ class _LoginWargaPageState extends State<LoginWargaPage> {
                                         .orderByChild('email')
                                         .equalTo(authService.email.text)
                                         .get();
-                                    // final String email =
-                                    //     _userEmailController.text.trim();
-                                    // final String password =
-                                    //     _passwordController.text.trim();
 
                                     if (_formKey.currentState!.validate()) {}
 
@@ -234,18 +229,6 @@ class _LoginWargaPageState extends State<LoginWargaPage> {
                                         });
                                         prefs.setString(
                                             'email', authService.email.text);
-
-                                        //firebase auth
-                                        // context
-                                        //     .read<AuthService>()
-                                        //     .login(email, password).then((value) => {
-                                        //           print(value),
-                                        //           Navigator.pushReplacement(
-                                        //               context,
-                                        //               MaterialPageRoute(
-                                        //                   builder: (context) =>
-                                        //                       Navbar()))
-                                        //         });
                                       }
                                     }
                                   },
@@ -313,7 +296,7 @@ class _LoginWargaPageState extends State<LoginWargaPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    RegisterPage()));
+                                                    RegisterWargaPage()));
                                       },
                                   ),
                                 ])),

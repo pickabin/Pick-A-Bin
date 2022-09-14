@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
 
-
 class UpdatePetugasPage extends StatefulWidget {
   const UpdatePetugasPage({Key? key}) : super(key: key);
 

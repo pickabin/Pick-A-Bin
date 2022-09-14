@@ -1,6 +1,6 @@
 import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
-import 'package:boilerplate/ui/splash/splash.dart';
+import 'package:boilerplate/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {

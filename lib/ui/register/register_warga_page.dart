@@ -1,23 +1,22 @@
 import 'package:boilerplate/ui/login/login_warga_page.dart';
-import 'package:boilerplate/ui/maps/pick_point_warga.dart';
+import 'package:boilerplate/ui/maps/pick_point_warga_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/service/auth_service.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterWargaPage extends StatefulWidget {
   final String? location;
   final double? lat;
   final double? long;
-  const RegisterPage({Key? key, this.location, this.lat, this.long})
+  const RegisterWargaPage({Key? key, this.location, this.lat, this.long})
       : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterWargaPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterWargaPage> {
   static final TextEditingController _instansiController =
       new TextEditingController();
   static final TextEditingController _penanggungJawabController =
@@ -26,8 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
       new TextEditingController();
   static final TextEditingController _telpController =
       new TextEditingController();
-  final TextEditingController _passwordController =
-      new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
   static final TextEditingController _jarakPengambilanControler =
       new TextEditingController();
 
@@ -40,12 +38,6 @@ class _RegisterPageState extends State<RegisterPage> {
       isHidePassword = !isHidePassword;
     });
   }
-
-  @override
-  // void initState() {
-  //   _jarakPengambilanControler.text = "";
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -445,7 +437,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                                       Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                              builder: (context) => PickPointWarga()));
+                                                                              builder: (context) => PickPointWargaPage()));
                                                                     },
                                                                     child: Text(
                                                                       "Pilih Lokasi",
@@ -603,6 +595,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   _passwordController.clear();
                                   _jarakPengambilanControler.clear();
                                   _telpController.clear();
+
                                   context
                                       .read<AuthService>()
                                       .registerWarga(
