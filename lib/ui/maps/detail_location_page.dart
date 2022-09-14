@@ -1,11 +1,14 @@
 import 'package:boilerplate/data/repository/maps_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DetailLocationPage extends StatefulWidget {
+  final String nama;
   final double lat;
   final double long;
-  const DetailLocationPage({Key? key, required this.lat, required this.long})
+  final String alamat;
+  const DetailLocationPage({Key? key, required this.lat, required this.long, required this.nama, required this.alamat})
       : super(key: key);
 
   @override
@@ -17,13 +20,17 @@ class _DetailLocationPageState extends State<DetailLocationPage> {
 
   Future<Placemark> getAddressFromLatLng() async {
     List<Placemark> placemarks =
-        await placemarkFromCoordinates(widget.lat, widget.long);
+        await placemarkFromCoordinates(widget.lat, widget.long, localeIdentifier: 'id');
     Placemark place = placemarks[0];
     setState(() {
       address =
-          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.subAdministrativeArea}';
     });
     return place;
+  }
+
+  Future<void> requestPermission() async { 
+    await Permission.location.request(); 
   }
 
   @override
@@ -97,7 +104,7 @@ class _DetailLocationPageState extends State<DetailLocationPage> {
                       ),
                     ),
                     subtitle: Text(
-                      "Fidisa Anindya",
+                      widget.nama,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,

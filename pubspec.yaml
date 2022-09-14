@@ -92,6 +92,9 @@ dependencies:
   flutter_google_places_hoc081098: ^1.0.0-nullsafety.1
   curved_nav_bar: ^0.0.2
   floating_bottom_bar: ^0.0.1
+  syncfusion_flutter_maps: ^20.2.48
+  permission_handler: ^10.0.0
+  cloud_firestore: ^3.4.7
 
 dev_dependencies:
   

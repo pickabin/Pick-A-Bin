@@ -8,7 +8,9 @@ import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_warga_page.dart';
 import 'package:boilerplate/ui/maps/maps_main_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas.dart';
+import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
 import 'package:boilerplate/ui/profile/profile_warga.dart';
+import 'package:boilerplate/ui/profile/profile_warga_main.dart';
 import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
@@ -151,8 +153,8 @@ class _NavbarPageState extends State<NavbarPage> {
                       ? ActivityPage()
                       : UserActivityPage(),
                   snapshot.data == 'petugas'
-                      ? ProfilePetugasPage()
-                      : ProfileWargaPage(),
+                      ? ProfilePetugasMain()
+                      : ProfileWargaMain(),
                 ],
               );
             } else {
