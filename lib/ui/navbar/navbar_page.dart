@@ -152,7 +152,7 @@ class _NavbarPageState extends State<NavbarPage> {
                             ? ActivityPage()
                             : UserActivityPage(),
                         snapshot.data == 'petugas'
-                            ? ProfilePetugasPage()
+                            ? ProfilePetugasMain()
                             : ProfileWargaMain(),
                       ],
                     );
