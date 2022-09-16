@@ -116,13 +116,28 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Profile',
+        centerTitle: true,
+        title: const Text(
+          'Profile',
+          style: TextStyle(color: Color(0xff00783E)),
+        ),
+        leadingWidth: 100,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: ElevatedButton.icon(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xff00783E),
+          ),
+          label: const Text(
+            'Back',
             style: TextStyle(color: Color(0xff00783E)),
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+          style: ElevatedButton.styleFrom(
+              elevation: 0, primary: Colors.transparent),
+        ),
+      ),
       body: FutureBuilder(
           future: _getPrefs(),
           builder: (context, snapshot) {
@@ -312,41 +327,41 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: double.infinity,
-                                              child: ElevatedButton(
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Logout',
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: Colors.green,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0),
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  SharedPreferences prefs =
-                                                      await SharedPreferences
-                                                          .getInstance();
-                                                  // prefs.remove('uid');
-                                                  prefs.clear();
-                                                  authService.logout();
-                                                  Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              RoleSelection()));
-                                                },
-                                              ),
-                                            ),
+                                            // Container(
+                                            //   width: double.infinity,
+                                            //   child: ElevatedButton(
+                                            //     child: const Center(
+                                            //       child: Text(
+                                            //         'Logout',
+                                            //         style: TextStyle(
+                                            //           fontSize: 20,
+                                            //           color: Colors.white,
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //     style: ElevatedButton.styleFrom(
+                                            //       primary: Colors.green,
+                                            //       shape: RoundedRectangleBorder(
+                                            //         borderRadius:
+                                            //             BorderRadius.circular(
+                                            //                 20.0),
+                                            //       ),
+                                            //     ),
+                                            //     onPressed: () async {
+                                            //       SharedPreferences prefs =
+                                            //           await SharedPreferences
+                                            //               .getInstance();
+                                            //       // prefs.remove('uid');
+                                            //       prefs.clear();
+                                            //       authService.logout();
+                                            //       Navigator.pushReplacement(
+                                            //           context,
+                                            //           MaterialPageRoute(
+                                            //               builder: (context) =>
+                                            //                   RoleSelection()));
+                                            //     },
+                                            //   ),
+                                            // ),
                                             Container(
                                               width: double.infinity,
                                               child: ElevatedButton(

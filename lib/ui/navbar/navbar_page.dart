@@ -7,9 +7,7 @@ import 'package:boilerplate/ui/home/detail_acara.dart';
 import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_warga_page.dart';
 import 'package:boilerplate/ui/maps/maps_main_page.dart';
-import 'package:boilerplate/ui/profile/profile_petugas.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
-import 'package:boilerplate/ui/profile/profile_warga.dart';
 import 'package:boilerplate/ui/profile/profile_warga_main.dart';
 import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
@@ -57,7 +55,7 @@ class _NavbarPageState extends State<NavbarPage> {
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailAcara()));
+                                builder: (context) => DetailAcara(lat: null, location: '', long: null,)));
                   },
                   activeIcon: Container(
                     padding: EdgeInsets.all(5),

@@ -389,12 +389,12 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
                                                         "Tanggal Pengambilan Sampah kosong");
                                                   } else {
                                                     print(
-                                                        "penanggungJawab : ${penanggungJawab}");
-                                                    print("email : ${email}");
+                                                        "penanggungJawab : $penanggungJawab");
+                                                    print("email : $email");
                                                     var key = snapshot.key;
                                                     print(
-                                                        "penanggungJawab : ${penanggungJawab}");
-                                                    print("email : ${email}");
+                                                        "penanggungJawab : $penanggungJawab");
+                                                    print("email : $email");
                                                     //  authService
                                                     //       .updateEmail(email);
                                                     authService

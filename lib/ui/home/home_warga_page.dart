@@ -16,7 +16,7 @@ class HomeWargaPage extends StatefulWidget {
 
 class _HomeWargaPageState extends State<HomeWargaPage> {
   bool isChecked = false;
-  final ref = FirebaseDatabase.instance.ref().child('aktivitas');
+  final ref = FirebaseDatabase.instance.ref().child('aktivitas_warga');
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,6 @@
 import 'package:boilerplate/data/repository/maps_utils.dart';
-import 'package:boilerplate/ui/maps/detail_location_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class MapsUserPage extends StatefulWidget {
   const MapsUserPage({Key? key}) : super(key: key);
@@ -22,8 +19,7 @@ class _MapsUserPageState extends State<MapsUserPage> {
           title: Text('Maps User'),
           backgroundColor: Colors.green,
         ),
-        body: SingleChildScrollView(
-          child: StreamBuilder<QuerySnapshot>(
+        body: StreamBuilder<QuerySnapshot>(
             stream: _usersStream,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -41,36 +37,38 @@ class _MapsUserPageState extends State<MapsUserPage> {
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   Map<String, dynamic> data =
                       document.data()! as Map<String, dynamic>;
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(data['penanggungJawab']),
-                        subtitle: Text(
-                          data['alamat'],
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
-                        ),
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/user_icon.png'),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(
-                            Icons.subdirectory_arrow_right_sharp,
-                            color: Colors.green,
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: Text(data['penanggungJawab']),
+                          subtitle: Text(
+                            data['alamat'],
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold),
                           ),
-                          onPressed: () {
-                           MapsUtils.openMap(data['lat'], data['long']);
-                          },
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/user_icon.png'),
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.subdirectory_arrow_right_sharp,
+                              color: Colors.green,
+                            ),
+                            onPressed: () {
+                             MapsUtils.openMap(data['lat'], data['long']);
+                            },
+                          ),
                         ),
-                      ),
-                      Divider()
-                    ],
+                        Divider()
+                      ],
+                    ),
                   );
                 }).toList(),
               );
             },
           ),
-        ));
+        );
   }
 }

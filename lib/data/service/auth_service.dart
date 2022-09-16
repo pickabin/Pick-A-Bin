@@ -233,7 +233,6 @@ class AuthService {
         );
         return "Registration Failed";
       }
-      return e.toString();
     }
   }
 

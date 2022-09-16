@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -112,8 +111,23 @@ class _ProfilePetugasPageState extends State<ProfilePetugasPage> {
               'Profile',
               style: TextStyle(color: Color(0xff00783E)),
             ),
+            leadingWidth: 100,
             backgroundColor: Colors.transparent,
-            elevation: 0),
+            elevation: 0,
+            leading: ElevatedButton.icon(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xff00783E),
+            ),
+            label: const Text(
+              'Back',
+              style: TextStyle(color: Color(0xff00783E)),
+            ),
+            style: ElevatedButton.styleFrom(
+                elevation: 0, primary: Colors.transparent),
+          ),
+          ),
         body: FutureBuilder(
             future: _getPrefs(),
             builder: (context, snapshot) {
@@ -276,43 +290,43 @@ class _ProfilePetugasPageState extends State<ProfilePetugasPage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                width: double.infinity,
-                                                child: ElevatedButton(
-                                                  child: const Center(
-                                                    child: Text(
-                                                      'Logout',
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    primary: Colors.green,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    SharedPreferences prefs =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    // prefs.remove('uid');
-                                                    prefs.clear();
-                                                    authService.logout();
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                RoleSelection()));
-                                                  },
-                                                ),
-                                              ),
+                                              // Container(
+                                              //   width: double.infinity,
+                                              //   child: ElevatedButton(
+                                              //     child: const Center(
+                                              //       child: Text(
+                                              //         'Logout',
+                                              //         style: TextStyle(
+                                              //           fontSize: 20,
+                                              //           color: Colors.white,
+                                              //         ),
+                                              //       ),
+                                              //     ),
+                                              //     style:
+                                              //         ElevatedButton.styleFrom(
+                                              //       primary: Colors.green,
+                                              //       shape:
+                                              //           RoundedRectangleBorder(
+                                              //         borderRadius:
+                                              //             BorderRadius.circular(
+                                              //                 20.0),
+                                              //       ),
+                                              //     ),
+                                              //     onPressed: () async {
+                                              //       SharedPreferences prefs =
+                                              //           await SharedPreferences
+                                              //               .getInstance();
+                                              //       // prefs.remove('uid');
+                                              //       prefs.clear();
+                                              //       authService.logout();
+                                              //       Navigator.pushReplacement(
+                                              //           context,
+                                              //           MaterialPageRoute(
+                                              //               builder: (context) =>
+                                              //                   RoleSelection()));
+                                              //     },
+                                              //   ),
+                                              // ),
                                               Container(
                                                 width: double.infinity,
                                                 child: ElevatedButton(

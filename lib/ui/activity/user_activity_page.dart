@@ -13,7 +13,7 @@ class UserActivityPage extends StatefulWidget {
 }
 
 class _UserActivityPageState extends State<UserActivityPage> {
-  final ref = FirebaseDatabase.instance.ref().child('aktivitas');
+  final ref = FirebaseDatabase.instance.ref().child('aktivitas_warga');
 
 
   // final data = FirebaseDatabase.instance.ref().child('aktivitas').child('penanggungJawab');
@@ -90,7 +90,7 @@ class _UserActivityPageState extends State<UserActivityPage> {
                                             var key = snapshot.key;
                                             DatabaseReference del =
                                                 FirebaseDatabase.instance
-                                                    .ref("aktivitas/$key");
+                                                    .ref("aktivitas_warga/$key");
                                             del.remove();
                                           },
                                           child: Text("Yakin")),

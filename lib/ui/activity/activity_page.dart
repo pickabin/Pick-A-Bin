@@ -14,7 +14,7 @@ class ActivityPage extends StatefulWidget {
 class _ActivityPageState extends State<ActivityPage> {
   final ref = FirebaseDatabase.instance
       .ref()
-      .child('aktivitas');
+      .child('aktivitas_petugas');
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                           var key = snapshot.key;
                                           DatabaseReference del = FirebaseDatabase
                                               .instance
-                                              .ref("aktivitas/$key");
+                                              .ref("aktivitas_petugas/$key");
                                           del.remove();
                                         },
                                         child: Text("Yakin")),

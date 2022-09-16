@@ -62,6 +62,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                     .ref("jadwal/$key");
                                 up.update({
                                   "status": true,
+                                   "tglSelesai": DateFormat('dd/MM/yyyy')
+                                      .format(DateTime.now())
+                                      .toString(),
+                                  "waktuSelesai": DateFormat('HH:mm')
+                                      .format(DateTime.now())
+                                      .toString(),
                                 });
                               })
                           : Container()

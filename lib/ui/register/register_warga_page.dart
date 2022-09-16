@@ -1,6 +1,5 @@
 import 'package:boilerplate/ui/login/login_warga_page.dart';
 import 'package:boilerplate/ui/maps/pick_point_warga_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';

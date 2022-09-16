@@ -165,10 +165,54 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                 ),
                               )
                             : Container(
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 241, 96, 96),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                                 margin: const EdgeInsets.only(top: 10),
-                                child: const Text(
-                                  "Sampah Sudah diambil",
-                                  textAlign: TextAlign.center,
+                                child: ListTile(
+                                  title: Text(
+                                    snapshot
+                                            .child('instansi')
+                                            .value
+                                            .toString() +
+                                        " - " +
+                                        snapshot
+                                            .child('penanggungJawab')
+                                            .value
+                                            .toString(),
+                                  ),
+                                  subtitle: Text("Sampah sudah diambil",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic)),
+                                  leading: CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                    "assets/images/building_icon.png",
+                                  )),
+                                  trailing: Column(
+                                    children: [
+                                      Text(
+                                        snapshot
+                                            .child('tglSelesai')
+                                            .value
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        snapshot
+                                            .child('waktuSelesai')
+                                            .value
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
                                 )),
                       ],
                     );

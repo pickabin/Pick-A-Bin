@@ -61,7 +61,28 @@ class ListDonePage extends StatelessWidget {
                               onPressed: () async {
                                 final SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
-                                databaseRef.child("aktivitas").push().set({
+                                databaseRef.child("aktivitas_petugas").push().set({
+                                  'instansi': snapshot
+                                      .child('instansi')
+                                      .value
+                                      .toString(),
+                                  'penanggungJawab': snapshot
+                                      .child('penanggungJawab')
+                                      .value
+                                      .toString(),
+                                  'alamat':
+                                      snapshot.child('alamat').value.toString(),
+                                  'telp':
+                                      snapshot.child('telp').value.toString(),
+                                  'tanggal': DateFormat('dd/MM/yyyy')
+                                      .format(DateTime.now())
+                                      .toString(),
+                                  'waktu': DateFormat('hh:mm')
+                                      .format(DateTime.now())
+                                      .toString(),
+                                  'petugas': prefs.getString('nama'),
+                                });
+                                databaseRef.child("aktivitas_warga").push().set({
                                   'instansi': snapshot
                                       .child('instansi')
                                       .value
