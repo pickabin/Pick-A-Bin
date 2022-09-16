@@ -2,7 +2,7 @@ import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/profile_petugas.dart';
+import 'package:boilerplate/ui/profile/profile_petugas_page.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_page.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 //import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';

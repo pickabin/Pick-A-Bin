@@ -2,7 +2,7 @@ import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/profile_warga.dart';
+import 'package:boilerplate/ui/profile/profile_warga_page.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_warga.dart';
 //import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class ProfileWargaMain extends StatefulWidget {
   const ProfileWargaMain({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
       ),
       body: FutureBuilder(
         future: _getPrefs(),
-        builder: ((context, snapshot) {
+        builder: ((context, snapshot){
           if (snapshot.hasData) {
             return FirebaseAnimatedList(
                 shrinkWrap: true,
@@ -337,6 +338,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   final String? uid = prefs.getString('uid');
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

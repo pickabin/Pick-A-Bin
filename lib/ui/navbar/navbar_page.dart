@@ -8,6 +8,7 @@ import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_warga_page.dart';
 import 'package:boilerplate/ui/maps/maps_main_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
+import 'package:boilerplate/ui/profile/profile_petugas_page.dart';
 import 'package:boilerplate/ui/profile/profile_warga_main.dart';
 import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
@@ -23,8 +24,6 @@ class NavbarPage extends StatefulWidget {
 }
 
 class _NavbarPageState extends State<NavbarPage> {
-  int selectedPage = 0;
-
   @override
   void initState() {
     super.initState();
@@ -94,77 +93,80 @@ class _NavbarPageState extends State<NavbarPage> {
                 activeColor: Colors.green,
                 navBarBackgroundColor: Colors.white,
                 inActiveColor: Colors.black45,
-                appBarItems: [
-                  FABBottomAppBarItem(
-                      activeIcon: Icon(
-                        Icons.home,
-                        color: Colors.green,
-                      ),
-                      inActiveIcon: Icon(
-                        Icons.home,
-                        color: Colors.black26,
-                      ),
-                      text: 'Home'),
-                  FABBottomAppBarItem(
-                      activeIcon: Icon(
+                      appBarItems: [
+                        FABBottomAppBarItem(
+                            activeIcon: Icon(
+                              Icons.home,
+                              color: Colors.green,
+                            ),
+                            inActiveIcon: Icon(
+                              Icons.home,
+                              color: Colors.black26,
+                            ),
+                            text: 'Home'),
+                        FABBottomAppBarItem(
+                            activeIcon: Icon(
+                              snapshot.data == 'petugas'
+                                  ? Icons.calendar_month_outlined
+                                  : Icons.perm_contact_calendar_outlined,
+                              color: Colors.green,
+                            ),
+                            inActiveIcon: Icon(
+                              snapshot.data == 'petugas'
+                                  ? Icons.calendar_month_outlined
+                                  : Icons.perm_contact_calendar_outlined,
+                              color: Colors.black26,
+                            ),
+                            text: snapshot.data == 'petugas'
+                                ? "Jadwal"
+                                : "Petugas"),
+                        FABBottomAppBarItem(
+                            activeIcon: Icon(
+                              Icons.list_alt_outlined,
+                              color: Colors.green,
+                            ),
+                            inActiveIcon: Icon(
+                              Icons.list_alt_outlined,
+                              color: Colors.black26,
+                            ),
+                            text: 'Aktivitas'),
+                        FABBottomAppBarItem(
+                            activeIcon: Icon(
+                              Icons.supervised_user_circle_outlined,
+                              color: Colors.green,
+                            ),
+                            inActiveIcon: Icon(
+                              Icons.supervised_user_circle_outlined,
+                              color: Colors.black26,
+                            ),
+                            text: 'Profil'),
+                      ],
+                      bodyItems: [
                         snapshot.data == 'petugas'
-                            ? Icons.calendar_month_outlined
-                            : Icons.perm_contact_calendar_outlined,
-                        color: Colors.green,
-                      ),
-                      inActiveIcon: Icon(
+                            ? HomePetugasPage()
+                            : HomeWargaPage(),
                         snapshot.data == 'petugas'
-                            ? Icons.calendar_month_outlined
-                            : Icons.perm_contact_calendar_outlined,
-                        color: Colors.black26,
+                            ? StackOver()
+                            : DaftarPetugasPage(),
+                        snapshot.data == 'petugas'
+                            ? ActivityPage()
+                            : UserActivityPage(),
+                        snapshot.data == 'petugas'
+                            ? ProfilePetugasPage()
+                            : ProfileWargaMain(),
+                      ],
+                    );
+                  } else {
+                    return Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator(),
                       ),
-                      text: snapshot.data == 'petugas' ? "Jadwal" : "Petugas"),
-                  FABBottomAppBarItem(
-                      activeIcon: Icon(
-                        Icons.list_alt_outlined,
-                        color: Colors.green,
-                      ),
-                      inActiveIcon: Icon(
-                        Icons.list_alt_outlined,
-                        color: Colors.black26,
-                      ),
-                      text: 'Aktivitas'),
-                  FABBottomAppBarItem(
-                      activeIcon: Icon(
-                        Icons.supervised_user_circle_outlined,
-                        color: Colors.green,
-                      ),
-                      inActiveIcon: Icon(
-                        Icons.supervised_user_circle_outlined,
-                        color: Colors.black26,
-                      ),
-                      text: 'Profil'),
-                ],
-                bodyItems: [
-                  snapshot.data == 'petugas'
-                      ? HomePetugasPage()
-                      : HomeWargaPage(),
-                  snapshot.data == 'petugas'
-                      ? StackOver()
-                      : DaftarPetugasPage(),
-                  snapshot.data == 'petugas'
-                      ? ActivityPage()
-                      : UserActivityPage(),
-                  snapshot.data == 'petugas'
-                      ? ProfilePetugasMain()
-                      : ProfileWargaMain(),
-                ],
-              );
-            } else {
-              return Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-          },
-        ),
-      ) : ErrorConnection();
+                    );
+                  }
+                },
+              ),
+            )
+          : ErrorConnection();
     });
   }
 
