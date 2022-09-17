@@ -1,3 +1,4 @@
+import 'package:boilerplate/constants/api_key.dart';
 import 'package:boilerplate/ui/register/register_warga_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -14,13 +15,28 @@ class PickPointWargaPage extends StatefulWidget {
 }
 
 class _PickPointWargaState extends State<PickPointWargaPage> {
-  String googleApikey = "AIzaSyAxDHz9wq_emJzteeFbpbGMkIp2yuZXMvs";
+  String googleApikey = ApiKey.API_KEY;
   GoogleMapController? mapController; //contrller for Google map
   CameraPosition? cameraPosition;
   LatLng startLocation = LatLng(-6.200000, 106.816666);
   String location = "Search Location";
   var lat;
   var long;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds: 1), () async {
+      // Snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Geser untuk memilih lokasi"),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -33,8 +33,6 @@ class _RegisterPageState extends State<RegisterWargaPage> {
   final _auth = AuthService();
   bool isHidePassword = true;
 
- 
-
   void _togglePasswordVisibility() {
     setState(() {
       isHidePassword = !isHidePassword;
@@ -489,7 +487,10 @@ class _RegisterPageState extends State<RegisterWargaPage> {
                                                                           BorderRadius.all(
                                                                               Radius.circular(20.0))),
                                                                   child: Text(
-                                                                      "Submit"),
+                                                                      "Submit",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white)),
                                                                   color: Colors
                                                                       .green,
                                                                   padding:

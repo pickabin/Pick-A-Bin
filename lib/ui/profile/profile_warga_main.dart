@@ -2,6 +2,8 @@ import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
+import 'package:boilerplate/ui/profile/profile_activity_warga.dart';
+import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/profile/profile_warga_page.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_warga.dart';
 //import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
@@ -55,16 +57,28 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: snapshot.child('imageUrl').value != null
-                                  ? Container(
-                                      height: 50,
-                                      width: 50,
-                                      child: CircleAvatar(
-                                          radius: 60,
-                                          backgroundImage: NetworkImage(snapshot
-                                              .child('imageUrl')
-                                              .value
-                                              .toString())),
-                                    )
+                                  ? GestureDetector(
+                                    child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        child: CircleAvatar(
+                                            radius: 60,
+                                            backgroundImage: NetworkImage(snapshot
+                                                .child('imageUrl')
+                                                .value
+                                                .toString())),
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProfileDetailImage(image: snapshot
+                                                .child('imageUrl')
+                                                .value
+                                                .toString())));
+                                      },
+                                  )
                                   : Container(
                                       height: 50,
                                       width: 50,
@@ -237,7 +251,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              UserActivityPage()));
+                                              ProfileActivityWarga()));
                                 },
                               ),
                             ),
