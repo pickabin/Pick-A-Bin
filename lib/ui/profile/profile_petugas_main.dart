@@ -3,6 +3,7 @@ import 'package:boilerplate/ui/activity/activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/profile_activity_petugas.dart';
+import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_page.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_page.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -54,17 +55,31 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: snapshot.child('imageUrl').value != null
-                                    ? Container(
-                                        height: 50,
-                                        width: 50,
-                                        child: CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: NetworkImage(
-                                              snapshot
-                                                  .child('imageUrl')
-                                                  .value
-                                                  .toString(),
-                                            )),
+                                    ? GestureDetector(
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircleAvatar(
+                                              radius: 60,
+                                              backgroundImage: NetworkImage(
+                                                snapshot
+                                                    .child('imageUrl')
+                                                    .value
+                                                    .toString(),
+                                              )),
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProfileDetailImage(
+                                                        image: snapshot
+                                                            .child('imageUrl')
+                                                            .value
+                                                            .toString())),
+                                          );
+                                        },
                                       )
                                     : Container(
                                         height: 50,

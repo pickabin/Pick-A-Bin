@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:path/path.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/update_profile/update_warga_page.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -138,17 +137,15 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
         ),
       ),
       body: FutureBuilder(
-          future: _getPrefs(),
-          builder: (context, snapshot) {
+          future: UserController().getUserUid(),
+          builder: (context,AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print(url);
               print(snapshot.data);
-              return FirebaseAnimatedList(
-                  //get email from shared preference
-                  query: ref.orderByChild('email').equalTo("${snapshot.data}"),
-                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                      Animation<double> animation, int index) {
-                    return Column(
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: ((context, index) {
+                  return Column(
                       children: [
                         Stack(
                           children: [
@@ -169,40 +166,10 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      //Nama Lengkap
-                                      Container(
-                                        padding: const EdgeInsets.only(
-                                            top: 100.0, left: 30.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Nama Instansi',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                            Text(
-                                              snapshot
-                                                  .child('instansi')
-                                                  .value
-                                                  .toString(),
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black45,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
                                       //Penanggung Jawab
                                       Container(
                                         padding: EdgeInsets.only(
-                                            top: 15.0, left: 30.0),
+                                            top: MediaQuery.of(context).size.height * 0.15, left: 30.0),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -216,10 +183,7 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                               ),
                                             ),
                                             Text(
-                                              snapshot
-                                                  .child('penanggungJawab')
-                                                  .value
-                                                  .toString(),
+                                              snapshot.data[index].name.toString(),
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black45,
@@ -245,10 +209,7 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                               ),
                                             ),
                                             Text(
-                                              snapshot
-                                                  .child('alamat')
-                                                  .value
-                                                  .toString(),
+                                              snapshot.data[index].address.toString(),
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black45,
@@ -275,10 +236,7 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                               ),
                                             ),
                                             Text(
-                                              snapshot
-                                                  .child('telp')
-                                                  .value
-                                                  .toString(),
+                                              snapshot.data[index].phone.toString(),
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black45,
@@ -305,10 +263,7 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                               ),
                                             ),
                                             Text(
-                                              snapshot
-                                                  .child('email')
-                                                  .value
-                                                  .toString(),
+                                              snapshot.data[index].email.toString(),
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black45,
@@ -386,11 +341,11 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                   // // prefs.remove('uid');
                                                   // prefs.clear();
                                                   // authService.logout();
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              UpdateWargaPage()));
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //         builder: (context) =>
+                                                  //             UpdateWargaPage()));
                                                 },
                                               ),
                                             ),
@@ -414,17 +369,12 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                       child: Container(
                                           height: 140,
                                           width: 140,
-                                          child: snapshot
-                                                      .child('imageUrl')
-                                                      .value !=
+                                          child: snapshot.data[index].imageUrl !=
                                                   null
                                               ? CircleAvatar(
                                                   radius: 60,
                                                   backgroundImage: NetworkImage(
-                                                      snapshot
-                                                          .child('imageUrl')
-                                                          .value
-                                                          .toString()))
+                                                      snapshot.data[index].imageUrl))
                                               : CircleAvatar(
                                                   radius: 60,
                                                   backgroundImage: AssetImage(
@@ -461,11 +411,11 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                     children: [
                                                       InkWell(
                                                         onTap: () async {
-                                                          var key =
-                                                              snapshot.key;
-                                                          _getImageCamera(key);
-                                                          Navigator.pop(
-                                                              context);
+                                                          // var key =
+                                                          //     snapshot.key;
+                                                          // _getImageCamera(key);
+                                                          // Navigator.pop(
+                                                          //     context);
                                                         },
                                                         splashColor:
                                                             Colors.greenAccent,
@@ -496,11 +446,11 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
-                                                          var key =
-                                                              snapshot.key;
-                                                          _getImageGallery(key);
-                                                          Navigator.pop(
-                                                              context);
+                                                          // var key =
+                                                          //     snapshot.key;
+                                                          // _getImageGallery(key);
+                                                          // Navigator.pop(
+                                                          //     context);
                                                         },
                                                         splashColor:
                                                             Colors.greenAccent,
@@ -531,11 +481,11 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                                                       ),
                                                       InkWell(
                                                         onTap: () async {
-                                                          var key =
-                                                              snapshot.key;
-                                                          _removeImage(key);
-                                                          Navigator.pop(
-                                                              context);
+                                                          // var key =
+                                                          //     snapshot.key;
+                                                          // _removeImage(key);
+                                                          // Navigator.pop(
+                                                          //     context);
                                                         },
                                                         splashColor:
                                                             Colors.purpleAccent,
@@ -588,7 +538,8 @@ class _ProfileWargaPageState extends State<ProfileWargaPage> {
                         ),
                       ],
                     );
-                  });
+                })
+              );
             } else {
               return Center(
                 child: CircularProgressIndicator(),

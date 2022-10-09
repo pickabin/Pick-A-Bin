@@ -1,7 +1,9 @@
+import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
-import 'package:boilerplate/ui/register/register_warga_page.dart';
+import 'package:boilerplate/ui/register/register_koordinator_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
@@ -158,13 +160,21 @@ class _LoginWargaPageState extends State<LoginWargaPage> {
                                       isLoggedIn = true;
                                     });
 
-                                    final ref = FirebaseDatabase.instance
-                                        .ref()
-                                        .child('warga');
-                                    final snapshot = await ref
-                                        .orderByChild('email')
-                                        .equalTo(authService.email.text)
+                                    // final ref = FirebaseDatabase.instance
+                                    //     .ref()
+                                    //     .child('warga');
+                                    // final snapshot = await ref
+                                    //     .orderByChild('email')
+                                    //     .equalTo(authService.email.text)
+                                    //     .get();
+                                    //get data koordinator from firestore
+                                    final snapshot = await FirebaseFirestore
+                                        .instance
+                                        .collection('koordinator')
+                                        .where('email',
+                                            isEqualTo: authService.email.text)
                                         .get();
+                                      print("Panjang : " + snapshot.docs.length.toString());
 
                                     if (_formKey.currentState!.validate()) {}
 
@@ -179,14 +189,14 @@ class _LoginWargaPageState extends State<LoginWargaPage> {
                                         setState(() {
                                           isLoggedIn = false;
                                         });
-                                      } else if (snapshot.value == null) {
+                                      } else if (snapshot.docs.isEmpty) {
                                         isLoggedIn = false;
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(
-                                                  "Akun tidak terdaftar di daftar warga"),
+                                                  "Akun tidak terdaftar di daftar Koordinator"),
                                               content: Text(
                                                   "Pastikan Username dan Password Anda Benar"),
                                               actions: <Widget>[
@@ -296,7 +306,7 @@ class _LoginWargaPageState extends State<LoginWargaPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    RegisterWargaPage()));
+                                                    RegisterKoordinatorPage()));
                                       },
                                   ),
                                 ])),

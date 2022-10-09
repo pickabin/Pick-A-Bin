@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class JadwalKhususWarga extends StatefulWidget {
   final String? uid;
@@ -62,9 +61,9 @@ class _JadwalKhususWargaState extends State<JadwalKhususWarga> {
       ),
     );
   }
-  Future<String?> _getPrefsUid() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uid = prefs.getString('uid');
-    return uid;
-  }
+  // Future<String?> _getPrefsUid() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? uid = prefs.getString('uid');
+  //   return uid;
+  // }
 }

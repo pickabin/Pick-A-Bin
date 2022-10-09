@@ -1,9 +1,10 @@
-import 'package:boilerplate/ui/home/list_contact_page.dart';
+import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:boilerplate/ui/maps/maps_main_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePetugasPage extends StatefulWidget {
   const HomePetugasPage({Key? key}) : super(key: key);
@@ -17,7 +18,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
       .ref()
       .child('jadwal')
       .orderByChild('date')
-      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
+      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
+      .limitToLast(4);
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +36,19 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
         padding: const EdgeInsets.only(left: 35, right: 35),
         child: ListView(
           children: <Widget>[
-            const Text(
-              "Hi, Petugas!",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
+            FutureBuilder(
+                future: _getPrefs(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      "Hi, ${snapshot.data}!",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    );
+                  } else {
+                    return Text('Petugas');
+                  }
+                }),
             Image.asset(
               "assets/images/home.jpg",
             ),
@@ -93,7 +104,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                     InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ListContactPage()));
+                            // builder: (context) => ListContactPage()
+                            builder: (context) => HomeKoordinatorPage()));
                       },
                       child: Container(
                         child: const Padding(
@@ -222,5 +234,11 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
         ),
       ),
     );
+  }
+
+  Future _getPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? nama = prefs.getString('nama');
+    return nama;
   }
 }

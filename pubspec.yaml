@@ -96,6 +96,9 @@ dependencies:
   permission_handler: ^10.0.0
   cloud_firestore: ^3.4.7
   share_plus: ^4.1.0
+  smooth_page_indicator: ^1.0.0+2
+  flutter_custom_carousel_slider: ^1.2.0
+  flutter_shimmer: ^2.1.2
 
 dev_dependencies:
   

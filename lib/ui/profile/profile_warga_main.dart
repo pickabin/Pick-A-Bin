@@ -1,18 +1,19 @@
+import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/profile_activity_warga.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
-import 'package:boilerplate/ui/profile/profile_warga_page.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_warga.dart';
+import 'package:boilerplate/ui/update_profile/update_warga_page.dart';
 //import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
 
 
 class ProfileWargaMain extends StatefulWidget {
@@ -40,14 +41,14 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
         elevation: 0,
       ),
       body: FutureBuilder(
-        future: _getPrefs(),
-        builder: ((context, snapshot){
-          if (snapshot.hasData) {
-            return FirebaseAnimatedList(
-                shrinkWrap: true,
-                query: ref.orderByChild('email').equalTo("${snapshot.data}"),
-                itemBuilder: (context, snapshot, animation, index) {
-                  return SingleChildScrollView(
+         future: UserController().getUserUid(),
+         builder: (context, AsyncSnapshot snapshot){
+          if(snapshot.hasData){
+            return ListView.builder(
+               shrinkWrap: true,
+               itemCount: snapshot.data.length,
+               itemBuilder: (context, index){
+                return SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,27 +57,21 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
-                              child: snapshot.child('imageUrl').value != null
+                              child: snapshot.data[index].imageUrl != null
                                   ? GestureDetector(
                                     child: Container(
                                         height: 50,
                                         width: 50,
                                         child: CircleAvatar(
                                             radius: 60,
-                                            backgroundImage: NetworkImage(snapshot
-                                                .child('imageUrl')
-                                                .value
-                                                .toString())),
+                                            backgroundImage: NetworkImage(snapshot.data[index].imageUrl.toString())),
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProfileDetailImage(image: snapshot
-                                                .child('imageUrl')
-                                                .value
-                                                .toString())));
+                                                    ProfileDetailImage(image: snapshot.data[index].imageUrl.toString())));
                                       },
                                   )
                                   : Container(
@@ -99,16 +94,21 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                      snapshot
-                                          .child('penanggungJawab')
-                                          .value
-                                          .toString(),
+                                      snapshot.data[index].name.toString(),
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.black)),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
-                                    child: Text(
-                                      snapshot.child('telp').value.toString(),
+                                    child: snapshot.data[index].phone != null ? Text(
+                                      snapshot.data[index].phone.toString(),
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                          fontSize: 12.0,
+                                          letterSpacing: 0.5,
+                                          wordSpacing: 1),
+                                    ) : Text(
+                                      'No Phone',
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -120,7 +120,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
                                     child: Text(
-                                      snapshot.child('email').value.toString(),
+                                      snapshot.data[index].email.toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -142,7 +142,14 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ProfileWargaPage()));
+                                            UpdateWargaPage(
+                                              name: snapshot.data[index].name.toString(),
+                                              phone: snapshot.data[index].phone.toString(),
+                                              email: snapshot.data[index].email.toString(),
+                                              imageUrl: snapshot.data[index].imageUrl.toString(),
+                                              address: snapshot.data[index].address.toString(),
+                                              id: snapshot.data[index].id,
+                                        )));
                               },
                             ),
                           ],
@@ -561,11 +568,41 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                       ],
                     ),
                   );
-                });
-          } else {
-            return const Center(child: CircularProgressIndicator());
+               } 
+            );
+          }else{
+            return Container(
+              child: Column(
+                children: [
+                  //shimmer loading
+                  ListTileShimmer(
+                    hasCustomColors: true,
+                    hasBottomBox: true,
+                    colors: [
+                    // light color
+                    Color(0xFF4dabf5),
+                  ],
+                  ),
+                 ListView.builder(
+                    itemCount: 4,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return ListTileShimmer(
+                        hasCustomColors: true,
+
+                        colors: [
+                        // light color
+                        Color(0xFF4dabf5),
+                      ],
+                      );
+                    },
+                 )
+                ],
+              ),
+            );
           }
-        }),
+         },
       ),
     );
   }
@@ -573,6 +610,6 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
 
 Future<String?> _getPrefs() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? email = prefs.getString('email');
-  return email;
+  String? uid = prefs.getString('uid');
+  return uid;
 }

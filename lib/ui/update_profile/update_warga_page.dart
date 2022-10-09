@@ -1,14 +1,32 @@
+import 'dart:io';
+import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:boilerplate/ui/profile/profile_warga_main.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
-import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 class UpdateWargaPage extends StatefulWidget {
-  const UpdateWargaPage({Key? key}) : super(key: key);
+  String? name;
+  String? phone;
+  String? email;
+  String? imageUrl;
+  String? address;
+  int? id;
+  UpdateWargaPage(
+      {Key? key,
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.imageUrl,
+      required this.address,
+      required this.id})
+      : super(key: key);
 
   @override
   State<UpdateWargaPage> createState() => _UpdateWargaPageState();
@@ -16,11 +34,94 @@ class UpdateWargaPage extends StatefulWidget {
 
 class _UpdateWargaPageState extends State<UpdateWargaPage> {
   AuthService authService = AuthService();
+
+  File? _image;
+  String? fileName;
+  String? url;
+  //Read data once from Realtime Database
   final ref = FirebaseDatabase.instance.ref().child('warga');
+
+// Upload dan get image from firebase storage
+  Future _getImageCamera(key) async {
+    // DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
+
+    XFile? selectImage = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+      });
+    }
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+    if (fileName != null) {
+      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+          // data.update({"imageUrl": url});
+        });
+      });
+    }
+  }
+
+  //Upload dan get image gallery from storage
+  Future _getImageGallery(key) async {
+    // DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
+
+    var selectImage = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+      });
+    }
+
+    if (fileName != null) {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+        });
+      });
+    }
+  }
+
+//Hapus Image from firebase storage
+  Future _removeImage(id) async {
+    // DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
+    setState(() {
+      _image = null;
+      url = null;
+      UserController.updateImage(widget.id, url);
+    });
+  }
 
   final GlobalKey<FormState> _formKey = new GlobalKey();
   final _auth = AuthService();
   var namaLogin;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,453 +136,939 @@ class _UpdateWargaPageState extends State<UpdateWargaPage> {
         ),
       ),
       body: FutureBuilder(
-          future: _getPrefs(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              print(snapshot.data);
-              return FirebaseAnimatedList(
-                  shrinkWrap: true,
-                  query: ref.orderByChild('email').equalTo("${snapshot.data}"),
-                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                      Animation<double> animation, int index) {
-                    final TextEditingController _instansiController =
-                        new TextEditingController(
-                            text: snapshot.child('instansi').value.toString());
-                    final TextEditingController _penanggungJawabController =
-                        new TextEditingController(
-                            text: snapshot
-                                .child('penanggungJawab')
-                                .value
-                                .toString());
-                    final TextEditingController _alamatController =
-                        new TextEditingController(
-                            text: snapshot.child('alamat').value.toString());
-                    final TextEditingController _emailController =
-                        new TextEditingController(
-                            text: snapshot.child('email').value.toString());
-                    final TextEditingController _telpController =
-                        new TextEditingController(
-                            text: snapshot.child('telp').value.toString());
-                    final TextEditingController _tglAmbilSampahControler =
-                        new TextEditingController(
-                            text: snapshot
-                                .child('tglAmbilSampah')
-                                .value
-                                .toString());
-                    return SingleChildScrollView(
-                        child: Column(children: [
-                      Container(
-                        height: 140,
-                        width: 140,
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.green,
-                          child: snapshot.child('imageUrl').value != null
-                              ? CircleAvatar(
-                                  radius: 68,
-                                  backgroundImage: NetworkImage(snapshot
-                                      .child('imageUrl')
-                                      .value
-                                      .toString()),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/user_icon.png'),
-                                  radius: 68,
-                                ),
-                        ),
-                      ),
-
-                      //create form with border
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //create email field
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    "Nama Instansi",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                TextFormField(
-                                  controller: _instansiController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Nama Instansi Harus Diisi';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.person,
-                                      color: Colors.green,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
+        future: _getPrefs(),
+        builder: (context, snapshot) {
+          final TextEditingController _penanggungJawabController =
+              new TextEditingController(text: widget.name);
+          final TextEditingController _alamatController =
+              new TextEditingController(text: widget.address);
+          final TextEditingController _emailController =
+              new TextEditingController(text: widget.email);
+          final TextEditingController _telpController =
+              new TextEditingController(text: widget.phone);
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+                child: Column(children: [
+              Container(
+                height: 140,
+                width: 140,
+                child: CircleAvatar(
+                  child: url != null
+                      ? Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 70,
+                              backgroundImage: NetworkImage(url.toString()),
+                            ),
+                            Positioned(
+                              bottom: MediaQuery.of(context).size.height * 0.01,
+                              right:
+                                  MediaQuery.of(context).size.width * 0.00999,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NavbarPage()));
+                                },
+                                child: GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
                                         color: Colors.green,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.camera_alt_rounded,
+                                        size:
+                                            MediaQuery.of(context).size.width *
+                                                0.07,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 15),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    "Penanggung Jawab",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                TextFormField(
-                                  controller: _penanggungJawabController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Nama Penanggung Jawab Harus Diisi';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.person,
-                                      color: Colors.green,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 15),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    "Alamat",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                TextFormField(
-                                  controller: _alamatController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Alamat Harus Diisi';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.home,
-                                      color: Colors.green,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 15),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    "No.Telp",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                TextFormField(
-                                  controller: _telpController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'No. Telp harus diisi';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.phone,
-                                      color: Colors.green,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(height: 15),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    "Pengambilan Sampah",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                TextFormField(
-                                  controller: _tglAmbilSampahControler,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Pengambilan Sampah Harus Diisi';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.date_range,
-                                      color: Colors.green,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 35),
-                                Container(
-                                  width: 325,
-                                  height: 50,
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        FirebaseAuth.instance
-                                            .authStateChanges()
-                                            .listen((User? user) {
-                                          if (user != null) {
-                                            namaLogin = user.displayName;
-                                          }
-                                        });
-                                        final String namaInstansi =
-                                            _instansiController.text.trim();
-                                        final String penanggungJawab =
-                                            _penanggungJawabController.text
-                                                .trim();
-                                        final String alamat =
-                                            _alamatController.text.trim();
-                                        final String email =
-                                            _emailController.text.trim();
-                                        final String tglAmbilSampah =
-                                            _tglAmbilSampahControler.text
-                                                .trim();
-                                        final String telp =
-                                            _telpController.text.trim();
-
-                                        if (_formKey.currentState!
-                                            .validate()) {}
-
-                                        if (namaInstansi.isEmpty) {
-                                          print("Nama Instansi kosong");
-                                        } else {
-                                          if (penanggungJawab.isEmpty) {
-                                            print("Penanggung Jawab kosong");
-                                          } else {
-                                            if (alamat.isEmpty) {
-                                              print("Alamat kosong");
-                                            } else {
-                                              if (email.isEmpty) {
-                                                print("Email kosong");
-                                              } else {
-                                                if (telp.isEmpty) {
-                                                  print("No. Telp kosong");
-                                                } else {
-                                                  if (tglAmbilSampah.isEmpty) {
-                                                    print(
-                                                        "Tanggal Pengambilan Sampah kosong");
-                                                  } else {
-                                                    print(
-                                                        "penanggungJawab : $penanggungJawab");
-                                                    print("email : $email");
-                                                    var key = snapshot.key;
-                                                    print(
-                                                        "penanggungJawab : $penanggungJawab");
-                                                    print("email : $email");
-                                                    //  authService
-                                                    //       .updateEmail(email);
-                                                    authService
-                                                        .updateDisplayName(
-                                                            penanggungJawab)
-                                                        .then((value) async {
-                                                      DatabaseReference data =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref(
-                                                                  "warga/$key");
-                                                      data.update({
-                                                        "instansi":
-                                                            namaInstansi,
-                                                        "penanggungJawab":
-                                                            penanggungJawab,
-                                                        "alamat": alamat,
-                                                        "email": email,
-                                                        "telp": telp,
-                                                        "tglAmbilSampah":
-                                                            tglAmbilSampah,
-                                                      });
-                                                      //update data jadwal berdasarkan nama
-                                                      DatabaseReference
-                                                          dataJadwal =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref("jadwal");
-                                                      dataJadwal.push().set({
-                                                        "instansi":
-                                                            namaInstansi,
-                                                        "date": DateFormat(
-                                                                'dd/MM/yyyy')
-                                                            .format(
-                                                                DateTime.now()),
-                                                        "penanggungJawab":
-                                                            penanggungJawab,
-                                                        "alamat": alamat,
-                                                        "email": email,
-                                                        "telp": telp,
-                                                        "jarakPengambilan":
-                                                            tglAmbilSampah,
-                                                        "konfirmasi": false,
-                                                        "status": false,
-                                                      });
-                                                    });
-
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              'Pilih Foto',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black),
+                                            ),
+                                            content: SingleChildScrollView(
+                                                child: ListBody(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () async {
+                                                    var id = widget.id;
+                                                    _getImageCamera(id);
                                                     Navigator.pushReplacement(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                NavbarPage()));
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.green,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
+                                                                ProfileWargaMain()));
+                                                  },
+                                                  splashColor:
+                                                      Colors.greenAccent,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Icon(
+                                                          Icons.camera,
+                                                          color: Colors.green,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Camera',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.blue),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    var id = widget.id;
+                                                    _getImageGallery(id);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  splashColor:
+                                                      Colors.greenAccent,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Icon(
+                                                          Icons.image,
+                                                          color: Colors.green,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Gallery',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.blue),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () async {
+                                                    var id = widget.id;
+
+                                                    //refresh halaman
+                                                    _removeImage(id);
+                                                    Navigator.pushAndRemoveUntil(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ProfileWargaMain()),
+                                                        (route) =>
+                                                            false).then(
+                                                        (value) =>
+                                                            setState(() {}));
+                                                  },
+                                                  splashColor:
+                                                      Colors.purpleAccent,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Icon(
+                                                          Icons.remove_circle,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Remove',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.red),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                          );
+                                        });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : widget.imageUrl != 'null'
+                          ? Stack(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(widget.imageUrl.toString()),
+                                  radius: 70,
+                                ),
+                                Positioned(
+                                  bottom:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                  right: MediaQuery.of(context).size.width *
+                                      0.00999,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavbarPage()));
+                                    },
+                                    child: GestureDetector(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.green,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.07,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
-                                      child: Text(
-                                        "Update Profile",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      )),
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  'Pilih Foto',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black),
+                                                ),
+                                                content: SingleChildScrollView(
+                                                    child: ListBody(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        var id = widget.id;
+                                                        _getImageCamera(id);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      splashColor:
+                                                          Colors.greenAccent,
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons.camera,
+                                                              color:
+                                                                  Colors.green,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Camera',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .blue),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        var id = widget.id;
+                                                        setState(() {
+                                                          _getImageGallery(id);
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+                                                      },
+                                                      splashColor:
+                                                          Colors.greenAccent,
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons.image,
+                                                              color:
+                                                                  Colors.green,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Gallery',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .blue),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        var id = widget.id;
+
+                                                        //refresh halaman
+                                                        _removeImage(id);
+                                                        Navigator.pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        ProfileWargaMain()),
+                                                            (route) =>
+                                                                false).then(
+                                                            (value) => setState(
+                                                                () {}));
+                                                      },
+                                                      splashColor:
+                                                          Colors.purpleAccent,
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .remove_circle,
+                                                              color: Colors.red,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Remove',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color:
+                                                                    Colors.red),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
+                                              );
+                                            });
+                                      },
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(height: 15),
                               ],
+                            )
+                          : Stack(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/user_icon.png'),
+                                  radius: 70,
+                                ),
+                                Positioned(
+                                  bottom:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                  right: MediaQuery.of(context).size.width *
+                                      0.00999,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavbarPage()));
+                                    },
+                                    child: GestureDetector(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.green,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.07,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  'Pilih Foto',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black),
+                                                ),
+                                                content: SingleChildScrollView(
+                                                    child: ListBody(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        var id = widget.id;
+                                                        _getImageCamera(id);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      splashColor:
+                                                          Colors.greenAccent,
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons.camera,
+                                                              color:
+                                                                  Colors.green,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Camera',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .blue),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        var id = widget.id;
+                                                        _getImageGallery(id);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      splashColor:
+                                                          Colors.greenAccent,
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons.image,
+                                                              color:
+                                                                  Colors.green,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Gallery',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .blue),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        var id = widget.id;
+
+                                                        //refresh halaman
+                                                        _removeImage(id);
+                                                        Navigator.pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        ProfileWargaMain()),
+                                                            (route) =>
+                                                                false).then(
+                                                            (value) => setState(
+                                                                () {}));
+                                                      },
+                                                      splashColor:
+                                                          Colors.purpleAccent,
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .remove_circle,
+                                                              color: Colors.red,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Remove',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color:
+                                                                    Colors.red),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
+                                              );
+                                            });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                ),
+              ),
+
+              //create form with border
+              Container(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20.0, right: 20.0, top: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //create email field
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 8.0),
+                        //   child: Text(
+                        //     "Nama Instansi",
+                        //     style: TextStyle(
+                        //       fontSize: 18,
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(height: 5),
+                        // TextFormField(
+                        //   controller: _instansiController,
+                        //   validator: (value) {
+                        //     if (value!.isEmpty) {
+                        //       return 'Nama Instansi Harus Diisi';
+                        //     }
+                        //     return null;
+                        //   },
+                        //   decoration: InputDecoration(
+                        //     prefixIcon: Icon(
+                        //       Icons.person,
+                        //       color: Colors.green,
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide: BorderSide(
+                        //         width: 2,
+                        //         color: Colors.green,
+                        //       ),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide: BorderSide(
+                        //         width: 2,
+                        //         color: Colors.green,
+                        //       ),
+                        //     ),
+                        //     errorBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide: BorderSide(
+                        //         width: 2,
+                        //         color: Colors.red,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "Nama",
+                            style: TextStyle(
+                              fontSize: 18,
                             ),
                           ),
                         ),
-                      ),
-                    ]));
-                  });
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: _penanggungJawabController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Nama Penanggung Jawab Harus Diisi';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: Colors.green,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "Alamat",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: _alamatController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Alamat Harus Diisi';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.home,
+                              color: Colors.green,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "No.Telp",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: _telpController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'No. Telp harus diisi';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.phone,
+                              color: Colors.green,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.green,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: 15),
+
+                        // TextFormField(
+                        //   controller: _tglAmbilSampahControler,
+                        //   validator: (value) {
+                        //     if (value!.isEmpty) {
+                        //       return 'Pengambilan Sampah Harus Diisi';
+                        //     }
+                        //     return null;
+                        //   },
+                        //   decoration: InputDecoration(
+                        //     prefixIcon: Icon(
+                        //       Icons.date_range,
+                        //       color: Colors.green,
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide: BorderSide(
+                        //         width: 2,
+                        //         color: Colors.green,
+                        //       ),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide: BorderSide(
+                        //         width: 2,
+                        //         color: Colors.green,
+                        //       ),
+                        //     ),
+                        //     errorBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide: BorderSide(
+                        //         width: 2,
+                        //         color: Colors.red,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(height: 15),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                // FirebaseAuth.instance
+                                //     .authStateChanges()
+                                //     .listen((User? user) {
+                                //   if (user != null) {
+                                //     namaLogin = user.displayName;
+                                //   }
+                                // });
+                                var name =
+                                    _penanggungJawabController.text.trim();
+                                var alamat = _alamatController.text.trim();
+                                var email = _emailController.text.trim();
+                                var telp = _telpController.text.trim();
+
+                                if (_formKey.currentState!.validate()) {}
+
+                                if (_penanggungJawabController.text.isEmpty ||
+                                    _alamatController.text.isEmpty ||
+                                    _emailController.text.isEmpty ||
+                                    _telpController.text.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: "Data Tidak Boleh Kosong",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else {
+                                  if (url != null) {
+                                    UserController.updateImage(widget.id, url);
+                                  }
+
+                                  UserController.updateUser(
+                                          widget.id, name, alamat, telp)
+                                      .then((value) {
+                                    Fluttertoast.showToast(
+                                        msg: "Data Berhasil Diubah",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.green,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  });
+
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NavbarPage()));
+                                }
+
+                                // if (namaInstansi.isEmpty) {
+                                //   print("Nama Instansi kosong");
+                                // } else {
+                                //   if (penanggungJawab.isEmpty) {
+                                //     print("Penanggung Jawab kosong");
+                                //   } else {
+                                //     if (alamat.isEmpty) {
+                                //       print("Alamat kosong");
+                                //     } else {
+                                //       if (email.isEmpty) {
+                                //         print("Email kosong");
+                                //       } else {
+                                //         if (telp.isEmpty) {
+                                //           print("No. Telp kosong");
+                                //         } else {
+                                //           if (tglAmbilSampah.isEmpty) {
+                                //             print(
+                                //                 "Tanggal Pengambilan Sampah kosong");
+                                //           } else {
+                                //             print(
+                                //                 "penanggungJawab : $penanggungJawab");
+                                //             print("email : $email");
+                                //             var key = snapshot.key;
+                                //             print(
+                                //                 "penanggungJawab : $penanggungJawab");
+                                //             print("email : $email");
+                                //             //  authService
+                                //             //       .updateEmail(email);
+                                //             authService
+                                //                 .updateDisplayName(
+                                //                     penanggungJawab)
+                                //                 .then((value) async {
+                                //               DatabaseReference data =
+                                //                   FirebaseDatabase
+                                //                       .instance
+                                //                       .ref(
+                                //                           "warga/$key");
+                                //               data.update({
+                                //                 "instansi":
+                                //                     namaInstansi,
+                                //                 "penanggungJawab":
+                                //                     penanggungJawab,
+                                //                 "alamat": alamat,
+                                //                 "email": email,
+                                //                 "telp": telp,
+                                //                 "tglAmbilSampah":
+                                //                     tglAmbilSampah,
+                                //               });
+                                //               //update data jadwal berdasarkan nama
+                                //               DatabaseReference
+                                //                   dataJadwal =
+                                //                   FirebaseDatabase
+                                //                       .instance
+                                //                       .ref("jadwal");
+                                //               dataJadwal.push().set({
+                                //                 "instansi":
+                                //                     namaInstansi,
+                                //                 "date": DateFormat(
+                                //                         'dd/MM/yyyy')
+                                //                     .format(
+                                //                         DateTime.now()),
+                                //                 "penanggungJawab":
+                                //                     penanggungJawab,
+                                //                 "alamat": alamat,
+                                //                 "email": email,
+                                //                 "telp": telp,
+                                //                 "jarakPengambilan":
+                                //                     tglAmbilSampah,
+                                //                 "konfirmasi": false,
+                                //                 "status": false,
+                                //               });
+                                //             });
+
+                                //           }
+                                //         }
+                                //       }
+                                //     }
+                                //   }
+                                // }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              child: Text(
+                                "Update Profile",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              )),
+                        ),
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ]));
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 
