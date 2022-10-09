@@ -1,4 +1,4 @@
-import 'package:boilerplate/ui/home/list_contact_page.dart';
+import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:boilerplate/ui/maps/maps_main_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -17,7 +17,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
       .ref()
       .child('jadwal')
       .orderByChild('date')
-      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString());
+      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString()).limitToLast(4);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                     InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ListContactPage()));
+                            // builder: (context) => ListContactPage()
+                            builder: (context) => HomeKoordinatorPage()
+                          ));
                       },
                       child: Container(
                         child: const Padding(

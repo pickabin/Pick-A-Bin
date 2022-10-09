@@ -6,11 +6,10 @@ import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:boilerplate/ui/home/detail_acara.dart';
 import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_warga_page.dart';
-import 'package:boilerplate/ui/maps/maps_main_page.dart';
+import 'package:boilerplate/ui/schedule/notif_acara.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
-import 'package:boilerplate/ui/profile/profile_petugas_page.dart';
 import 'package:boilerplate/ui/profile/profile_warga_main.dart';
-import 'package:boilerplate/ui/schedule/stack_over.dart';
+import 'package:boilerplate/ui/schedule/schedule_page.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
@@ -50,7 +49,7 @@ class _NavbarPageState extends State<NavbarPage> {
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MapsMainPage()))
+                                builder: (context) => SchedulePage()))
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -62,12 +61,12 @@ class _NavbarPageState extends State<NavbarPage> {
                         color: Colors.green, shape: BoxShape.circle),
                     child: snapshot.data == "petugas"
                         ? Icon(
-                            Icons.location_on_outlined,
+                            Icons.calendar_month_outlined,
                             size: 45,
                             color: Colors.white,
                           )
                         : Icon(
-                            Icons.add_alert_rounded,
+                            Icons.menu_book_outlined,
                             size: 45,
                             color: Colors.white,
                           ),
@@ -78,12 +77,12 @@ class _NavbarPageState extends State<NavbarPage> {
                         color: Colors.green, shape: BoxShape.circle),
                     child: snapshot.data == "petugas"
                         ? Icon(
-                            Icons.location_on_outlined,
+                            Icons.calendar_month_outlined,
                             size: 45,
                             color: Colors.white,
                           )
                         : Icon(
-                            Icons.add_alert_rounded,
+                            Icons.menu_book_outlined,
                             size: 45,
                             color: Colors.white,
                           ),
@@ -107,19 +106,19 @@ class _NavbarPageState extends State<NavbarPage> {
                         FABBottomAppBarItem(
                             activeIcon: Icon(
                               snapshot.data == 'petugas'
-                                  ? Icons.calendar_month_outlined
-                                  : Icons.perm_contact_calendar_outlined,
+                                  ? Icons.format_list_bulleted
+                                  : Icons.calendar_month_outlined,
                               color: Colors.green,
                             ),
                             inActiveIcon: Icon(
                               snapshot.data == 'petugas'
-                                  ? Icons.calendar_month_outlined
-                                  : Icons.perm_contact_calendar_outlined,
+                                  ? Icons.format_list_bulleted
+                                  : Icons.calendar_month_outlined,
                               color: Colors.black26,
                             ),
                             text: snapshot.data == 'petugas'
-                                ? "Jadwal"
-                                : "Petugas"),
+                                ? "Acara"
+                                : "Jadwal"),
                         FABBottomAppBarItem(
                             activeIcon: Icon(
                               Icons.list_alt_outlined,
@@ -129,7 +128,7 @@ class _NavbarPageState extends State<NavbarPage> {
                               Icons.list_alt_outlined,
                               color: Colors.black26,
                             ),
-                            text: 'Aktivitas'),
+                            text: 'History'),
                         FABBottomAppBarItem(
                             activeIcon: Icon(
                               Icons.supervised_user_circle_outlined,
@@ -146,10 +145,10 @@ class _NavbarPageState extends State<NavbarPage> {
                             ? HomePetugasPage()
                             : HomeWargaPage(),
                         snapshot.data == 'petugas'
-                            ? StackOver()
+                            ? NotifAcara()
                             : DaftarPetugasPage(),
                         snapshot.data == 'petugas'
-                            ?   ActivityPage()
+                            ? ActivityPage()
                             : UserActivityPage(),
                         snapshot.data == 'petugas'
                             ? ProfilePetugasMain()

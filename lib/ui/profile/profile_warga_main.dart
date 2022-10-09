@@ -1,3 +1,4 @@
+import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
@@ -40,75 +41,72 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
         elevation: 0,
       ),
       body: FutureBuilder(
-        future: _getPrefs(),
-        builder: ((context, snapshot){
-          if (snapshot.hasData) {
-            return FirebaseAnimatedList(
-                shrinkWrap: true,
-                query: ref.orderByChild('email').equalTo("${snapshot.data}"),
-                itemBuilder: (context, snapshot, animation, index) {
-                  return SingleChildScrollView(
+         future: UserController().getUserUid(),
+         builder: (context, AsyncSnapshot snapshot){
+          if(snapshot.hasData){
+            return ListView.builder(
+               shrinkWrap: true,
+               itemCount: snapshot.data.length,
+               itemBuilder: (context, index){
+                return SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: snapshot.child('imageUrl').value != null
-                                  ? GestureDetector(
-                                    child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        child: CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: NetworkImage(snapshot
-                                                .child('imageUrl')
-                                                .value
-                                                .toString())),
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProfileDetailImage(image: snapshot
-                                                .child('imageUrl')
-                                                .value
-                                                .toString())));
-                                      },
-                                  )
-                                  : Container(
-                                      height: 50,
-                                      width: 50,
-                                      child: CircleAvatar(
-                                        radius: 60,
-                                        backgroundColor: Colors.green,
-                                        child: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              'assets/images/user_icon.png'),
-                                          radius: 68,
-                                        ),
-                                      ),
-                                    ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 8.0),
+                            //   child: snapshot.child('imageUrl').value != null
+                            //       ? GestureDetector(
+                            //         child: Container(
+                            //             height: 50,
+                            //             width: 50,
+                            //             child: CircleAvatar(
+                            //                 radius: 60,
+                            //                 backgroundImage: NetworkImage(snapshot
+                            //                     .child('imageUrl')
+                            //                     .value
+                            //                     .toString())),
+                            //           ),
+                            //           onTap: () {
+                            //             Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                     builder: (context) =>
+                            //                         ProfileDetailImage(image: snapshot
+                            //                     .child('imageUrl')
+                            //                     .value
+                            //                     .toString())));
+                            //           },
+                            //       )
+                            //       : Container(
+                            //           height: 50,
+                            //           width: 50,
+                            //           child: CircleAvatar(
+                            //             radius: 60,
+                            //             backgroundColor: Colors.green,
+                            //             child: CircleAvatar(
+                            //               backgroundImage: AssetImage(
+                            //                   'assets/images/user_icon.png'),
+                            //               radius: 68,
+                            //             ),
+                            //           ),
+                            //         ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(left: 25.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                      snapshot
-                                          .child('penanggungJawab')
-                                          .value
-                                          .toString(),
+                                      snapshot.data[index].name.toString(),
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.black)),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
                                     child: Text(
-                                      snapshot.child('telp').value.toString(),
+                                      snapshot.data[index].phone.toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -120,7 +118,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
                                     child: Text(
-                                      snapshot.child('email').value.toString(),
+                                      snapshot.data[index].email.toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -561,11 +559,12 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                       ],
                     ),
                   );
-                });
-          } else {
+               } 
+            );
+          }else{
             return const Center(child: CircularProgressIndicator());
           }
-        }),
+         },
       ),
     );
   }
@@ -573,6 +572,6 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
 
 Future<String?> _getPrefs() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? email = prefs.getString('email');
-  return email;
+  String? uid = prefs.getString('uid');
+  return uid;
 }

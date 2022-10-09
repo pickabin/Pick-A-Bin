@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:ui';
 
 class AppColors {
   AppColors._(); // this basically makes it so you can't instantiate this class
-
+  static const Color secondColor = Color(0xff66E8A9);
+  static const Color aspirasiColor = Color(0xffBCFBDC);
   static const Map<int, Color> orange = const <int, Color>{
     50: const Color(0xFFFCF2E7),
     100: const Color(0xFFF8DEC3),
@@ -15,4 +18,5 @@ class AppColors {
     800: const Color(0xFFDB7424),
     900: const Color(0xFFD56217)
   };
+
 }

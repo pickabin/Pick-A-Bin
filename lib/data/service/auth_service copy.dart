@@ -1,4 +1,3 @@
-import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
 import 'package:boilerplate/ui/login/login_warga_page.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
@@ -7,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,9 +18,8 @@ class AuthService {
 
   //get current User ID
   Future<String?> getCurrentUID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-     String? uid = prefs.getString('uid');
-    return uid;
+    final User? user = await _auth.currentUser;
+    return user?.uid;
   }
 
   // Future<String?> getCurrentEmail () async {
@@ -31,15 +29,14 @@ class AuthService {
 
   void loginUserWarga(context) async {
     try {
-     await _auth
+      await _auth
           .signInWithEmailAndPassword(
               email: email.text, password: password.text)
           .then((value) => {
                 print("Login Successfully"),
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => NavbarPage()))
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => NavbarPage()))
               });
-          
     } catch (e) {
       // print(e.toString());
       showDialog(
@@ -78,8 +75,8 @@ class AuthService {
               email: email.text, password: password.text)
           .then((value) => {
                 print("Login Successfully"),
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => NavbarPage()))
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => NavbarPage()))
               });
     } catch (e) {
       // print(e.toString());
@@ -105,65 +102,54 @@ class AuthService {
     }
   }
 
-  Future<String> registerKoordinator(
-      String nama, String email, String password) async {
+  Future<String> registerWarga(String namaInstansi,String penanggungJawab,String email,String password,
+      String location,String telp,String jarakPengambilan, double? lat, double? long) async {
     try {
       //cek jika ada duplikat email
 
-      final newUser = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      await _auth.currentUser?.updateDisplayName(nama);
-      //get uid from register firebase
-      print("ini uid " + newUser.user!.uid);
-      
-        CollectionReference koordinator = FirebaseFirestore.instance.collection('koordinator');
-      koordinator.add({
-        'nama': nama,
-        'email': email,
-        'password': password,
-        'uid': newUser.user!.uid,
-      }).then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-      
-      
-      UserController.addUser(newUser.user!.uid, nama, email, password).then((value) {
-        Fluttertoast.showToast(
-          msg: "Registration Successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
+      await _auth.currentUser?.updateDisplayName(penanggungJawab);
+      DatabaseReference data = FirebaseDatabase.instance.ref("warga");
+      data.push().set({
+        "instansi": namaInstansi,
+        "penanggungJawab": penanggungJawab,
+        "alamat": location,
+        "email": email,
+        "telp": telp,
+        "jarakPengambilan": jarakPengambilan,
+        "lat": lat,
+        "long": long,
       });
-      // KoorGedungController.addUser(nama, email, password);
-      // DatabaseReference data = FirebaseDatabase.instance.ref("warga");
-      // data.push().set({
-      //   "nama": nama,
-      //   "email": email,
-      //   "password": password,
-      // });
-      // DatabaseReference dataJadwal = FirebaseDatabase.instance.ref("jadwal");
-      // dataJadwal.push().set({
-      //   "instansi": namaInstansi,
-      //   "penanggungJawab": penanggungJawab,
-      //   "alamat": location,
-      //   "email": email,
-      //   "telp": telp,
-      //   "status": false,
-      //   "date": DateFormat('dd/MM/yyyy').format(DateTime.now()),
-      //   "jarakPengambilan": jarakPengambilan,
-      //   "konfirmasi": false,
-      // });
+      DatabaseReference dataJadwal = FirebaseDatabase.instance.ref("jadwal");
+      dataJadwal.push().set({
+        "instansi": namaInstansi,
+        "penanggungJawab": penanggungJawab,
+        "alamat": location,
+        "email": email,
+        "telp": telp,
+        "status": false,
+        "date": DateFormat('dd/MM/yyyy').format(DateTime.now()),
+        "jarakPengambilan": jarakPengambilan,
+        "konfirmasi": false,
+      });
 
-      //  CollectionReference lokasi = FirebaseFirestore.instance.collection('lokasi');
-      // lokasi.add({
-      //   "penanggungJawab": penanggungJawab,
-      //   "alamat": location,
-      //   "lat": lat,
-      //   "long": long,
-      // });
+       CollectionReference lokasi = FirebaseFirestore.instance.collection('lokasi');
+      lokasi.add({
+        "penanggungJawab": penanggungJawab,
+        "alamat": location,
+        "lat": lat,
+        "long": long,
+      });
 
+      Fluttertoast.showToast(
+        msg: "Registration Successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       return "Registration Successfully";
       //Register Successful Notification
 
@@ -179,7 +165,7 @@ class AuthService {
         );
         return "Email already in use";
         // return 'The account already exists for that email.';
-      } else {
+      }else{
         Fluttertoast.showToast(
           msg: "Server Error",
           toastLength: Toast.LENGTH_SHORT,
@@ -196,6 +182,9 @@ class AuthService {
   Future<String> registerPetugas(String namaLengkap, String alamat,
       String email, String password, String telp) async {
     try {
+      
+                                        
+
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       await _auth.currentUser?.updateDisplayName(namaLengkap);
@@ -216,7 +205,7 @@ class AuthService {
         textColor: Colors.white,
         fontSize: 16.0,
       );
-
+  
       return "Registration Successfully";
       //Register Successful Notification
 
@@ -233,7 +222,7 @@ class AuthService {
         );
         return "Email already in use";
         // return 'The account already exists for that email.';
-      } else {
+      }else{
         Fluttertoast.showToast(
           msg: "Server Error",
           toastLength: Toast.LENGTH_SHORT,
