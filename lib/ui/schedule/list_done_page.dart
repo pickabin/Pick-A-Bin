@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:boilerplate/ui/schedule/detail_list_done.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -29,21 +30,16 @@ class ListDonePage extends StatelessWidget {
           ),
           trailing: new Wrap(
             children: <Widget>[
-              Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 5, bottom: 8),
-                    child: Text("09:45", textAlign: TextAlign.left),
-                  ),
-                  Container(
-                    child: Text("22/10/2022"),
-                  )
-                ],
-              ),
               new Container(
                 child: new IconButton(
-                  icon: new Icon(Icons.camera_front, color: Colors.orange),
-                  onPressed: () {},
+                  icon: new Icon(Icons.list_alt_outlined, color: Colors.orange),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetailListDone()),
+                    );
+                  },
                 ),
               ),
             ],

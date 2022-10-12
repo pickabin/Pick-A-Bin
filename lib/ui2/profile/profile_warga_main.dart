@@ -3,10 +3,10 @@ import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/profile_activity_warga.dart';
+import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
-import 'package:boilerplate/ui/schedule/jadwal_khusus_warga.dart';
-import 'package:boilerplate/ui/update_profile/update_koordinator_page3.dart';
+import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
+import 'package:boilerplate/ui/update_profile/update_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -140,7 +140,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            UpdateWargaPage(
+                                            UpdateKoordinatorPage(
                                               name: snapshot.data[index].name.toString(),
                                               phone: snapshot.data[index].phone.toString(),
                                               email: snapshot.data[index].email.toString(),
@@ -256,7 +256,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileActivityWarga()));
+                                              ProfileActivityKoordinator()));
                                 },
                               ),
                             ),
@@ -362,7 +362,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              JadwalKhususWarga(uid: uid)));
+                                              JadwalKhususKoordinator(uid: uid)));
                                 },
                               ),
                             ),

@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:boilerplate/ui/schedule/jadwal_camera_page.dart';
 import 'package:boilerplate/ui/schedule/list_done_page.dart';
-import 'package:boilerplate/ui/schedule/schedule_page.dart';
+import 'package:boilerplate/ui2/image/image_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class StackOver extends StatefulWidget {
   @override
@@ -10,6 +15,42 @@ class StackOver extends StatefulWidget {
 class _StackOverState extends State<StackOver>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  File? _image;
+  String? fileName;
+
+  int _activeIndex = 0;
+  final imageAsset = [
+    'assets/images/slide1.jpg',
+    'assets/images/slide2.jpg',
+    'assets/images/slide3.jpg',
+    'assets/images/slide4.jpg'
+  ];
+
+  Future _getImageCamera() async {
+    XFile? selectImage = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    if (selectImage != null) {
+      setState(() {
+        _image = File(selectImage.path);
+        fileName = basename(_image!.path);
+
+        //redirect image preview
+        Navigator.pushReplacement(
+          this.context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ImagePreview(image: _image, fileName: fileName),
+          ),
+        );
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -27,13 +68,8 @@ class _StackOverState extends State<StackOver>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'Jadwal',
-          style: TextStyle(color: Color(0xff00783E)),
-        ),
+        backgroundColor: Colors.green,
+        title: Text("Jadwal"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -62,12 +98,12 @@ class _StackOverState extends State<StackOver>
                 tabs: [
                   // first tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'Akan dilakukan',
+                    text: 'Laporan Petugas',
                   ),
 
                   // second tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'Selesai',
+                    text: 'Jadwal',
                   ),
                 ],
               ),
@@ -80,14 +116,11 @@ class _StackOverState extends State<StackOver>
                   // first tab bar view widget
                   Padding(
                       padding: EdgeInsets.only(top: 10),
-                      child: SchedulePage()
-                  ),
-
+                      child: ListDonePage()),
                   // second tab bar view widget
                   Padding(
                       padding: EdgeInsets.only(top: 10.0),
-                      child: ListDonePage()
-                  ),
+                      child: JadwalCameraPage()),
                 ],
               ),
             ),

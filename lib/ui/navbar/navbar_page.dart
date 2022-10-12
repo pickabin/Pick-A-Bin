@@ -6,6 +6,7 @@ import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
 import 'package:boilerplate/ui/profile/profile_koordinator_main.dart';
+import 'package:boilerplate/ui/schedule/jadwal_camera_page.dart';
 import 'package:boilerplate/ui/schedule/notif_acara.dart';
 import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
@@ -47,7 +48,7 @@ class _NavbarPageState extends State<NavbarPage> {
                               ? Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => StackOver()))
+                                      builder: (context) => JadwalCameraPage()))
                               : Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -95,7 +95,7 @@ class RoleSelection extends StatelessWidget {
                             onPressed: () async {
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              prefs.setString('role', 'warga');
+                              prefs.setString('role', 'koordinator');
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

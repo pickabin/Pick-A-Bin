@@ -124,13 +124,8 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'Update Profile',
-          style: TextStyle(color: Color(0xff00783E)),
-        ),
+        backgroundColor: Colors.green,
+        title: Text("Update Profile"),
       ),
       body: FutureBuilder(
         future: _getPrefs(),

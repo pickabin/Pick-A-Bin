@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
+import 'package:boilerplate/ui/home/help_page.dart';
+import 'package:boilerplate/ui/home/saran_masukan.dart';
 import 'package:boilerplate/ui/image/image_preview.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:path/path.dart';
@@ -95,87 +97,94 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   height: 100,
                                 ),
                               ),
-                              Container(
-                                  margin: EdgeInsets.only(
-                                    top: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(width: 2),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  width: MediaQuery.of(context).size.height *
-                                      0.300,
-                                  height: 45,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 40.0),
-                                        child: Center(child: Text("Lt2D4/D4")),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        color: Colors.black45,
-                                        onPressed: () {
-                                          showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(20),
-                                                    topLeft:
-                                                        Radius.circular(20))),
-                                            backgroundColor: Colors.white,
-                                            context: context,
-                                            builder: (_) {
-                                              return FractionallySizedBox(
-                                                heightFactor: 0.8,
-                                                child: AreaId(),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  )),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 8),
-                                    child: Stack(
+                              GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            topLeft: Radius.circular(20))),
+                                    backgroundColor: Colors.white,
+                                    context: context,
+                                    builder: (_) {
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.5,
+                                        child: AreaId(),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                    margin: EdgeInsets.only(
+                                      top: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(width: 2),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    width: MediaQuery.of(context).size.height *
+                                        0.300,
+                                    height: 45,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        //Notification
-                                        IconButton(
-                                          onPressed: (){}, 
-                                          icon: Icon(Icons.notifications, color: Colors.black45, size: 32,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 50.0),
+                                          child:
+                                              Center(child: Text("Lt2D4/D4")),
                                         ),
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: Container(
-                                            width: 20,
-                                            height: 20,
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Colors.white,
-                                                width: 2
-                                              )
-                                            ),
-                                            child: Center(
-                                              child: Text("1", style: TextStyle(color: Colors.white, fontSize: 12),),
-                                            ),
-                                          ),
-                                        )
-                                    ]
+                                        Icon(
+                                          Icons.edit,
+                                          color: Colors.black45,
+                                        ),
+                                        SizedBox(width: 15)
+                                      ],
+                                    )),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 8),
+                                child: Stack(children: [
+                                  //Notification
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.notifications,
+                                      color: Colors.black45,
+                                      size: 32,
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white, width: 2)),
+                                      child: Center(
+                                        child: Text(
+                                          "1",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ]),
+                              ),
                             ],
                           ),
 
                           //Bagian 2, nama petugas
                           Container(
                             margin: EdgeInsets.all(8),
-                            width: MediaQuery.of(context).size.width * 1.0,
+                            width: MediaQuery.of(context).size.width * 0.9,
                             child: Row(
                               children: [
                                 Container(
@@ -219,7 +228,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.280,
+                                                  0.330,
                                             ),
                                             Text(
                                               "Petugas",
@@ -234,7 +243,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.660,
+                                                0.730,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -292,129 +301,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return AlertDialog(
-                                                shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                        width: 2,
-                                                        color: Colors.black),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                20.0))),
-                                                contentPadding:
-                                                    EdgeInsets.all(25),
-                                                title: Text('Saran & Masukan'),
-                                                content: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.28,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.50,
-                                                  child: Column(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                bottom: 8.0),
-                                                        child: TextFormField(
-                                                            maxLines: 2,
-                                                            decoration:
-                                                                InputDecoration(
-                                                                    labelText:
-                                                                        'Nama',
-                                                                    focusedBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              20),
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        width:
-                                                                            2,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      ),
-                                                                    ),
-                                                                    contentPadding:
-                                                                        EdgeInsets
-                                                                            .all(
-                                                                                8),
-                                                                    enabledBorder:
-                                                                        OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12),
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        width:
-                                                                            2,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      ),
-                                                                    ))),
-                                                      ),
-                                                      TextFormField(
-                                                          maxLines: 7,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  labelText:
-                                                                      'Isi',
-                                                                  focusedBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      width: 2,
-                                                                      color: Colors
-                                                                          .green,
-                                                                    ),
-                                                                  ),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              8),
-                                                                  enabledBorder:
-                                                                      OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            15),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      width: 2,
-                                                                      color: Colors
-                                                                          .green,
-                                                                    ),
-                                                                  ))),
-                                                    ],
-                                                  ),
-                                                ),
-                                                actions: <Widget>[
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 18, bottom: 18),
-                                                    child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        primary:
-                                                            Colors.lightGreen,
-                                                      ),
-                                                      child: Text('OK'),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
+                                              return SaranMasukan();
                                             });
                                       },
                                       child: Text("Lihat Detail"),
@@ -427,10 +314,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Image.asset(
-                                        "assets/images/activity_icon.png",
-                                        width: 100,
-                                        height: 100,
-                                      )),
+                                          "assets/images/aspiration.png",
+                                          width: 115,
+                                          height: 115)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
@@ -522,130 +408,174 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/tutorial1.png"),
-                          fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HelpPage()));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/tutorial1.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          border: Border.all(
+                              width: 2, color: AppColors.borderTutorial),
+                          borderRadius: BorderRadius.circular(12),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: Color.fromARGB(255, 122, 122, 122),
+                          //     spreadRadius: 1,
+                          //     blurRadius: 1,
+                          //     offset: Offset(0, 1), // changes position of shadow
+                          //   )
+                          // ],
                         ),
-                        border: Border.all(
-                            width: 2, color: AppColors.borderTutorial),
-                        borderRadius: BorderRadius.circular(12),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Color.fromARGB(255, 122, 122, 122),
-                        //     spreadRadius: 1,
-                        //     blurRadius: 1,
-                        //     offset: Offset(0, 1), // changes position of shadow
-                        //   )
-                        // ],
+                        child: Row(children: [
+                          Padding(
+                              padding: const EdgeInsets.all(8),
+                              // child: Image.asset(
+                              //   "assets/images/activity_icon.png",
+                              //   width: 50,
+                              //   height: 50,
+                              // ),
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 15, top: 10),
+                                    child: Row(children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Laporan Acara",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "Deskripsi singka5t tentang fitur",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 35, top: 12),
+                                        child: Icon(
+                                          Icons.arrow_circle_right_outlined,
+                                          size: 28,
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                ],
+                              ))
+                        ]),
                       ),
-                      child: Row(children: [
-                        Padding(
-                            padding: const EdgeInsets.all(8),
-                            // child: Image.asset(
-                            //   "assets/images/activity_icon.png",
-                            //   width: 50,
-                            //   height: 50,
-                            // ),
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(left: 1.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(left: 15, top: 10),
-                                  child: Text(
-                                    "Laporan Acara",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    "Deskripsi singka5t tentang fitur",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ))
-                      ]),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/tutor2.png"),
-                          fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HelpPage()));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/tutor2.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          border: Border.all(
+                              width: 2, color: AppColors.borderTutorial),
+                          borderRadius: BorderRadius.circular(12),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: Color.fromARGB(255, 122, 122, 122),
+                          //     spreadRadius: 1,
+                          //     blurRadius: 1,
+                          //     offset: Offset(0, 1), // changes position of shadow
+                          //   )
+                          // ],
                         ),
-                        border: Border.all(
-                            width: 2, color: AppColors.borderTutorial),
-                        borderRadius: BorderRadius.circular(12),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Color.fromARGB(255, 122, 122, 122),
-                        //     spreadRadius: 1,
-                        //     blurRadius: 1,
-                        //     offset: Offset(0, 1), // changes position of shadow
-                        //   )
-                        // ],
+                        child: Row(children: [
+                          Padding(
+                              padding: const EdgeInsets.all(8),
+                              // child: Image.asset(
+                              //   "assets/images/activity_icon.png",
+                              //   width: 50,
+                              //   height: 50,
+                              // ),
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 15, top: 10),
+                                    child: Row(children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Laporan Acara",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "Deskripsi singka5t tentang fitur",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 35, top: 12),
+                                        child: Icon(
+                                          Icons.arrow_circle_right_outlined,
+                                          size: 28,
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                ],
+                              ))
+                        ]),
                       ),
-                      child: Row(children: [
-                        Padding(
-                            padding: const EdgeInsets.all(8),
-                            // child: Image.asset(
-                            //   "assets/images/activity_icon.png",
-                            //   width: 50,
-                            //   height: 50,
-                            // ),
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.only(left: 1.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(left: 15, top: 10),
-                                  child: Text(
-                                    "Laporan Acara",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    "Deskripsi singkat tentang fitur",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ))
-                      ]),
                     ),
                   ),
                 ],

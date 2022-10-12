@@ -88,7 +88,7 @@ class _ActivityPageState extends State<ActivityPage> {
                               TextSpan(
                                 children: <InlineSpan>[
                                   TextSpan(
-                                    text: 'Anda sudah mengambil sampah',
+                                    text: 'Anda telah membersihkan',
                                   ),
                                 ],
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -97,15 +97,6 @@ class _ActivityPageState extends State<ActivityPage> {
                             subtitle: Text.rich(
                               TextSpan(
                                 children: <InlineSpan>[
-                                  WidgetSpan(
-                                      child: Icon(Icons.person_outline,
-                                          color: Colors.green)),
-                                  TextSpan(
-                                      text: snapshot
-                                          .child('instansi')
-                                          .value
-                                          .toString() +
-                                          " - " + snapshot.child('penanggungJawab').value.toString() + "\n"),
                                   WidgetSpan(
                                       child: Icon(Icons.location_on_outlined,
                                           color: Colors.green)),

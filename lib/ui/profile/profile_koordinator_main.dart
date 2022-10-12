@@ -7,7 +7,7 @@ import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
-import 'package:boilerplate/ui/update_profile/update_koordinator_page3.dart';
+import 'package:boilerplate/ui/update_profile/update_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,12 +55,14 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                         Row(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
+                              padding: const EdgeInsets.only(left: 25.0),
                               child: snapshot.data[index].imageUrl != null
                                   ? GestureDetector(
                                     child: Container(
-                                        height: 50,
-                                        width: 50,
+                                        height: MediaQuery.of(context).size.width *
+                                                0.15,
+                                        width: MediaQuery.of(context).size.width *
+                                                0.2,
                                         child: CircleAvatar(
                                             radius: 60,
                                             backgroundImage: NetworkImage(snapshot.data[index].imageUrl.toString())),
@@ -74,8 +76,10 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                       },
                                   )
                                   : Container(
-                                      height: 50,
-                                      width: 50,
+                                      height: MediaQuery.of(context).size.width *
+                                                0.15,
+                                        width: MediaQuery.of(context).size.width *
+                                                0.2,
                                       child: CircleAvatar(
                                         radius: 60,
                                         backgroundColor: Colors.green,
@@ -133,7 +137,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                             ),
                             GestureDetector(
                               child: Container(
-                                margin: EdgeInsets.only(left: 77),
+                                margin: EdgeInsets.only(left: 55),
                                 child: Icon(Icons.edit),
                               ),
                               onTap: () {
@@ -153,43 +157,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                             ),
                           ],
                         ),
-                        Container(
-                          margin: new EdgeInsets.only(top: 5.0, right: 86.0),
-                          width: 87,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 22, 22, 22),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              top: 5,
-                              bottom: 5,
-                            ),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 10.0,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 239, 240, 238),
-                                  child: Icon(
-                                    Icons.star_rounded,
-                                    color: Colors.green,
-                                    size: 19.0,
-                                  ),
-                                ),
-                                Text(
-                                  " Premium",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        
                         Container(
                           margin:
                               new EdgeInsets.only(top: 12.0, right: 7, left: 3),

@@ -105,7 +105,7 @@ class _UserActivityPageState extends State<UserActivityPage> {
                                 TextSpan(
                                   children: <InlineSpan>[
                                     TextSpan(
-                                      text: 'Sampah anda sudah diambil',
+                                      text: 'Lantai telah dibersihkan',
                                     ),
                                   ],
                                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -115,19 +115,19 @@ class _UserActivityPageState extends State<UserActivityPage> {
                                 TextSpan(
                                   children: <InlineSpan>[
                                     WidgetSpan(
-                                        child: Icon(Icons.location_on_outlined,
+                                        child: Icon(Icons.person,
                                             color: Colors.green)),
                                     TextSpan(
                                         text: snapshot
-                                            .child('alamat')
+                                            .child('petugas')
                                             .value
                                             .toString()+ "\n"),
                                   WidgetSpan(
-                                        child: Icon(Icons.cleaning_services,
+                                        child: Icon(Icons.location_on,
                                             color: Colors.green)),
                                     TextSpan(
-                                      text: "diambil oleh " +
-                                          snapshot.child('petugas').value.toString(),
+                                      text: "Area " +
+                                          snapshot.child('alamat').value.toString(),
                                     ),
                                   ],
                                 ),
