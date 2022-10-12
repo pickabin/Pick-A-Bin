@@ -1,9 +1,7 @@
-import 'package:boilerplate/controllers/user_controller.dart';
-import 'package:boilerplate/ui/login/login_warga_page.dart';
+import 'package:boilerplate/ui/login/login_koordinator_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../data/service/auth_service.dart';
 
@@ -237,7 +235,7 @@ class _RegisterPageState extends State<RegisterKoordinatorPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  LoginWargaPage()));
+                                                  LoginKoordinatorPage()));
                                     }
                                   });
                                     
@@ -283,7 +281,7 @@ class _RegisterPageState extends State<RegisterKoordinatorPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LoginWargaPage()));
+                                                    LoginKoordinatorPage()));
                                       },
                                   ),
                                 ])),

@@ -1,6 +1,6 @@
 // import 'package:boilerplate/constants/font_family.dart';
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
-import 'package:boilerplate/ui/login/login_warga_page.dart';
+import 'package:boilerplate/ui/login/login_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,7 +81,7 @@ class ChooseRole extends StatelessWidget {
                                 onPressed: ()async{
                                   final SharedPreferences prefs = await SharedPreferences.getInstance();
                                   prefs.setString('role', 'warga');
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginWargaPage()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginKoordinatorPage()));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(17),

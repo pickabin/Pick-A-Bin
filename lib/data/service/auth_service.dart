@@ -1,10 +1,11 @@
+import 'package:boilerplate/controllers/koor_gedung_controller.dart';
+import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
-import 'package:boilerplate/ui/login/login_warga_page.dart';
+import 'package:boilerplate/ui/login/login_koordinator_page.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +21,7 @@ class AuthService {
   //get current User ID
   Future<String?> getCurrentUID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     String? uid = prefs.getString('uid');
+    String? uid = prefs.getString('uid');
     return uid;
   }
 
@@ -29,9 +30,9 @@ class AuthService {
   //   return _userEmail;
   // }
 
-  void loginUserWarga(context) async {
+  void loginUserKoordinator(context) async {
     try {
-     await _auth
+      await _auth
           .signInWithEmailAndPassword(
               email: email.text, password: password.text)
           .then((value) => {
@@ -39,7 +40,6 @@ class AuthService {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => NavbarPage()))
               });
-          
     } catch (e) {
       // print(e.toString());
       showDialog(
@@ -54,7 +54,7 @@ class AuthService {
                 color: Colors.red,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => LoginWargaPage()));
+                      builder: (BuildContext context) => LoginKoordinatorPage()));
                 },
               ),
             ],
@@ -115,26 +115,30 @@ class AuthService {
       await _auth.currentUser?.updateDisplayName(nama);
       //get uid from register firebase
       print("ini uid " + newUser.user!.uid);
-      
-        CollectionReference koordinator = FirebaseFirestore.instance.collection('koordinator');
-      koordinator.add({
-        'nama': nama,
-        'email': email,
-        'password': password,
-        'uid': newUser.user!.uid,
-      }).then((value) => print("User Added"))
+
+      CollectionReference koordinator =
+          FirebaseFirestore.instance.collection('koordinator');
+      koordinator
+          .add({
+            'nama': nama,
+            'email': email,
+            'uid': newUser.user!.uid,
+          })
+          .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
-      
-      
-      UserController.addUser(newUser.user!.uid, nama, email, password).then((value) {
-        Fluttertoast.showToast(
-          msg: "Registration Successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
+
+      UserController.addUser(newUser.user!.uid, nama, email, password)
+          .then((value) {
+        KoorGedungController.addKoorGedung(newUser.user!.uid).then((value) {
+          Fluttertoast.showToast(
+            msg: "Registration Successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        });
       });
       // KoorGedungController.addUser(nama, email, password);
       // DatabaseReference data = FirebaseDatabase.instance.ref("warga");
@@ -193,29 +197,45 @@ class AuthService {
     }
   }
 
-  Future<String> registerPetugas(String namaLengkap, String alamat,
-      String email, String password, String telp) async {
+  Future<String> registerPetugas(
+      String nama, String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      final newUser = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      await _auth.currentUser?.updateDisplayName(namaLengkap);
-      DatabaseReference data = FirebaseDatabase.instance.ref("petugas");
-      data.push().set({
-        "nama": namaLengkap,
-        "alamat": alamat,
-        "email": email,
-        "telp": telp,
-        'status': "petugas"
-      });
+      await _auth.currentUser?.updateDisplayName(nama);
+      //get uid from register firebase
+      print("ini uid " + newUser.user!.uid);
+      CollectionReference petugas =
+          FirebaseFirestore.instance.collection('petugas');
+      // data.push().set({
+      //   "nama": namaLengkap,
+      //   "alamat": alamat,
+      //   "email": email,
+      //   "telp": telp,
+      //   'status': "petugas"
+      // });
+      petugas
+          .add({
+            'nama': nama,
+            'email': email,
+            'uid': newUser.user!.uid,
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
 
-      Fluttertoast.showToast(
-        msg: "Registration Successfully",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      UserController.addUser(newUser.user!.uid, nama, email, password)
+          .then((value) {
+        PetugasController.addPetugas(newUser.user!.uid).then((value) {
+          Fluttertoast.showToast(
+            msg: "Registration Successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        });
+      });
 
       return "Registration Successfully";
       //Register Successful Notification

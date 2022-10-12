@@ -1,5 +1,4 @@
-import 'package:boilerplate/ui/login/login_petugas_page.dart';
-import 'package:boilerplate/ui/login/login_warga_page.dart';
+import 'package:boilerplate/ui/login/login_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
@@ -65,11 +64,11 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //create email field
+                        SizedBox(height: 15),
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            "Nama Lengkap",
+                            "Nama",
                             style: TextStyle(
                               fontSize: 18,
                             ),
@@ -78,110 +77,15 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                         SizedBox(height: 5),
                         TextFormField(
                           controller: _namaController,
-                          // controller: TextEditingController(text: "Coba"),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Nama Lengkap Harus Diisi';
+                              return 'Nama Harus Diisi';
                             }
                             return null;
                           },
                           decoration: InputDecoration(
                             prefixIcon: Icon(
                               Icons.person,
-                              color: Colors.green,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.green,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.green,
-                              ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            "Alamat",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          controller: _alamatController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Alamat Harus Diisi';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.home,
-                              color: Colors.green,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.green,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.green,
-                              ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            "No.Telp",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          controller: _telpController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'No. Telp harus diisi';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.phone,
                               color: Colors.green,
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -278,6 +182,19 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                               Icons.lock,
                               color: Colors.green,
                             ),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isHidePassword = !isHidePassword;
+                                });
+                              },
+                              child: Icon(
+                                isHidePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.green,
+                              ),
+                            ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
@@ -299,69 +216,48 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                                 color: Colors.red,
                               ),
                             ),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isHidePassword = !isHidePassword;
-                                });
-                              },
-                              child: Icon(
-                                isHidePassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.green,
-                              ),
-                            ),
                           ),
                           obscureText: isHidePassword,
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 35),
                         Container(
-                          width: 325,
+                          width: double.infinity,
                           height: 40,
                           child: ElevatedButton(
                               onPressed: () async {
-                                final String namaLengkap =
-                                    _namaController.text.trim();
-                                final String alamat =
-                                    _alamatController.text.trim();
+                                final String nama = _namaController.text.trim();
                                 final String email =
                                     _emailController.text.trim();
                                 final String password =
                                     _passwordController.text.trim();
-                                final String telp = _telpController.text.trim();
-
-                                if (_formKey.currentState!.validate()) {}
-
-                                if (namaLengkap.isEmpty) {
-                                  print("Nama Lengkap kosong");
-                                } else {
-                                  if (alamat.isEmpty) {
-                                    print("Alamat kosong");
+                                if (_formKey.currentState!.validate()) {
+                                  if (nama.isEmpty ||
+                                      email.isEmpty ||
+                                      password.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Semua Field Harus Diisi'),
+                                      ),
+                                    );
                                   } else {
-                                    if (email.isEmpty) {
-                                      print("Email kosong");
-                                    } else {
-                                      if (telp.isEmpty) {
-                                        print("No. Telp kosong");
-                                      } else {
-                                        if (password.isEmpty) {
-                                          print("Password kosong");
-                                        } else {
-                                          context
-                                              .read<AuthService>()
-                                              .registerPetugas(namaLengkap,
-                                                  alamat, email, password, telp)
-                                              .then((value) async {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        LoginPetugasPage()));
-                                          });
-                                        }
+                                    context
+                                        .read<AuthService>()
+                                        .registerPetugas(
+                                          nama,
+                                          email,
+                                          password,
+                                        )
+                                        .then((value) async {
+                                      if (value ==
+                                          "Registration Successfully") {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginKoordinatorPage()));
                                       }
-                                    }
+                                    });
                                   }
                                 }
                               },
@@ -403,7 +299,7 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LoginWargaPage()));
+                                                    LoginKoordinatorPage()));
                                       },
                                   ),
                                 ])),

@@ -6,7 +6,7 @@
 // import 'package:boilerplate/ui/home/home_warga_page.dart';
 // import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 // import 'package:boilerplate/ui/profile/profile_petugas_page.dart';
-// import 'package:boilerplate/ui/profile/profile_warga_page.dart';
+// import 'package:boilerplate/ui/profile/profile_Koordinator_page.dart';
 // import 'package:boilerplate/ui/schedule/stack_over.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
@@ -38,7 +38,7 @@
 //     HomeWargaPage(),
 //     DaftarPetugasPage(),
 //     UserActivityPage(),
-//     ProfileWargaPage(),
+//     ProfileKoordinatorPage(),
 //   ];
 
 //   @override

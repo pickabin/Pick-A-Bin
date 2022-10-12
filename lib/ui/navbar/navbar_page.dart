@@ -2,14 +2,12 @@ import 'package:boilerplate/data/network/exceptions/connectivity_provider.dart';
 import 'package:boilerplate/ui/activity/activity_page.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/connection/error_connection.dart';
-import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
-import 'package:boilerplate/ui/home/detail_acara.dart';
 import 'package:boilerplate/ui/home/home_petugas_page.dart';
-import 'package:boilerplate/ui/home/home_warga_page.dart';
-import 'package:boilerplate/ui/schedule/notif_acara.dart';
+import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
-import 'package:boilerplate/ui/profile/profile_warga_main.dart';
-import 'package:boilerplate/ui/schedule/schedule_page.dart';
+import 'package:boilerplate/ui/profile/profile_koordinator_main.dart';
+import 'package:boilerplate/ui/schedule/notif_acara.dart';
+import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
@@ -32,66 +30,71 @@ class _NavbarPageState extends State<NavbarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConnectivityProvider>(
-      builder: (context, value, child) {
-      return value.isOnline ? WillPopScope(
-        onWillPop: () => _onWillPop(),
-        child: FutureBuilder(
-          future: _getRole(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              print(snapshot.data);
-              return CurvedNavBar(
-                actionButton: CurvedActionBar(
-                  onTab: (value) {
-                    /// perform action here
-                    snapshot.data == 'petugas'
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SchedulePage()))
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailAcara(lat: null, location: '', long: null,)));
-                  },
-                  activeIcon: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.green, shape: BoxShape.circle),
-                    child: snapshot.data == "petugas"
-                        ? Icon(
-                            Icons.calendar_month_outlined,
-                            size: 45,
-                            color: Colors.white,
-                          )
-                        : Icon(
-                            Icons.menu_book_outlined,
-                            size: 45,
-                            color: Colors.white,
-                          ),
-                  ),
-                  inActiveIcon: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.green, shape: BoxShape.circle),
-                    child: snapshot.data == "petugas"
-                        ? Icon(
-                            Icons.calendar_month_outlined,
-                            size: 45,
-                            color: Colors.white,
-                          )
-                        : Icon(
-                            Icons.menu_book_outlined,
-                            size: 45,
-                            color: Colors.white,
-                          ),
-                  ),
-                  // text: "Maps",
-                ),
-                activeColor: Colors.green,
-                navBarBackgroundColor: Colors.white,
-                inActiveColor: Colors.black45,
+    return Consumer<ConnectivityProvider>(builder: (context, value, child) {
+      return value.isOnline
+          ? WillPopScope(
+              onWillPop: () => _onWillPop(),
+              child: FutureBuilder(
+                future: _getRole(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    print(snapshot.data);
+                    return CurvedNavBar(
+                      actionButton: CurvedActionBar(
+                        onTab: (value) {
+                          /// perform action here
+                          snapshot.data == 'petugas'
+                              ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StackOver()))
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      // builder: (context) => DetailAcara(
+                                      //       lat: null,
+                                      //       location: '',
+                                      //       long: null,
+                                      //     )));
+                                      builder: (context) => StackOver()));
+                        },
+                        activeIcon: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: Colors.green, shape: BoxShape.circle),
+                          child: snapshot.data == "petugas"
+                              ? Icon(
+                                  Icons.calendar_month_outlined,
+                                  size: 45,
+                                  color: Colors.white,
+                                )
+                              : Icon(
+                                  Icons.menu_book_outlined,
+                                  size: 45,
+                                  color: Colors.white,
+                                ),
+                        ),
+                        inActiveIcon: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: Colors.green, shape: BoxShape.circle),
+                          child: snapshot.data == "petugas"
+                              ? Icon(
+                                  Icons.calendar_month_outlined,
+                                  size: 45,
+                                  color: Colors.white,
+                                )
+                              : Icon(
+                                  Icons.menu_book_outlined,
+                                  size: 45,
+                                  color: Colors.white,
+                                ),
+                        ),
+                        // text: "Maps",
+                      ),
+                      activeColor: Colors.green,
+                      navBarBackgroundColor: Colors.white,
+                      inActiveColor: Colors.black45,
                       appBarItems: [
                         FABBottomAppBarItem(
                             activeIcon: Icon(
@@ -118,7 +121,7 @@ class _NavbarPageState extends State<NavbarPage> {
                             ),
                             text: snapshot.data == 'petugas'
                                 ? "Acara"
-                                : "Jadwal"),
+                                : "Acara"),
                         FABBottomAppBarItem(
                             activeIcon: Icon(
                               Icons.list_alt_outlined,
@@ -143,16 +146,16 @@ class _NavbarPageState extends State<NavbarPage> {
                       bodyItems: [
                         snapshot.data == 'petugas'
                             ? HomePetugasPage()
-                            : HomeWargaPage(),
+                            : HomeKoordinatorPage(),
                         snapshot.data == 'petugas'
                             ? NotifAcara()
-                            : DaftarPetugasPage(),
+                            : NotifAcara(),
                         snapshot.data == 'petugas'
                             ? ActivityPage()
                             : UserActivityPage(),
                         snapshot.data == 'petugas'
                             ? ProfilePetugasMain()
-                            : ProfileWargaMain(),
+                            : ProfileKoordinatorMain(),
                       ],
                     );
                   } else {

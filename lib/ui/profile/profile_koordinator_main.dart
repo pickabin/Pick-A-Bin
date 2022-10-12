@@ -2,13 +2,12 @@ import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/user_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
+import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/profile_activity_warga.dart';
+import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
-import 'package:boilerplate/ui/schedule/jadwal_khusus_warga.dart';
-import 'package:boilerplate/ui/update_profile/update_warga_page.dart';
-//import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
+import 'package:boilerplate/ui/update_profile/update_koordinator_page3.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,16 +15,16 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 
 
-class ProfileWargaMain extends StatefulWidget {
-  const ProfileWargaMain({Key? key}) : super(key: key);
+class ProfileKoordinatorMain extends StatefulWidget {
+  const ProfileKoordinatorMain({Key? key}) : super(key: key);
 
   @override
-  State<ProfileWargaMain> createState() => _ProfileWargaMainState();
+  State<ProfileKoordinatorMain> createState() => _ProfileKoordinatorMainState();
 }
 
-class _ProfileWargaMainState extends State<ProfileWargaMain> {
+class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
   //Read data once from Realtime Database
-  final ref = FirebaseDatabase.instance.ref().child('warga');
+  // final ref = FirebaseDatabase.instance.ref().child('warga');
   AuthService authService = AuthService();
 
   @override
@@ -142,7 +141,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            UpdateWargaPage(
+                                            UpdateKoordinatorPage(
                                               name: snapshot.data[index].name.toString(),
                                               phone: snapshot.data[index].phone.toString(),
                                               email: snapshot.data[index].email.toString(),
@@ -258,7 +257,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileActivityWarga()));
+                                              ProfileActivityKoordinator()));
                                 },
                               ),
                             ),
@@ -314,33 +313,13 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                 leading: Icon(Icons.person_pin),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Petugas favorit'),
+                                title: const Text('Kontak Petugas'),
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DaftarPetugasPage()));
                                 },
                               ),
                             ),
@@ -364,7 +343,7 @@ class _ProfileWargaMainState extends State<ProfileWargaMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              JadwalKhususWarga(uid: uid)));
+                                              JadwalKhususKoordinator(uid: uid)));
                                 },
                               ),
                             ),

@@ -1,11 +1,9 @@
-import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/login/forgot_password_page.dart';
 import 'package:boilerplate/ui/register/register_koordinator_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

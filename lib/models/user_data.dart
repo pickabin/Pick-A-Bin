@@ -36,7 +36,7 @@ class UserData {
         required this.updatedAt,
     });
 
-    int id;
+    int? id;
     String? uid;
     String? name;
     String? address;

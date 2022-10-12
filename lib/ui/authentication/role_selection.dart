@@ -1,6 +1,6 @@
 // import 'package:boilerplate/constants/font_family.dart';
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
-import 'package:boilerplate/ui/login/login_warga_page.dart';
+import 'package:boilerplate/ui/login/login_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -99,12 +99,13 @@ class RoleSelection extends StatelessWidget {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginWargaPage()));
+                                      builder: (context) =>
+                                          LoginKoordinatorPage()));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(17),
                               child: Text(
-                                "WARGA",
+                                "KOORDINATOR",
                                 style: TextStyle(
                                     color: Colors.green, fontSize: 17),
                               ),
