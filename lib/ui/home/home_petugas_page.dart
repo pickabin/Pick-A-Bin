@@ -123,8 +123,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         border: Border.all(width: 2),
                                         borderRadius:
                                             BorderRadius.circular(15)),
-                                    width: MediaQuery.of(context).size.height *
-                                        0.300,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.600,
                                     height: 45,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -196,8 +196,14 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         )
                                       : Image.asset(
                                           "assets/images/grup_logo2.png",
-                                          width: 100,
-                                          height: 100,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.17,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.16,
                                         ),
                                 ),
                                 Container(
@@ -228,7 +234,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.330,
+                                                  0.300,
                                             ),
                                             Text(
                                               "Petugas",
@@ -243,7 +249,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.730,
+                                                0.700,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -436,58 +442,51 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                           // ],
                         ),
                         child: Row(children: [
-                          Padding(
-                              padding: const EdgeInsets.all(8),
-                              // child: Image.asset(
-                              //   "assets/images/activity_icon.png",
-                              //   width: 50,
-                              //   height: 50,
-                              // ),
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.24,
+                                    top: 10),
+                                child: Row(children: [
                                   Container(
-                                    padding: EdgeInsets.only(left: 15, top: 10),
-                                    child: Row(children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Laporan Acara",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "Deskripsi singka5t tentang fitur",
-                                            style: TextStyle(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Laporan Acara",
+                                          style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(left: 35, top: 12),
-                                        child: Icon(
-                                          Icons.arrow_circle_right_outlined,
-                                          size: 28,
-                                          color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                      )
-                                    ]),
+                                        Text(
+                                          "Deskripsi singkat tentang fitur",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ))
+                                  Container(
+                                    margin: EdgeInsets.only(left: 35, top: 12),
+                                    child: Icon(
+                                      Icons.arrow_circle_right_outlined,
+                                      size: 28,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ]),
+                              ),
+                            ],
+                          )
                         ]),
                       ),
                     ),
@@ -522,58 +521,51 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                           // ],
                         ),
                         child: Row(children: [
-                          Padding(
-                              padding: const EdgeInsets.all(8),
-                              // child: Image.asset(
-                              //   "assets/images/activity_icon.png",
-                              //   width: 50,
-                              //   height: 50,
-                              // ),
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.24,
+                                    top: 10),
+                                child: Row(children: [
                                   Container(
-                                    padding: EdgeInsets.only(left: 15, top: 10),
-                                    child: Row(children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Laporan Acara",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "Deskripsi singka5t tentang fitur",
-                                            style: TextStyle(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Laporan Acara",
+                                          style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(left: 35, top: 12),
-                                        child: Icon(
-                                          Icons.arrow_circle_right_outlined,
-                                          size: 28,
-                                          color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                      )
-                                    ]),
+                                        Text(
+                                          "Deskripsi singkat tentang fitur",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ))
+                                  Container(
+                                    margin: EdgeInsets.only(left: 35, top: 12),
+                                    child: Icon(
+                                      Icons.arrow_circle_right_outlined,
+                                      size: 28,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ]),
+                              ),
+                            ],
+                          )
                         ]),
                       ),
                     ),

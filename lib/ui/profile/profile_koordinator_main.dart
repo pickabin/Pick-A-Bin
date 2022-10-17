@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 
-
 class ProfileKoordinatorMain extends StatefulWidget {
   const ProfileKoordinatorMain({Key? key}) : super(key: key);
 
@@ -40,14 +39,14 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
         elevation: 0,
       ),
       body: FutureBuilder(
-         future: UserController().getUserUid(),
-         builder: (context, AsyncSnapshot snapshot){
-          if(snapshot.hasData){
+        future: UserController().getUserUid(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
             return ListView.builder(
-               shrinkWrap: true,
-               itemCount: snapshot.data.length,
-               itemBuilder: (context, index){
-                return SingleChildScrollView(
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,28 +57,37 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                               padding: const EdgeInsets.only(left: 25.0),
                               child: snapshot.data[index].imageUrl != null
                                   ? GestureDetector(
-                                    child: Container(
-                                        height: MediaQuery.of(context).size.width *
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.width *
                                                 0.15,
-                                        width: MediaQuery.of(context).size.width *
+                                        width:
+                                            MediaQuery.of(context).size.width *
                                                 0.2,
                                         child: CircleAvatar(
                                             radius: 60,
-                                            backgroundImage: NetworkImage(snapshot.data[index].imageUrl.toString())),
+                                            backgroundImage: NetworkImage(
+                                                snapshot.data[index].imageUrl
+                                                    .toString())),
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProfileDetailImage(image: snapshot.data[index].imageUrl.toString())));
+                                                    ProfileDetailImage(
+                                                        image: snapshot
+                                                            .data[index]
+                                                            .imageUrl
+                                                            .toString())));
                                       },
-                                  )
+                                    )
                                   : Container(
-                                      height: MediaQuery.of(context).size.width *
-                                                0.15,
-                                        width: MediaQuery.of(context).size.width *
-                                                0.2,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.15,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
                                       child: CircleAvatar(
                                         radius: 60,
                                         backgroundColor: Colors.green,
@@ -91,34 +99,37 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                       ),
                                     ),
                             ),
-                            Padding(
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
                               padding: const EdgeInsets.only(left: 25.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                      snapshot.data[index].name.toString(),
+                                  Text(snapshot.data[index].name.toString(),
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.black)),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
-                                    child: snapshot.data[index].phone != null ? Text(
-                                      snapshot.data[index].phone.toString(),
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontSize: 12.0,
-                                          letterSpacing: 0.5,
-                                          wordSpacing: 1),
-                                    ) : Text(
-                                      'No Phone',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontSize: 12.0,
-                                          letterSpacing: 0.5,
-                                          wordSpacing: 1),
-                                    ),
+                                    child: snapshot.data[index].phone != null
+                                        ? Text(
+                                            snapshot.data[index].phone
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 57, 57, 57),
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.5,
+                                                wordSpacing: 1),
+                                          )
+                                        : Text(
+                                            'No Phone',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 57, 57, 57),
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.5,
+                                                wordSpacing: 1),
+                                          ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
@@ -137,7 +148,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                             ),
                             GestureDetector(
                               child: Container(
-                                margin: EdgeInsets.only(left: 55),
+                                margin: EdgeInsets.only(left: 15),
                                 child: Icon(Icons.edit),
                               ),
                               onTap: () {
@@ -146,18 +157,24 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             UpdateKoordinatorPage(
-                                              name: snapshot.data[index].name.toString(),
-                                              phone: snapshot.data[index].phone.toString(),
-                                              email: snapshot.data[index].email.toString(),
-                                              imageUrl: snapshot.data[index].imageUrl.toString(),
-                                              address: snapshot.data[index].address.toString(),
+                                              name: snapshot.data[index].name
+                                                  .toString(),
+                                              phone: snapshot.data[index].phone
+                                                  .toString(),
+                                              email: snapshot.data[index].email
+                                                  .toString(),
+                                              imageUrl: snapshot
+                                                  .data[index].imageUrl
+                                                  .toString(),
+                                              address: snapshot
+                                                  .data[index].address
+                                                  .toString(),
                                               id: snapshot.data[index].id,
-                                        )));
+                                            )));
                               },
                             ),
                           ],
                         ),
-                        
                         Container(
                           margin:
                               new EdgeInsets.only(top: 12.0, right: 7, left: 3),
@@ -311,7 +328,8 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              JadwalKhususKoordinator(uid: uid)));
+                                              JadwalKhususKoordinator(
+                                                  uid: uid)));
                                 },
                               ),
                             ),
@@ -515,9 +533,8 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                       ],
                     ),
                   );
-               } 
-            );
-          }else{
+                });
+          } else {
             return Container(
               child: Column(
                 children: [
@@ -526,30 +543,29 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                     hasCustomColors: true,
                     hasBottomBox: true,
                     colors: [
-                    // light color
-                    Color(0xFF4dabf5),
-                  ],
+                      // light color
+                      Color(0xFF4dabf5),
+                    ],
                   ),
-                 ListView.builder(
+                  ListView.builder(
                     itemCount: 4,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return ListTileShimmer(
                         hasCustomColors: true,
-
                         colors: [
-                        // light color
-                        Color(0xFF4dabf5),
-                      ],
+                          // light color
+                          Color(0xFF4dabf5),
+                        ],
                       );
                     },
-                 )
+                  )
                 ],
               ),
             );
           }
-         },
+        },
       ),
     );
   }
