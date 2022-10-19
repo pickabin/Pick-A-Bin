@@ -23,12 +23,6 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
   String? fileName;
   String? url;
 
-  @override
-  void initState() async{
-    // TODO: implement initState
-
-    super.initState();
-  }
 
   Future _getImageCamera() async {
     XFile? selectImage = await ImagePicker().pickImage(
