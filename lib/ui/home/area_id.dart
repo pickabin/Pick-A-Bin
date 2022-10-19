@@ -109,7 +109,7 @@ class _AreaIdState extends State<AreaId> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                labelText: 'ex: D4Mul',
+                                labelText: 'ex: D4PENS',
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide(
@@ -160,7 +160,7 @@ class _AreaIdState extends State<AreaId> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                labelText: 'ex: Toilet, Ruang Kelas',
+                                labelText: 'ex: Lt2',
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide(
@@ -228,7 +228,7 @@ class _AreaIdState extends State<AreaId> {
                                                 fontSize: 16.0);
                                           }
                                         });
-                                      }else{
+                                      } else {
                                         JadwalController.updateJadwalKoor(
                                                 kodeGedungController.text,
                                                 namaTempatController.text)

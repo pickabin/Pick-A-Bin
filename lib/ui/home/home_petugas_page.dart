@@ -1,16 +1,22 @@
 import 'dart:io';
 import 'package:boilerplate/constants/colors.dart';
+import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
-import 'package:boilerplate/ui/home/help_page.dart';
+import 'package:boilerplate/ui/help/help_petugas.dart';
+import 'package:boilerplate/ui/help/help_page.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
+import 'package:boilerplate/ui/image/image_preview.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
+import 'package:path/path.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:intl/intl.dart';
 
 class HomePetugasPage extends StatefulWidget {
@@ -277,7 +283,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.24,
+                                                  0.250,
                                             ),
                                             Text(
                                               "Petugas",
@@ -292,7 +298,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.60,
+                                                0.680,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -418,222 +424,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.green),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Bingung ?",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, bottom: 5),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Yuk pelajari fitur kami!",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HelpPage()));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/tutorial1.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          border: Border.all(
-                              width: 2, color: AppColors.borderTutorial),
-                          borderRadius: BorderRadius.circular(12),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Color.fromARGB(255, 122, 122, 122),
-                          //     spreadRadius: 1,
-                          //     blurRadius: 1,
-                          //     offset: Offset(0, 1), // changes position of shadow
-                          //   )
-                          // ],
-                        ),
-                        child: Row(children: [
-                          Padding(
-                              padding: const EdgeInsets.all(8),
-                              // child: Image.asset(
-                              //   "assets/images/activity_icon.png",
-                              //   width: 50,
-                              //   height: 50,
-                              // ),
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 15, top: 10),
-                                    child: Row(children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Fitur Jadwal",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "Detail tentang fitur jadwal",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(left: 35, top: 12),
-                                        child: Icon(
-                                          Icons.arrow_circle_right_outlined,
-                                          size: 28,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    ]),
-                                  ),
-                                ],
-                              ))
-                        ]),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HelpPage()));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/tutor2.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          border: Border.all(
-                              width: 2, color: AppColors.borderTutorial),
-                          borderRadius: BorderRadius.circular(12),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Color.fromARGB(255, 122, 122, 122),
-                          //     spreadRadius: 1,
-                          //     blurRadius: 1,
-                          //     offset: Offset(0, 1), // changes position of shadow
-                          //   )
-                          // ],
-                        ),
-                        child: Row(children: [
-                          Padding(
-                              padding: const EdgeInsets.all(8),
-                              // child: Image.asset(
-                              //   "assets/images/activity_icon.png",
-                              //   width: 50,
-                              //   height: 50,
-                              // ),
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 15, top: 10),
-                                    child: Row(children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Laporan Acara",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "Detail tentang Laporan Acara",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(left: 35, top: 12),
-                                        child: Icon(
-                                          Icons.arrow_circle_right_outlined,
-                                          size: 28,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    ]),
-                                  ),
-                                ],
-                              ))
-                        ]),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          HelpPetugas(),
           Padding(
             padding: const EdgeInsets.only(left: 18.0, bottom: 18, right: 18),
             child: Container(

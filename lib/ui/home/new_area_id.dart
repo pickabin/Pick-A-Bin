@@ -91,7 +91,7 @@ class _AreaIdState extends State<AreaId> {
                       TextFormField(
                           controller: kodeGedungController,
                           decoration: InputDecoration(
-                              labelText: 'ex: D4Mul',
+                              labelText: 'ex: D4PENS',
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(
@@ -123,7 +123,7 @@ class _AreaIdState extends State<AreaId> {
                       TextFormField(
                           controller: kodeGedungController,
                           decoration: InputDecoration(
-                              labelText: 'ex: Lt2D4Mul',
+                              labelText: 'ex: Lt2D4PENS',
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(

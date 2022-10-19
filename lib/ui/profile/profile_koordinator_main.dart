@@ -5,6 +5,7 @@ import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
+import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
 import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
@@ -40,9 +41,9 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
         elevation: 0,
       ),
       body: FutureBuilder(
-         future: KoorGedungController().getKoorByUid(),
-         builder: (context, AsyncSnapshot snapshot){
-          if(snapshot.hasData){
+        future: KoorGedungController().getKoorByUid(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
@@ -67,14 +68,21 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                                 0.2,
                                         child: CircleAvatar(
                                             radius: 60,
-                                            backgroundImage: NetworkImage(snapshot.data[index].user.photo.toString())),
+                                            backgroundImage: NetworkImage(
+                                                snapshot.data[index].user.photo
+                                                    .toString())),
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProfileDetailImage(image: snapshot.data[index].user.photo.toString())));
+                                                    ProfileDetailImage(
+                                                        image: snapshot
+                                                            .data[index]
+                                                            .user
+                                                            .photo
+                                                            .toString())));
                                       },
                                     )
                                   : Container(
@@ -106,28 +114,33 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                           fontSize: 17, color: Colors.black)),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
-                                    child: snapshot.data[index].user.phone != null ? Text(
-                                      snapshot.data[index].user.phone.toString(),
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontSize: 12.0,
-                                          letterSpacing: 0.5,
-                                          wordSpacing: 1),
-                                    ) : Text(
-                                      'No Phone',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontSize: 12.0,
-                                          letterSpacing: 0.5,
-                                          wordSpacing: 1),
-                                    ),
+                                    child:
+                                        snapshot.data[index].user.phone != null
+                                            ? Text(
+                                                snapshot.data[index].user.phone
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 57, 57, 57),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.5,
+                                                    wordSpacing: 1),
+                                              )
+                                            : Text(
+                                                'No Phone',
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 57, 57, 57),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.5,
+                                                    wordSpacing: 1),
+                                              ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
                                     child: Text(
-                                      snapshot.data[index].user.email.toString(),
+                                      snapshot.data[index].user.email
+                                          .toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -150,13 +163,23 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             UpdateKoordinatorPage(
-                                              name: snapshot.data[index].user.name.toString(),
-                                              phone: snapshot.data[index].user.phone.toString(),
-                                              email: snapshot.data[index].user.email.toString(),
-                                              imageUrl: snapshot.data[index].user.photo.toString(),
-                                              address: snapshot.data[index].user.address.toString(),
+                                              name: snapshot
+                                                  .data[index].user.name
+                                                  .toString(),
+                                              phone: snapshot
+                                                  .data[index].user.phone
+                                                  .toString(),
+                                              email: snapshot
+                                                  .data[index].user.email
+                                                  .toString(),
+                                              imageUrl: snapshot
+                                                  .data[index].user.photo
+                                                  .toString(),
+                                              address: snapshot
+                                                  .data[index].user.address
+                                                  .toString(),
                                               id: snapshot.data[index].user.id,
-                                        )));
+                                            )));
                               },
                             ),
                           ],
@@ -185,7 +208,39 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                   width: 100,
                                   height: 20,
                                   child: ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UpdateKoordinatorPage(
+                                                      name: snapshot
+                                                          .data[index].user.name
+                                                          .toString(),
+                                                      phone: snapshot
+                                                          .data[index]
+                                                          .user
+                                                          .phone
+                                                          .toString(),
+                                                      email: snapshot
+                                                          .data[index]
+                                                          .user
+                                                          .email
+                                                          .toString(),
+                                                      imageUrl: snapshot
+                                                          .data[index]
+                                                          .user
+                                                          .photo
+                                                          .toString(),
+                                                      address: snapshot
+                                                          .data[index]
+                                                          .user
+                                                          .address
+                                                          .toString(),
+                                                      id: snapshot
+                                                          .data[index].user.id,
+                                                    )));
+                                      },
                                       child: Text('Periksa'),
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.black38,
@@ -239,12 +294,10 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                             Container(
                               height: 35.0,
                               child: ListTile(
-                                leading: Icon(
-                                  Icons.star_rounded,
-                                ),
+                                leading: Icon(Icons.person_pin),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Premium'),
+                                title: const Text('Petugas favorit'),
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -271,26 +324,6 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                       ],
                                     ),
                                   );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(Icons.person_pin),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Kontak Petugas'),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DaftarPetugasPage()));
                                 },
                               ),
                             ),
@@ -346,37 +379,17 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                               height: 35.0,
                               child: ListTile(
                                 leading: Icon(
-                                  Icons.question_mark_rounded,
+                                  Icons.settings,
                                 ),
+                                title: const Text('Pengaturan akun'),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Bantuan & Info'),
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PengaturanMain()));
                                 },
                               ),
                             ),
@@ -428,70 +441,6 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                               height: 35.0,
                               child: ListTile(
                                 leading: Icon(
-                                  Icons.notifications_active_rounded,
-                                ),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Notifikasi'),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              KoorActivityPage()));
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(
-                                  Icons.security,
-                                ),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Keamanan akun'),
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(
                                   Icons.logout,
                                 ),
                                 trailing:
@@ -510,6 +459,10 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                               RoleSelection()));
                                 },
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 70.0),
+                              child: Divider(thickness: 1, color: Colors.black),
                             ),
                             SizedBox(
                               height: 100,

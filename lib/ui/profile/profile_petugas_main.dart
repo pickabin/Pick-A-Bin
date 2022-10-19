@@ -1,10 +1,9 @@
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
-import 'package:boilerplate/ui/home/list_contact_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
+import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
+import 'package:boilerplate/ui/profile/profile_activity_petugas.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
 import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
@@ -210,7 +209,43 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                         width: 100,
                                         height: 20,
                                         child: ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          UpdatePetugasPage(
+                                                            name: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .name
+                                                                .toString(),
+                                                            phone: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .phone
+                                                                .toString(),
+                                                            email: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .email
+                                                                .toString(),
+                                                            imageUrl: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .photo
+                                                                .toString(),
+                                                            address: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .address
+                                                                .toString(),
+                                                            id: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .id,
+                                                          )));
+                                            },
                                             child: Text('Periksa'),
                                             style: ElevatedButton.styleFrom(
                                                 primary: Colors.black38,
@@ -254,12 +289,50 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                       ),
                                     ),
                                     SizedBox(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.20,
-                                        height: MediaQuery.of(context).size.height *
-                                            0.02,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.30,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02,
                                         child: ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          UpdatePetugasPage(
+                                                            name: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .name
+                                                                .toString(),
+                                                            phone: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .phone
+                                                                .toString(),
+                                                            email: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .email
+                                                                .toString(),
+                                                            imageUrl: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .photo
+                                                                .toString(),
+                                                            address: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .address
+                                                                .toString(),
+                                                            id: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .id,
+                                                          )));
+                                            },
                                             child: Text('Verifikasi',
                                                 style:
                                                     TextStyle(fontSize: 10.0)),
@@ -272,7 +345,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                 ))))
                                   ],
                                 ),
-                                width: 340,
+                                width: MediaQuery.of(context).size.width * 1,
                                 decoration: BoxDecoration(
                                     color: Colors.red,
                                     borderRadius:
@@ -305,7 +378,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileActivityKoordinator()));
+                                              ProfileActivityPetugas()));
                                 },
                               ),
                             ),
@@ -316,12 +389,10 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                             Container(
                               height: 35.0,
                               child: ListTile(
-                                leading: Icon(
-                                  Icons.star_rounded,
-                                ),
+                                leading: Icon(Icons.person_pin),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Premium'),
+                                title: const Text('Petugas favorit'),
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -348,51 +419,6 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                       ],
                                     ),
                                   );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(Icons.person_pin),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Kontak Koordinator'),
-                                onTap: () {
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (ctx) => AlertDialog(
-                                  //     title: const Text(
-                                  //         "Fitur ini belum tersedia"),
-                                  //     content: const Text(
-                                  //         "Fitur ini akan segera hadir di versi selanjutnya"),
-                                  //     actions: <Widget>[
-                                  //       TextButton(
-                                  //         onPressed: () {
-                                  //           Navigator.of(ctx).pop();
-                                  //         },
-                                  //         child: Container(
-                                  //           color: Colors.green,
-                                  //           padding: const EdgeInsets.all(14),
-                                  //           child: const Text(
-                                  //             "Oke",
-                                  //             style: TextStyle(
-                                  //                 color: Colors.white),
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // );
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ListContactPage()));
                                 },
                               ),
                             ),
@@ -448,37 +474,17 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                               height: 35.0,
                               child: ListTile(
                                 leading: Icon(
-                                  Icons.question_mark_rounded,
+                                  Icons.settings,
                                 ),
+                                title: const Text('Pengaturan akun'),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Bantuan & Info'),
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PengaturanMain()));
                                 },
                               ),
                             ),
@@ -530,70 +536,6 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                               height: 35.0,
                               child: ListTile(
                                 leading: Icon(
-                                  Icons.notifications_active_rounded,
-                                ),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Notifikasi'),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              KoorActivityPage()));
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(
-                                  Icons.security,
-                                ),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Keamanan akun'),
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(
                                   Icons.logout,
                                 ),
                                 trailing:
@@ -612,6 +554,10 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                               RoleSelection()));
                                 },
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 70.0),
+                              child: Divider(thickness: 1, color: Colors.black),
                             ),
                             SizedBox(
                               height: 100,

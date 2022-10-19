@@ -90,7 +90,6 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
         fileName = basename(_image!.path);
       });
     }
-
   }
 
 //Hapus Image from firebase storage
@@ -120,7 +119,8 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
           final TextEditingController _nameController =
               new TextEditingController(text: widget.name);
           final TextEditingController _alamatController =
-              new TextEditingController(text: widget.address);
+              new TextEditingController(
+                  text: widget.address == null ? "" : widget.address);
           final TextEditingController _emailController =
               new TextEditingController(text: widget.email);
           final TextEditingController _telpController =

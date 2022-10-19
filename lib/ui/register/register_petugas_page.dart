@@ -256,7 +256,7 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LoginKoordinatorPage()));
+                                                    LoginPetugasPage()));
                                       }
                                     });
                                   }

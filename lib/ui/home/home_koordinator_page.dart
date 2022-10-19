@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
+import 'package:boilerplate/ui/help/help_koordinator.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
-import 'package:boilerplate/ui/home/help_page.dart';
+import 'package:boilerplate/ui/help/help_page.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -248,7 +249,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.17,
+                                                  0.25,
                                             ),
                                             Text(
                                               "Koordinator",
@@ -263,7 +264,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.58,
+                                                0.68,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -392,207 +393,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.green),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Bingung ?",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, bottom: 5),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Yuk pelajari fitur kami!",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HelpPage()));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/tutorial1.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          border: Border.all(
-                              width: 2, color: AppColors.borderTutorial),
-                          borderRadius: BorderRadius.circular(12),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Color.fromARGB(255, 122, 122, 122),
-                          //     spreadRadius: 1,
-                          //     blurRadius: 1,
-                          //     offset: Offset(0, 1), // changes position of shadow
-                          //   )
-                          // ],
-                        ),
-                        child: Row(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.24,
-                                    top: 10),
-                                child: Row(children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Laporan Acara",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Deskripsi singkat tentang fitur",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 35, top: 12),
-                                    child: Icon(
-                                      Icons.arrow_circle_right_outlined,
-                                      size: 28,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                            ],
-                          )
-                        ]),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HelpPage()));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/tutor2.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          border: Border.all(
-                              width: 2, color: AppColors.borderTutorial),
-                          borderRadius: BorderRadius.circular(12),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Color.fromARGB(255, 122, 122, 122),
-                          //     spreadRadius: 1,
-                          //     blurRadius: 1,
-                          //     offset: Offset(0, 1), // changes position of shadow
-                          //   )
-                          // ],
-                        ),
-                        child: Row(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.24,
-                                    top: 10),
-                                child: Row(children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Laporan Acara",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Deskripsi singkat tentang fitur",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 35, top: 12),
-                                    child: Icon(
-                                      Icons.arrow_circle_right_outlined,
-                                      size: 28,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                            ],
-                          )
-                        ]),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          HelpKoordinator(),
           Padding(
             padding: const EdgeInsets.only(left: 18.0, bottom: 18, right: 18),
             child: Container(
