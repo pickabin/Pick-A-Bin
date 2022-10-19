@@ -38,7 +38,7 @@ class _KoorActivityPageState extends State<KoorActivityPage> {
           future: AktivitasKoorController().getAktivitasKoor(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return ListView.builder(
+              return snapshot.data.length != 0 ? ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
@@ -70,12 +70,12 @@ class _KoorActivityPageState extends State<KoorActivityPage> {
                                         child: Text("Tidak")),
                                     TextButton(
                                         onPressed: () {
-                                          // Navigator.of(context).pop();
-                                          // var key = snapshot.key;
-                                          // DatabaseReference del =
-                                          //     FirebaseDatabase.instance
-                                          //         .ref("aktivitas_warga/$key");
-                                          // del.remove();
+                                          var key = snapshot.data[index].id;
+                                          AktivitasKoorController
+                                              .deleteAktivitasKoor(key);
+                                              setState(() {
+                                                Navigator.of(context).pop();
+                                              });
                                         },
                                         child: Text("Yakin")),
                                   ],
@@ -137,6 +137,8 @@ class _KoorActivityPageState extends State<KoorActivityPage> {
                     ],
                   );
                 },
+              ): Center(
+                child: Text("Tidak ada aktivitas"),
               );
             } else {
               return Center(

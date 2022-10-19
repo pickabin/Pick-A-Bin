@@ -163,8 +163,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                   .data[index].user.name
                                                   .toString(),
                                               phone: snapshot
-                                                  .data[index].user.phone
-                                                  .toString(),
+                                                  .data[index].user.phone,
                                               email: snapshot
                                                   .data[index].user.email
                                                   .toString(),
@@ -172,16 +171,17 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                   .data[index].user.photo
                                                   .toString(),
                                               address: snapshot
-                                                  .data[index].user.address
-                                                  .toString(),
+                                                  .data[index].user.address,
                                               id: snapshot.data[index].user.id,
                                             )));
                               },
                             ),
                           ],
                         ),
-                        snapshot.data[index].user.phone != null &&
-                                snapshot.data[index].user.address != null
+                        snapshot.data[index].user.phone != null && 
+                           snapshot.data[index].user.phone != "null" &&
+                                snapshot.data[index].user.address != null && 
+                                  snapshot.data[index].user.address != "null"
                             ? Container(
                                 margin: new EdgeInsets.only(
                                     top: 12.0, right: 7, left: 3),
@@ -264,7 +264,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                               )
                             : Container(
                                 margin: new EdgeInsets.only(
-                                    top: 12.0, right: 7, left: 3),
+                                    top: 12.0, right: MediaQuery.of(context).size.width * 0.02, left: MediaQuery.of(context).size.width * 0.02),
                                 child: Row(
                                   children: [
                                     Padding(
@@ -310,8 +310,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                             phone: snapshot
                                                                 .data[index]
                                                                 .user
-                                                                .phone
-                                                                .toString(),
+                                                                .phone,
                                                             email: snapshot
                                                                 .data[index]
                                                                 .user
@@ -325,8 +324,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                             address: snapshot
                                                                 .data[index]
                                                                 .user
-                                                                .address
-                                                                .toString(),
+                                                                .address,
                                                             id: snapshot
                                                                 .data[index]
                                                                 .user

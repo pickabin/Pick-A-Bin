@@ -16,5 +16,15 @@ class AktivitasKoorController{
     }
   }
 
+  //delete aktivitas koor
+  static Future<http.Response> deleteAktivitasKoor(int? id) async {
+    return http.delete(
+      Uri.parse('https://azdevweb.online/api/aktivitasKoor/destroy/' + id.toString()),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+  }
+
 
 }

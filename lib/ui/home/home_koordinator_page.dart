@@ -3,14 +3,11 @@ import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/ui/help/help_koordinator.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
-import 'package:boilerplate/ui/help/help_page.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
-import 'package:boilerplate/constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 
 class HomeKoordinatorPage extends StatefulWidget {
@@ -23,12 +20,12 @@ class HomeKoordinatorPage extends StatefulWidget {
 class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
   //lebar dan tinggi layar
   String? code;
-  final ref = FirebaseDatabase.instance
-      .ref()
-      .child('jadwal')
-      .orderByChild('date')
-      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
-      .limitToLast(4);
+  // final ref = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('jadwal')
+  //     .orderByChild('date')
+  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
+  //     .limitToLast(4);
   File? _image;
   String? fileName;
 

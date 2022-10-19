@@ -61,8 +61,7 @@ class _PetugasScheduleTutorialState extends State<PetugasScheduleTutorial> {
                 ),
               ),
             ),
-            Expanded(
-                child: Padding(
+            Padding(
               padding: const EdgeInsets.only(bottom: 18, left: 10, right: 10),
               child: Container(
                 width: double.infinity,
@@ -98,7 +97,7 @@ class _PetugasScheduleTutorialState extends State<PetugasScheduleTutorial> {
                         child: Row(
                           children: [
                             Image.asset(
-                              'assets/images/Tutor2.png',
+                              'assets/images/tutor2.png',
                               width: 90,
                               height: 90,
                             ),
@@ -195,7 +194,7 @@ class _PetugasScheduleTutorialState extends State<PetugasScheduleTutorial> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-            )),
+            ),
           ],
         ));
   }

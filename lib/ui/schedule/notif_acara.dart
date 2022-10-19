@@ -34,10 +34,10 @@ class _NotifAcaraState extends State<NotifAcara> {
             future: LaporAcaraController().getLaporAcara(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return ListView.builder(
+                return snapshot.data.length != 0 ? ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (context, index) {  
                       return Container(
                         child: Column(
                           children: <Widget>[
@@ -130,7 +130,7 @@ class _NotifAcaraState extends State<NotifAcara> {
                           ],
                         ),
                       );
-                    });
+                    }) : Center(child: Text('Tidak ada acara'));
               } else {
                 return Column(children: [
                   ListTileShimmer(),

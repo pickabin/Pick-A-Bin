@@ -19,7 +19,7 @@ class AktivitasPetugasController{
   //delete
   static Future<http.Response> deleteAktivitasPetugas(int? id) async {
     return http.delete(
-      Uri.parse('https://azdevweb.online/api/aktivitasPetugas/delete/' + id.toString()),
+      Uri.parse('https://azdevweb.online/api/aktivitasPetugas/destroy/' + id.toString()),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

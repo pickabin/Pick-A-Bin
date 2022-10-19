@@ -33,7 +33,7 @@ class _PetugasActivityPageState extends State<PetugasActivityPage> {
           future: AktivitasPetugasController().getAktivitasPetugas(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return ListView.builder(
+              return snapshot.data.length != 0 ? ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
@@ -59,15 +59,18 @@ class _PetugasActivityPageState extends State<PetugasActivityPage> {
                                   actions: [
                                     TextButton(
                                         onPressed: () {
+                                          // print("ini bukti id aktivitas" + snapshot.data[index].id.toString());
                                           Navigator.of(context).pop();
                                         },
                                         child: Text("Tidak")),
                                     TextButton(
                                         onPressed: () {
-                                          Navigator.of(context).pop();
                                           var key = snapshot.data[index].id;
                                           AktivitasPetugasController
                                               .deleteAktivitasPetugas(key);
+                                              setState(() {
+                                                Navigator.pop(context);
+                                              });
                                         },
                                         child: Text("Yakin")),
                                   ],
@@ -142,7 +145,7 @@ class _PetugasActivityPageState extends State<PetugasActivityPage> {
                     ],
                   );
                 },
-              );
+              ) : Center(child: Text("Tidak ada aktivitas"));
             } else {
               return Center(
                 child: CircularProgressIndicator(),

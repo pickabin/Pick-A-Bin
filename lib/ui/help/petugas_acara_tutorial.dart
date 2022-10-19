@@ -60,8 +60,7 @@ class _PetugasAcaraTutorialState extends State<PetugasAcaraTutorial> {
                 ),
               ),
             ),
-            Expanded(
-                child: Padding(
+            Padding(
                   padding: const EdgeInsets.only(bottom: 18, left: 10, right: 10),
                   child: Container(
                     width: double.infinity,
@@ -146,7 +145,7 @@ class _PetugasAcaraTutorialState extends State<PetugasAcaraTutorial> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                )),
+                ),
           ],
         ));
   }

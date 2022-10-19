@@ -2,8 +2,7 @@ import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/ui/help/petugas_acara_tutorial.dart';
 import 'package:boilerplate/ui/help/petugas_schedule_tutorial.dart';
 import 'package:flutter/material.dart';
-import 'package:boilerplate/ui/help/koordinator_laporan_tutorial.dart';
-import 'package:boilerplate/ui/help/koordinator_schedule_tutorial.dart';
+
 
 class HelpPetugas extends StatelessWidget {
   const HelpPetugas({
