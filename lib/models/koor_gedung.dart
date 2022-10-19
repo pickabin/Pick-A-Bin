@@ -28,7 +28,6 @@ class KoorGedung {
        required  this.userId,
        required  this.code,
        required  this.cleanArea,
-       required  this.photo,
        required  this.createdAt,
        required  this.updatedAt,
        required  this.user,
@@ -38,7 +37,6 @@ class KoorGedung {
     String? userId;
     String? code;
     String? cleanArea;
-    String? photo;
     DateTime? createdAt;
     DateTime? updatedAt;
     User user;
@@ -48,7 +46,6 @@ class KoorGedung {
         userId: json["user_id"],
         code: json["code"],
         cleanArea: json["clean_area"],
-        photo: json["photo"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         user: User.fromJson(json["user"]),
@@ -63,7 +60,7 @@ class User {
        required this.address,
        required this.phone,
        required this.email,
-       required this.imageUrl,
+       required this.photo,
        required this.emailVerifiedAt,
        required this.createdAt,
        required this.updatedAt,
@@ -75,7 +72,7 @@ class User {
     String? address;
     String? phone;
     String? email;
-    String? imageUrl;
+    String? photo;
     dynamic emailVerifiedAt;
     DateTime? createdAt;
     DateTime? updatedAt;
@@ -87,7 +84,7 @@ class User {
         address: json["address"],
         phone: json["phone"],
         email: json["email"],
-        imageUrl: json["image_url"] == null ? null : json["image_url"],
+        photo: json["photo"] == null ? null : json["photo"],
         emailVerifiedAt: json["email_verified_at"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),

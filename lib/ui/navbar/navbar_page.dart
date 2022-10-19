@@ -1,12 +1,12 @@
 import 'package:boilerplate/data/network/exceptions/connectivity_provider.dart';
-import 'package:boilerplate/ui/activity/activity_page.dart';
-import 'package:boilerplate/ui/activity/user_activity_page.dart';
+import 'package:boilerplate/ui/activity/petugas_activity_page.dart';
+import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/connection/error_connection.dart';
 import 'package:boilerplate/ui/home/home_petugas_page.dart';
 import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
 import 'package:boilerplate/ui/profile/profile_koordinator_main.dart';
-import 'package:boilerplate/ui/schedule/jadwal_camera_page.dart';
+import 'package:boilerplate/ui/schedule/jadwal_petugas_camera_page.dart';
 import 'package:boilerplate/ui/schedule/notif_acara.dart';
 import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
@@ -48,7 +48,7 @@ class _NavbarPageState extends State<NavbarPage> {
                               ? Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => JadwalCameraPage()))
+                                      builder: (context) => JadwalPetugasCameraPage()))
                               : Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -152,8 +152,8 @@ class _NavbarPageState extends State<NavbarPage> {
                             ? NotifAcara()
                             : NotifAcara(),
                         snapshot.data == 'petugas'
-                            ? ActivityPage()
-                            : UserActivityPage(),
+                            ? PetugasActivityPage()
+                            : KoorActivityPage(),
                         snapshot.data == 'petugas'
                             ? ProfilePetugasMain()
                             : ProfileKoordinatorMain(),
@@ -199,4 +199,5 @@ class _NavbarPageState extends State<NavbarPage> {
         )) ??
         false;
   }
+  
 }

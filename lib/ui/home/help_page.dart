@@ -35,8 +35,8 @@ class _HelpPageState extends State<HelpPage> {
                     Center(
                       child: Image.asset(
                         "assets/images/activity_icon.png",
-                        width: 300.0,
-                        height: 150.0,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -117,7 +117,7 @@ class _HelpPageState extends State<HelpPage> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 20.0),
                                   child: Container(
-                                    width: 200,
+                                    width: MediaQuery.of(context).size.width * 0.5,
                                     child: Text(
                                       "Posisikan kamera ke tempat yang sudah dibersihkan dan klik",
                                       // overflow: TextOverflow.ellipsis,
@@ -141,7 +141,7 @@ class _HelpPageState extends State<HelpPage> {
                                 Container(
                                     margin: const EdgeInsets.only(left: 20.0),
                                     child: Container(
-                                      width: 230,
+                                      width: MediaQuery.of(context).size.width * 0.5,
                                       child: Text(
                                         "Muncul preview foto yang sudah diklik sebelumnya. Apabila ada kesalahan bisa klik ulang di icon pojok kiri. Apabila sudah benar klik centang",
                                         // overflow: TextOverflow.ellipsis,
@@ -165,7 +165,7 @@ class _HelpPageState extends State<HelpPage> {
                                 Container(
                                     margin: const EdgeInsets.only(left: 20.0),
                                     child: Container(
-                                      width: 230,
+                                      width: MediaQuery.of(context).size.width * 0.5,
                                       child: Text(
                                         "Data sudah terkirim akan masuk ke halaman History aktivitas",
                                         // overflow: TextOverflow.ellipsis,

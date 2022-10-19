@@ -15,29 +15,19 @@ class AspirasiController {
     }
   }
 
-  static Future<Aspirasi?> addProduct(Aspirasi aspirasi) async {
-    final response = await http.post(
-      Uri.parse('https://azdevweb.online/api/aspirasi'),
+  static Future<http.Response> addAspirasi(int id,String judul, String isi) async {
+    return http.post(
+      Uri.parse('https://azdevweb.online/api/aspirasi/store'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: {
-        'uid': aspirasi.uid,
-        'title': aspirasi.title,
-        'description': aspirasi.description,
-        'created_at': aspirasi.createdAt.toString(),
-        'updated_at': aspirasi.updatedAt.toString(),
-      },
-    );
-    final data = json.decode(response.body);
-
-    return Aspirasi(
-      id: data['data']['id'],
-      uid: data['data']['user_id'],
-      title: data['data']['title'],
-      description: data['data']['description'],
-      createdAt: data['data']['created_at'],
-      updatedAt: data['data']['updated_at'],
+      body: jsonEncode(<String, String>{
+        'user_id': id.toString(),
+        'title': judul.toString(),
+        'description': isi.toString(),
+        'created_at': DateTime.now().toString(),
+        'updated_at': DateTime.now().toString(),
+      }),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:boilerplate/controllers/lapor_acara_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifAcara extends StatefulWidget {
@@ -104,7 +105,7 @@ class _NotifAcaraState extends State<NotifAcara> {
                                         WidgetSpan(
                                             child: Icon(Icons.timer_rounded,
                                                 color: Colors.green)),
-                                        TextSpan(text: snapshot.data[index].time),
+                                        TextSpan(text: DateFormat('hh:mm a').format(snapshot.data[index].time).toString()),
                                       ],
                                     ),
                                   ),

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:boilerplate/constants/colors.dart';
-import 'package:boilerplate/controllers/user_controller.dart';
+import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
+import 'package:boilerplate/controllers/jadwal_controller.dart';
+import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/home/help_page.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
@@ -10,6 +12,7 @@ import 'package:path/path.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -23,6 +26,7 @@ class HomePetugasPage extends StatefulWidget {
 }
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
+  String? code;
   //lebar dan tinggi layar
   final ref = FirebaseDatabase.instance
       .ref()
@@ -41,29 +45,57 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     'assets/images/slide4.jpg'
   ];
 
-  Future _getImageCamera() async {
-    XFile? selectImage = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxHeight: 512,
-      maxWidth: 512,
-      imageQuality: 90,
-    );
+  // Future _getImageCamera() async {
+  //   XFile? selectImage = await ImagePicker().pickImage(
+  //     source: ImageSource.camera,
+  //     maxHeight: 512,
+  //     maxWidth: 512,
+  //     imageQuality: 90,
+  //   );
 
-    if (selectImage != null) {
-      setState(() {
-        _image = File(selectImage.path);
-        fileName = basename(_image!.path);
+  //   if (selectImage != null) {
+  //     setState(() {
+  //       _image = File(selectImage.path);
+  //       fileName = basename(_image!.path);
 
-        //redirect image preview
-        Navigator.pushReplacement(
-          this.context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ImagePreview(image: _image, fileName: fileName),
-          ),
-        );
+  //       //redirect image preview
+  //       Navigator.pushReplacement(
+  //         this.context,
+  //         MaterialPageRoute(
+  //           builder: (context) =>
+  //               ImagePreview(image: _image, fileName: fileName),
+  //         ),
+  //       );
+  //     });
+  //   }
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      //return data from user code
+      PetugasController().getPetugasCode().then((value) {
+        setState(() {
+          //input
+          print("Ini value" + value.toString());
+          code = value;
+        });
+      }).then((value) {
+        if (code == null) {
+          //show dialog
+          showDialog(
+            context: this.context,
+            builder: (context) {
+              return AlertDialog(
+                content: AreaId(),
+              );
+            },
+          );
+        }
       });
-    }
+    });
+    super.initState();
   }
 
   @override
@@ -73,17 +105,27 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     // double height = MediaQuery.of(context).size.height*0.2;
     // print(width);
     // print("tinggi" + height.toString());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
           FutureBuilder(
-              future: UserController().getUserUid(),
+              future: PetugasController().getPetugasByUid(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
                       shrinkWrap: true,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        //shared preference simpan id user
+                        SharedPreferences.getInstance().then((prefs) {
+                          prefs.setInt('user_id', snapshot.data[index].user.id);
+                          prefs.setInt("petugas_id", snapshot.data[index].id);
+                          prefs.setString('code', snapshot.data[index].code);
+                        });
+                        // print("ini petugas id" +
+                        //     snapshot.data[index].id.toString());
+                        code = snapshot.data[index].code;
                         return Column(children: [
                           //Bagian paling atas form,logo dan notifikasi
                           Row(
@@ -109,7 +151,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     context: context,
                                     builder: (_) {
                                       return FractionallySizedBox(
-                                        heightFactor: 0.5,
+                                        heightFactor: 0.9,
                                         child: AreaId(),
                                       );
                                     },
@@ -132,8 +174,14 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               right: 50.0),
-                                          child:
-                                              Center(child: Text("Lt2D4/D4")),
+                                          child: Center(
+                                              //get data
+                                              child: snapshot
+                                                          .data[index].code !=
+                                                      null
+                                                  ? Text(
+                                                      snapshot.data[index].code)
+                                                  : Text("null")),
                                         ),
                                         Icon(
                                           Icons.edit,
@@ -188,10 +236,10 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: snapshot.data[index].imageUrl != null
+                                  child: snapshot.data[index].user.photo != null
                                       ? CircleAvatar(
                                           backgroundImage: NetworkImage(
-                                              snapshot.data[index].imageUrl),
+                                              snapshot.data[index].user.photo),
                                           radius: 30,
                                         )
                                       : Image.asset(
@@ -214,7 +262,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     children: [
                                       Container(
                                         child: Text(
-                                          snapshot.data[index].name,
+                                          snapshot.data[index].user.name,
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
@@ -234,7 +282,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.300,
+                                                  0.24,
                                             ),
                                             Text(
                                               "Petugas",
@@ -249,7 +297,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.700,
+                                                0.60,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -307,7 +355,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return SaranMasukan();
+                                              return SaranMasukan(
+                                                id: snapshot.data[index].id,
+                                              );
                                             });
                                       },
                                       child: Text("Lihat Detail"),
@@ -442,51 +492,59 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                           // ],
                         ),
                         child: Row(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.24,
-                                    top: 10),
-                                child: Row(children: [
+                          Padding(
+                              padding: const EdgeInsets.all(8),
+                              // child: Image.asset(
+                              //   "assets/images/activity_icon.png",
+                              //   width: 50,
+                              //   height: 50,
+                              // ),
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Laporan Acara",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Deskripsi singkat tentang fitur",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
+                                    padding: EdgeInsets.only(left: 15, top: 10),
+                                    child: Row(children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Fitur Jadwal",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
+                                          Text(
+                                            "Detail tentang fitur jadwal",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 35, top: 12),
+                                        child: Icon(
+                                          Icons.arrow_circle_right_outlined,
+                                          size: 28,
+                                          color: Colors.black,
                                         ),
-                                      ],
-                                    ),
+                                      )
+                                    ]),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 35, top: 12),
-                                    child: Icon(
-                                      Icons.arrow_circle_right_outlined,
-                                      size: 28,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                            ],
-                          )
+                                ],
+                              ))
                         ]),
                       ),
                     ),
@@ -521,51 +579,58 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                           // ],
                         ),
                         child: Row(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.24,
-                                    top: 10),
-                                child: Row(children: [
+                          Padding(
+                              padding: const EdgeInsets.all(8),
+                              // child: Image.asset(
+                              //   "assets/images/activity_icon.png",
+                              //   width: 50,
+                              //   height: 50,
+                              // ),
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Laporan Acara",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Deskripsi singkat tentang fitur",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
+                                    padding: EdgeInsets.only(left: 15, top: 10),
+                                    child: Row(children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Laporan Acara",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
+                                          Text(
+                                            "Detail tentang Laporan Acara",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 35, top: 12),
+                                        child: Icon(
+                                          Icons.arrow_circle_right_outlined,
+                                          size: 28,
+                                          color: Colors.black,
                                         ),
-                                      ],
-                                    ),
+                                      )
+                                    ]),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 35, top: 12),
-                                    child: Icon(
-                                      Icons.arrow_circle_right_outlined,
-                                      size: 28,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                            ],
-                          )
+                                ],
+                              ))
                         ]),
                       ),
                     ),
@@ -594,109 +659,77 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          fontSize: 24.0,
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: FirebaseAnimatedList(
-                        shrinkWrap: true,
-                        //query status sama dengan
-                        query: ref,
-                        itemBuilder: (BuildContext context,
-                            DataSnapshot snapshot,
-                            Animation<double> animation,
-                            int index) {
-                          // bool isChecked = snapshot.child('status').value as bool;
-
-                          return Column(
-                            children: <Widget>[
-                              snapshot.child('status').value.toString() ==
-                                      'false'
-                                  ? ListTile(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: FutureBuilder(
+                      future: JadwalController().getJadwal(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: <Widget>[
+                                    ListTile(
                                       title: Text(
-                                        snapshot
-                                                .child('instansi')
-                                                .value
-                                                .toString() +
-                                            " - " +
-                                            snapshot
-                                                .child('penanggungJawab')
-                                                .value
-                                                .toString(),
+                                        snapshot.data[index].cleanArea +
+                                            "-" +
+                                            "PENS",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
                                       ),
-                                      subtitle: Text(
-                                        snapshot
-                                            .child('alamat')
-                                            .value
-                                            .toString(),
-                                      ),
+                                      subtitle: snapshot.data[index].status ==
+                                              "0"
+                                          ? Text("Belum dibersihkan")
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                  "Sudah dibersihkan",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              )),
                                       leading: CircleAvatar(
                                           backgroundImage: AssetImage(
                                         "assets/images/building_icon.png",
                                       )),
-                                      trailing: Text(
-                                        snapshot.child('date').value.toString(),
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      ),
+                                      trailing: Text(DateFormat('dd MMMM yyyy')
+                                          .format(DateTime.parse(snapshot
+                                              .data[index].updatedAt
+                                              .toString()))),
                                     )
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 241, 96, 96),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: ListTile(
-                                        title: Text(
-                                          snapshot
-                                                  .child('instansi')
-                                                  .value
-                                                  .toString() +
-                                              " - " +
-                                              snapshot
-                                                  .child('penanggungJawab')
-                                                  .value
-                                                  .toString(),
-                                        ),
-                                        subtitle: Text("Sampah sudah diambil",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle: FontStyle.italic)),
-                                        leading: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                          "assets/images/building_icon.png",
-                                        )),
-                                        trailing: Column(
-                                          children: [
-                                            Text(
-                                              snapshot
-                                                  .child('tglSelesai')
-                                                  .value
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              snapshot
-                                                  .child('waktuSelesai')
-                                                  .value
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                            ],
-                          );
-                        }),
+                                  ],
+                                );
+                              });
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      },
+                      // child: Text(
+                      //   "Jadwal Harian",
+                      //   style: TextStyle(
+                      //     color: Colors.black,
+                      //     fontSize: 16.0,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                    ),
                   ),
                 ],
               ),

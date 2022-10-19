@@ -1,35 +1,39 @@
-import 'dart:async';
-
+import 'package:boilerplate/models/laporan_petugas.dart';
 import 'package:boilerplate/ui/image/image_preview.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class DetailListDone extends StatefulWidget {
-  const DetailListDone({Key? key}) : super(key: key);
+
+class DetailLaporanPetugas extends StatefulWidget {
+  String? cleanArea;
+  String? name;
+  List<PetugasActivity>? listAktivitasPetugas;
+  DetailLaporanPetugas({Key? key, required this.listAktivitasPetugas, required this.cleanArea, required this.name}) : super(key: key);
 
   @override
-  State<DetailListDone> createState() => _DetailListDoneState();
+  State<DetailLaporanPetugas> createState() => _DetailLaporanPetugasState();
 }
 
-class _DetailListDoneState extends State<DetailListDone> {
+class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Budi"),
+          title: Text(widget.name!),
           backgroundColor: Colors.green,
         ),
-        body: ListView(
-          children: <Widget>[
-            ListTile(
+        body: ListView.builder(
+          itemCount: widget.listAktivitasPetugas!.length,
+          itemBuilder: (context, index) {
+            return ListTile(
               title: Text(
-                "C102",
+                widget.cleanArea!,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text("11/11/2022"),
+              subtitle: Text(
+                //convert dari string ke date
+                DateFormat.yMMMMEEEEd().format(DateTime.parse(widget.listAktivitasPetugas![index].date!)),
+              ),
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(Icons.task_alt_outlined, color: Colors.green),
@@ -38,24 +42,28 @@ class _DetailListDoneState extends State<DetailListDone> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 15, right: 8),
-                    child: Text("10.20"),
+                    child: Text(
+                      //Time format
+                      DateFormat('HH:mm').format(DateTime.parse(widget.listAktivitasPetugas![index].time!)),
+                    ),
                   ),
                   new Container(
                     child: new IconButton(
                       icon: new Icon(Icons.camera_front, color: Colors.orange),
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ImagePreview()),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ImagePreview(image: widget.listAktivitasPetugas![index].photo,)),
+                        );
                       },
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ));
+            );
+          },
+        )
+      );
   }
 }

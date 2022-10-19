@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/directions.dart';
+
 LaporAcaraResult laporAcaraFromJson(String str) => LaporAcaraResult.fromJson(json.decode(str));
 
 class LaporAcaraResult {
@@ -38,7 +41,7 @@ class LaporAcara {
     String? title;
     String? description;
     DateTime? date;
-    String? time;
+    DateTime? time;
     String? status;
     DateTime? createdAt;
     DateTime? updatedAt;
@@ -49,7 +52,7 @@ class LaporAcara {
         title: json["title"],
         description: json["description"],
         date: DateTime.parse(json["date"]),
-        time: json["time"],
+        time: DateTime.parse(json["time"]),
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
