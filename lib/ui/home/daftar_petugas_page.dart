@@ -1,6 +1,5 @@
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';

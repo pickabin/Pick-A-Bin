@@ -1,5 +1,3 @@
-import 'package:boilerplate/constants/colors.dart';
-import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:flutter/material.dart';
 
 class ImagePreview extends StatefulWidget {

@@ -6,7 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PetugasController{
   String? dataCode;
   Future<List<Petugas>> getPetugas() async {
-    final response = await http.get(Uri.parse('https://azdevweb.online/api/petugas/'));
+    //get code
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? code = prefs.getString('code');
+    final response = await http.get(Uri.parse('https://azdevweb.online/api/petugas/$code'));
     if (response.statusCode == 200) {
       PetugasResult petugasResult = petugasFromJson(response.body);
       List<Petugas> petugas = petugasResult.data;
