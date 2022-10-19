@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/ui/home/home_koordinator_page.dart';
-import 'package:boilerplate/ui/home/home_koordinator_page_backup.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 

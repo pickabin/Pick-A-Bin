@@ -1,6 +1,4 @@
-import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/controllers/petugas_controller.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
@@ -32,7 +30,7 @@ class _ListContactPageState extends State<ListContactPage> {
           leadingWidth: 100,
         ),
         body: FutureBuilder(
-            future: KoorGedungController().getKoorGedung(),
+            future: PetugasController().getPetugas(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(

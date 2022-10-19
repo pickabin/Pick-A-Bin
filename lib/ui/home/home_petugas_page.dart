@@ -1,21 +1,16 @@
 import 'dart:io';
 import 'package:boilerplate/constants/colors.dart';
-import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/home/help_page.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
-import 'package:boilerplate/ui/image/image_preview.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
-import 'package:path/path.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:intl/intl.dart';
 
 class HomePetugasPage extends StatefulWidget {

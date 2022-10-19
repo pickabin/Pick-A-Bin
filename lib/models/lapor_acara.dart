@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:google_maps_webservice/directions.dart';
-
 LaporAcaraResult laporAcaraFromJson(String str) => LaporAcaraResult.fromJson(json.decode(str));
 
 class LaporAcaraResult {

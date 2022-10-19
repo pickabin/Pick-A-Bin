@@ -1,9 +1,8 @@
 import 'package:boilerplate/controllers/petugas_controller.dart';
-import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
-import 'package:boilerplate/ui/home/list_contact_page.dart';
+import 'package:boilerplate/ui/home/list_contact_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
@@ -183,7 +182,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                           ],
                         ),
                         snapshot.data[index].user.phone != null &&
-                                snapshot.data[index].user.address
+                                snapshot.data[index].user.address != null
                             ? Container(
                                 margin: new EdgeInsets.only(
                                     top: 12.0, right: 7, left: 3),
@@ -224,7 +223,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                 ),
                                 width: 340,
                                 decoration: BoxDecoration(
-                                    color: Colors.redAccent,
+                                    color: Colors.green,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15))),
                               )

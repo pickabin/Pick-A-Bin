@@ -1,4 +1,3 @@
-import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
