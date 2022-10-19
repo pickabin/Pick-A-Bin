@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:boilerplate/controllers/koor_gedung_controller.dart';
+import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
@@ -91,17 +93,6 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
       });
     }
 
-    if (fileName != null) {
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
-      await storageRef.putFile(_image!);
-
-      storageRef.getDownloadURL().then((value) {
-        setState(() {
-          url = value;
-        });
-      });
-    }
   }
 
 //Hapus Image from firebase storage
@@ -109,16 +100,14 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
     // DatabaseReference data = FirebaseDatabase.instance.ref("warga/$key");
     setState(() {
       _image = null;
-      url = null;
-      UserController.updateImage(widget.id, url);
+      url = '';
+      UserController.updateUserImage(id, url);
     });
   }
 
   final GlobalKey<FormState> _formKey = new GlobalKey();
   final _auth = AuthService();
   var namaLogin;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -142,15 +131,19 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
             return SingleChildScrollView(
                 child: Column(children: [
               Container(
+                padding: EdgeInsets.only(top: 10),
                 height: 140,
                 width: 140,
                 child: CircleAvatar(
-                  child: url != null
+                  child: _image != null
                       ? Stack(
                           children: [
                             CircleAvatar(
                               radius: 70,
-                              backgroundImage: NetworkImage(url.toString()),
+                              backgroundImage: Image.file(
+                                _image!,
+                                fit: BoxFit.cover,
+                              ).image,
                             ),
                             Positioned(
                               bottom: MediaQuery.of(context).size.height * 0.01,
@@ -615,7 +608,7 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        ProfileKoordinatorMain()),
+                                                                        NavbarPage()),
                                                             (route) =>
                                                                 false).then(
                                                             (value) => setState(
@@ -912,10 +905,8 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                 //     namaLogin = user.displayName;
                                 //   }
                                 // });
-                                var name =
-                                    _nameController.text.trim();
+                                var name = _nameController.text.trim();
                                 var alamat = _alamatController.text.trim();
-                                var email = _emailController.text.trim();
                                 var telp = _telpController.text.trim();
 
                                 if (_formKey.currentState!.validate()) {}
@@ -933,21 +924,51 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                       textColor: Colors.white,
                                       fontSize: 16.0);
                                 } else {
-                                  if (url != null) {
-                                    UserController.updateImage(widget.id, url);
+                                  // if (url != null) {
+                                  //   PetugasController.updateImage(widget.id, url);
+                                  // }
+
+                                  if (fileName != null) {
+                                    FirebaseStorage storage =
+                                        FirebaseStorage.instance;
+                                    Reference storageRef = storage
+                                        .ref()
+                                        .child("imageUser/" + fileName!);
+                                    await storageRef.putFile(_image!);
+
+                                    storageRef.getDownloadURL().then((value) {
+                                      setState(() {
+                                        url = value;
+                                        // data.update({"imageUrl": url});
+                                      });
+                                    }).then((value) {
+                                      UserController.updateUserImage(
+                                          widget.id, url);
+                                    });
                                   }
 
                                   UserController.updateUser(
                                           widget.id, name, alamat, telp)
                                       .then((value) {
-                                    Fluttertoast.showToast(
-                                        msg: "Data Berhasil Diubah",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.green,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
+                                    if (value.statusCode == 200) {
+                                      Fluttertoast.showToast(
+                                          msg: "Data Berhasil Diubah",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.green,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: "Data Gagal Diubah",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    }
                                   });
 
                                   Navigator.pushReplacement(

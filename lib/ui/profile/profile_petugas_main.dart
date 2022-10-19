@@ -1,6 +1,7 @@
+import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/activity/user_activity_page.dart';
+import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/home/list_contact_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
@@ -13,7 +14,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
-
 
 class ProfilePetugasMain extends StatefulWidget {
   const ProfilePetugasMain({Key? key}) : super(key: key);
@@ -40,14 +40,14 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
         elevation: 0,
       ),
       body: FutureBuilder(
-         future: UserController().getUserUid(),
-         builder: (context, AsyncSnapshot snapshot){
-          if(snapshot.hasData){
+        future: PetugasController().getPetugasByUid(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
             return ListView.builder(
-               shrinkWrap: true,
-               itemCount: snapshot.data.length,
-               itemBuilder: (context, index){
-                return SingleChildScrollView(
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,30 +56,40 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(left: 25.0),
-                              child: snapshot.data[index].imageUrl != null
+                              child: snapshot.data[index].user.photo != null
                                   ? GestureDetector(
-                                    child: Container(
-                                        height: MediaQuery.of(context).size.width *
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.width *
                                                 0.15,
-                                        width: MediaQuery.of(context).size.width *
+                                        width:
+                                            MediaQuery.of(context).size.width *
                                                 0.20,
                                         child: CircleAvatar(
                                             radius: 60,
-                                            backgroundImage: NetworkImage(snapshot.data[index].imageUrl.toString())),
+                                            backgroundImage: NetworkImage(
+                                                snapshot.data[index].user.photo
+                                                    .toString())),
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProfileDetailImage(image: snapshot.data[index].imageUrl.toString())));
+                                                    ProfileDetailImage(
+                                                        image: snapshot
+                                                            .data[index]
+                                                            .user
+                                                            .photo
+                                                            .toString())));
                                       },
-                                  )
+                                    )
                                   : Container(
-                                      height: MediaQuery.of(context).size.width *
-                                                0.15,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.15,
                                       width: MediaQuery.of(context).size.width *
-                                                0.20,
+                                          0.20,
                                       child: CircleAvatar(
                                         radius: 60,
                                         backgroundColor: Colors.green,
@@ -97,33 +107,38 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                      snapshot.data[index].name.toString(),
+                                      snapshot.data[index].user.name.toString(),
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.black)),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
-                                    child: snapshot.data[index].phone != null ? Text(
-                                      snapshot.data[index].phone.toString(),
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontSize: 12.0,
-                                          letterSpacing: 0.5,
-                                          wordSpacing: 1),
-                                    ) : Text(
-                                      'No Phone',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontSize: 12.0,
-                                          letterSpacing: 0.5,
-                                          wordSpacing: 1),
-                                    ),
+                                    child:
+                                        snapshot.data[index].user.phone != null
+                                            ? Text(
+                                                snapshot.data[index].user.phone
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 57, 57, 57),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.5,
+                                                    wordSpacing: 1),
+                                              )
+                                            : Text(
+                                                'No Phone',
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 57, 57, 57),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.5,
+                                                    wordSpacing: 1),
+                                              ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
                                     child: Text(
-                                      snapshot.data[index].email.toString(),
+                                      snapshot.data[index].user.email
+                                          .toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -144,60 +159,125 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            UpdatePetugasPage(
-                                              name: snapshot.data[index].name.toString(),
-                                              phone: snapshot.data[index].phone.toString(),
-                                              email: snapshot.data[index].email.toString(),
-                                              imageUrl: snapshot.data[index].imageUrl.toString(),
-                                              address: snapshot.data[index].address.toString(),
-                                              id: snapshot.data[index].id,
-                                        )));
+                                        builder: (context) => UpdatePetugasPage(
+                                              name: snapshot
+                                                  .data[index].user.name
+                                                  .toString(),
+                                              phone: snapshot
+                                                  .data[index].user.phone
+                                                  .toString(),
+                                              email: snapshot
+                                                  .data[index].user.email
+                                                  .toString(),
+                                              imageUrl: snapshot
+                                                  .data[index].user.photo
+                                                  .toString(),
+                                              address: snapshot
+                                                  .data[index].user.address
+                                                  .toString(),
+                                              id: snapshot.data[index].user.id,
+                                            )));
                               },
                             ),
                           ],
                         ),
-                        
-                        Container(
-                          margin:
-                              new EdgeInsets.only(top: 12.0, right: 7, left: 3),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 10, left: 10, top: 5, bottom: 5),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 6.0, bottom: 6.0),
-                                  child: Text(
-                                    "Akun Anda sudah terverifikasi, jadi lebih aman.",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 10.0),
-                                  ),
+                        snapshot.data[index].user.phone != null &&
+                                snapshot.data[index].user.address
+                            ? Container(
+                                margin: new EdgeInsets.only(
+                                    top: 12.0, right: 7, left: 3),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10,
+                                          left: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 6.0, bottom: 6.0),
+                                        child: Text(
+                                          "Akun Anda sudah terverifikasi, jadi lebih aman.",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: 100,
+                                        height: 20,
+                                        child: ElevatedButton(
+                                            onPressed: () {},
+                                            child: Text('Periksa'),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.black38,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ))))
+                                  ],
                                 ),
+                                width: 340,
+                                decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                              )
+                            : Container(
+                                margin: new EdgeInsets.only(
+                                    top: 12.0, right: 7, left: 3),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 4,
+                                          left: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 6.0, bottom: 6.0),
+                                        child: Text(
+                                          "Akun Anda belum terverifikasi, silahkan lengkapi profil.",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.0235),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.width *
+                                            0.20,
+                                        height: MediaQuery.of(context).size.height *
+                                            0.02,
+                                        child: ElevatedButton(
+                                            onPressed: () {},
+                                            child: Text('Verifikasi',
+                                                style:
+                                                    TextStyle(fontSize: 10.0)),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.black38,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ))))
+                                  ],
+                                ),
+                                width: 340,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
                               ),
-                              SizedBox(
-                                  width: 100,
-                                  height: 20,
-                                  child: ElevatedButton(
-                                      onPressed: () {},
-                                      child: Text('Periksa'),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.black38,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ))))
-                            ],
-                          ),
-                          width: 340,
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                        ),
                         SizedBox(
                           height: 20.0,
                         ),
@@ -308,7 +388,11 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                   //     ],
                                   //   ),
                                   // );
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ListContactPage()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ListContactPage()));
                                 },
                               ),
                             ),
@@ -332,7 +416,8 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              JadwalKhususKoordinator(uid: uid)));
+                                              JadwalKhususKoordinator(
+                                                  uid: uid)));
                                 },
                               ),
                             ),
@@ -455,7 +540,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              UserActivityPage()));
+                                              KoorActivityPage()));
                                 },
                               ),
                             ),
@@ -536,9 +621,8 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                       ],
                     ),
                   );
-               } 
-            );
-          }else{
+                });
+          } else {
             return Container(
               child: Column(
                 children: [
@@ -547,30 +631,29 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                     hasCustomColors: true,
                     hasBottomBox: true,
                     colors: [
-                    // light color
-                    Color(0xFF4dabf5),
-                  ],
+                      // light color
+                      Color(0xFF4dabf5),
+                    ],
                   ),
-                 ListView.builder(
+                  ListView.builder(
                     itemCount: 4,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return ListTileShimmer(
                         hasCustomColors: true,
-
                         colors: [
-                        // light color
-                        Color(0xFF4dabf5),
-                      ],
+                          // light color
+                          Color(0xFF4dabf5),
+                        ],
                       );
                     },
-                 )
+                  )
                 ],
               ),
             );
           }
-         },
+        },
       ),
     );
   }

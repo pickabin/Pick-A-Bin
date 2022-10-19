@@ -1,6 +1,7 @@
+import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/activity/user_activity_page.dart';
+import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
@@ -40,7 +41,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
         elevation: 0,
       ),
       body: FutureBuilder(
-         future: UserController().getUserUid(),
+         future: KoorGedungController().getKoorByUid(),
          builder: (context, AsyncSnapshot snapshot){
           if(snapshot.hasData){
             return ListView.builder(
@@ -56,7 +57,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(left: 25.0),
-                              child: snapshot.data[index].imageUrl != null
+                              child: snapshot.data[index].user.photo != null
                                   ? GestureDetector(
                                     child: Container(
                                         height: MediaQuery.of(context).size.width *
@@ -65,14 +66,14 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                                 0.2,
                                         child: CircleAvatar(
                                             radius: 60,
-                                            backgroundImage: NetworkImage(snapshot.data[index].imageUrl.toString())),
+                                            backgroundImage: NetworkImage(snapshot.data[index].user.photo.toString())),
                                       ),
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProfileDetailImage(image: snapshot.data[index].imageUrl.toString())));
+                                                    ProfileDetailImage(image: snapshot.data[index].user.photo.toString())));
                                       },
                                   )
                                   : Container(
@@ -97,13 +98,13 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                      snapshot.data[index].name.toString(),
+                                      snapshot.data[index].user.name.toString(),
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.black)),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
-                                    child: snapshot.data[index].phone != null ? Text(
-                                      snapshot.data[index].phone.toString(),
+                                    child: snapshot.data[index].user.phone != null ? Text(
+                                      snapshot.data[index].user.phone.toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -123,7 +124,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 2.5),
                                     child: Text(
-                                      snapshot.data[index].email.toString(),
+                                      snapshot.data[index].user.email.toString(),
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 57, 57, 57),
@@ -146,12 +147,12 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             UpdateKoordinatorPage(
-                                              name: snapshot.data[index].name.toString(),
-                                              phone: snapshot.data[index].phone.toString(),
-                                              email: snapshot.data[index].email.toString(),
-                                              imageUrl: snapshot.data[index].imageUrl.toString(),
-                                              address: snapshot.data[index].address.toString(),
-                                              id: snapshot.data[index].id,
+                                              name: snapshot.data[index].user.name.toString(),
+                                              phone: snapshot.data[index].user.phone.toString(),
+                                              email: snapshot.data[index].user.email.toString(),
+                                              imageUrl: snapshot.data[index].user.photo.toString(),
+                                              address: snapshot.data[index].user.address.toString(),
+                                              id: snapshot.data[index].user.id,
                                         )));
                               },
                             ),
@@ -434,7 +435,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              UserActivityPage()));
+                                              KoorActivityPage()));
                                 },
                               ),
                             ),

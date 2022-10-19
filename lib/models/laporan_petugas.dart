@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-AktivitasKoorResult aktivitasKoorFromJson(String str) => AktivitasKoorResult.fromJson(json.decode(str));
+LaporanPetugasResult laporanPetugasFromJson(String str) => LaporanPetugasResult.fromJson(json.decode(str));
 
 
-class AktivitasKoorResult {
-    AktivitasKoorResult({
+class LaporanPetugasResult {
+    LaporanPetugasResult({
        required this.code,
        required this.message,
        required this.data,
@@ -12,80 +12,82 @@ class AktivitasKoorResult {
 
     int? code;
     String? message;
-    List<AktivitasKoor> data;
+    List<LaporanPetugas> data;
 
-    factory AktivitasKoorResult.fromJson(Map<String, dynamic> json) => AktivitasKoorResult(
+    factory LaporanPetugasResult.fromJson(Map<String, dynamic> json) => LaporanPetugasResult(
         code: json["code"],
         message: json["message"],
-        data: List<AktivitasKoor>.from(json["data"].map((x) => AktivitasKoor.fromJson(x))),
+        data: List<LaporanPetugas>.from(json["data"].map((x) => LaporanPetugas.fromJson(x))),
     );
 
 }
 
-class AktivitasKoor {
-    AktivitasKoor({
+class LaporanPetugas {
+    LaporanPetugas({
+       required this.id,
+       required this.userId,
+       required this.code,
+       required this.cleanArea,
+       required this.photo,
+       required this.createdAt,
+       required this.updatedAt,
+       required this.user,
+       required this.petugasActivity,
+    });
+
+    int? id;
+    String? userId;
+    String? code;
+    String? cleanArea;
+    String? photo;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    User user;
+    List<PetugasActivity> petugasActivity;
+
+    factory LaporanPetugas.fromJson(Map<String, dynamic> json) => LaporanPetugas(
+        id: json["id"],
+        userId: json["user_id"],
+        code: json["code"],
+        cleanArea: json["clean_area"],
+        photo: json["photo"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        user: User.fromJson(json["user"]),
+        petugasActivity: List<PetugasActivity>.from(json["aktivitas_petugas"].map((x) => PetugasActivity.fromJson(x))),
+    );
+}
+
+class PetugasActivity {
+    PetugasActivity({
        required this.id,
        required this.jadwalId,
-       required this.koorGedungId,
+       required this.petugasId,
        required this.date,
        required this.time,
        required this.photo,
        required this.createdAt,
        required this.updatedAt,
-       required this.jadwal,
     });
 
     int? id;
     String? jadwalId;
-    String? koorGedungId;
+    String? petugasId;
     String? date;
     String? time;
     String? photo;
     DateTime? createdAt;
     DateTime? updatedAt;
-    Jadwal jadwal;
 
-    factory AktivitasKoor.fromJson(Map<String, dynamic> json) => AktivitasKoor(
+    factory PetugasActivity.fromJson(Map<String, dynamic> json) => PetugasActivity(
         id: json["id"],
         jadwalId: json["jadwal_id"],
-        koorGedungId: json["koor_gedung_id"],
+        petugasId: json["petugas_id"],
         date: json["date"],
         time: json["time"],
         photo: json["photo"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        jadwal: Jadwal.fromJson(json["jadwal"]),
-    );
-
-}
-
-class Jadwal {
-    Jadwal({
-       required this.id,
-       required this.userId,
-       required this.cleanArea,
-       required this.status,
-       required this.createdAt,
-       required this.updatedAt,
-       required this.user,
-    });
-
-    int? id;
-    String? userId;
-    String? cleanArea;
-    String? status;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    User user;
-
-    factory Jadwal.fromJson(Map<String, dynamic> json) => Jadwal(
-        id: json["id"],
-        userId: json["user_id"],
-        cleanArea: json["clean_area"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        user: User.fromJson(json["user"]),
     );
 
 }
@@ -101,23 +103,21 @@ class User {
        required this.emailVerifiedAt,
        required this.password,
        required this.rememberToken,
-       required this.photo,
        required this.createdAt,
        required this.updatedAt,
     });
 
-    int id;
-    String uid;
-    String name;
-    String address;
-    String phone;
-    String email;
+    int? id;
+    String? uid;
+    String? name;
+    String? address;
+    String? phone;
+    String? email;
     dynamic emailVerifiedAt;
-    String password;
+    String? password;
     dynamic rememberToken;
-    String photo;
-    DateTime createdAt;
-    DateTime updatedAt;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
@@ -129,7 +129,6 @@ class User {
         emailVerifiedAt: json["email_verified_at"],
         password: json["password"],
         rememberToken: json["remember_token"],
-        photo: json["photo"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
     );

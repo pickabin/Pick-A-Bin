@@ -55,6 +55,11 @@ class UserController {
 
   static Future<http.Response> updateUser(
       int? id, String name, String address, String phone) async {
+        // print("ini id: " + id.toString());
+        // print("Ini name : " + name);
+        // print("Ini address : " + address);
+        // print("Ini phone : " + phone);
+        // print("Ini image : " + imageUrl);
     return http.put(
       Uri.parse('https://azdevweb.online/api/user/update/' + id.toString()),
       headers: <String, String>{
@@ -68,17 +73,20 @@ class UserController {
     );
   }
 
-  //update image
-  static Future<http.Response> updateImage(int? id, String? image) async {
+  //update user image
+  static Future<http.Response> updateUserImage(
+      int? id, String? imageUrl) async {
     return http.put(
       Uri.parse('https://azdevweb.online/api/user/update/' + id.toString()),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'image_url': image != null ? image : '',
+        'photo' : imageUrl!
       }),
     );
   }
+
+  
   
 }

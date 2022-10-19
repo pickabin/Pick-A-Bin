@@ -188,7 +188,9 @@ class _LoginKoordinatorPageState extends State<LoginKoordinatorPage> {
                                           isLoggedIn = false;
                                         });
                                       } else if (snapshot.docs.isEmpty) {
-                                        isLoggedIn = false;
+                                        setState(() {
+                                          isLoggedIn = false;
+                                        });
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {

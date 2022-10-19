@@ -58,19 +58,6 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
         fileName = basename(_image!.path);
       });
     }
-
-    FirebaseStorage storage = FirebaseStorage.instance;
-    if (fileName != null) {
-      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
-      await storageRef.putFile(_image!);
-
-      storageRef.getDownloadURL().then((value) {
-        setState(() {
-          url = value;
-          // data.update({"imageUrl": url});
-        });
-      });
-    }
   }
 
   //Upload dan get image gallery from storage
@@ -89,18 +76,7 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
         fileName = basename(_image!.path);
       });
     }
-
-    if (fileName != null) {
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
-      await storageRef.putFile(_image!);
-
-      storageRef.getDownloadURL().then((value) {
-        setState(() {
-          url = value;
-        });
-      });
-    }
+    
   }
 
 //Hapus Image from firebase storage
@@ -108,8 +84,9 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
     // DatabaseReference data = FirebaseDatabase.instance.ref("Koordinator/$key");
     setState(() {
       _image = null;
-      url = null;
-      UserController.updateImage(widget.id, url);
+      url = '';
+      //delete image
+      UserController.updateUserImage(id, url!);
     });
   }
 
@@ -137,23 +114,25 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
               new TextEditingController(text: widget.name);
           final TextEditingController _alamatController =
               new TextEditingController(text: widget.address);
-          final TextEditingController _emailController =
-              new TextEditingController(text: widget.email);
           final TextEditingController _telpController =
               new TextEditingController(text: widget.phone);
           if (snapshot.hasData) {
             return SingleChildScrollView(
                 child: Column(children: [
               Container(
+                padding: EdgeInsets.only(top: 10),
                 height: 140,
                 width: 140,
                 child: CircleAvatar(
-                  child: url != null
+                  child: _image != null
                       ? Stack(
                           children: [
                             CircleAvatar(
                               radius: 70,
-                              backgroundImage: NetworkImage(url.toString()),
+                              backgroundImage: Image.file(
+                                _image!,
+                                fit: BoxFit.cover,
+                              ).image,
                             ),
                             Positioned(
                               bottom: MediaQuery.of(context).size.height * 0.01,
@@ -445,7 +424,7 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        ProfileKoordinatorMain()),
+                                                                        NavbarPage()),
                                                             (route) =>
                                                                 false).then(
                                                             (value) => setState(
@@ -613,16 +592,8 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
 
                                                         //refresh halaman
                                                         _removeImage(id);
-                                                        Navigator.pushAndRemoveUntil(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        ProfileKoordinatorMain()),
-                                                            (route) =>
-                                                                false).then(
-                                                            (value) => setState(
-                                                                () {}));
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
                                                       splashColor:
                                                           Colors.purpleAccent,
@@ -918,14 +889,12 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
                                 var name =
                                     _penanggungJawabController.text.trim();
                                 var alamat = _alamatController.text.trim();
-                                var email = _emailController.text.trim();
                                 var telp = _telpController.text.trim();
 
                                 if (_formKey.currentState!.validate()) {}
 
                                 if (_penanggungJawabController.text.isEmpty ||
                                     _alamatController.text.isEmpty ||
-                                    _emailController.text.isEmpty ||
                                     _telpController.text.isEmpty) {
                                   Fluttertoast.showToast(
                                       msg: "Data Tidak Boleh Kosong",
@@ -936,21 +905,50 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
                                       textColor: Colors.white,
                                       fontSize: 16.0);
                                 } else {
-                                  if (url != null) {
-                                    UserController.updateImage(widget.id, url);
+                                  // if (url != null) {
+                                  //   KoorGedungController.updateImage(widget.id, url);
+                                  // }
+
+                                  if (fileName != null) {
+                                    FirebaseStorage storage =
+                                        FirebaseStorage.instance;
+                                    Reference storageRef = storage
+                                        .ref()
+                                        .child("imageUser/" + fileName!);
+                                    await storageRef.putFile(_image!);
+
+                                    storageRef.getDownloadURL().then((value) {
+                                      setState(() {
+                                        url = value;
+                                        // data.update({"imageUrl": url});
+                                      });
+                                    }).then((value){
+                                      UserController.updateUserImage(widget.id, url);
+                                    });
                                   }
 
                                   UserController.updateUser(
                                           widget.id, name, alamat, telp)
                                       .then((value) {
-                                    Fluttertoast.showToast(
-                                        msg: "Data Berhasil Diubah",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.green,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
+                                    if (value.statusCode == 200) {
+                                      Fluttertoast.showToast(
+                                          msg: "Data Berhasil Diubah",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.green,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: "Data Gagal Diubah",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    }
                                   });
 
                                   Navigator.pushReplacement(

@@ -1,20 +1,19 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ActivityPage extends StatefulWidget {
-  ActivityPage({Key? key}) : super(key: key);
+class PetugasActivityPage extends StatefulWidget {
+  PetugasActivityPage({Key? key}) : super(key: key);
 
   @override
-  State<ActivityPage> createState() => _ActivityPageState();
+  State<PetugasActivityPage> createState() => _PetugasActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage> {
-  final ref = FirebaseDatabase.instance
-      .ref()
-      .child('aktivitas_petugas');
+class _PetugasActivityPageState extends State<PetugasActivityPage> {
+  // final ref = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('aktivitas_petugas');
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +30,12 @@ class _ActivityPageState extends State<ActivityPage> {
           leadingWidth: 100,
         ),
         body: FutureBuilder(
-          future: _getPrefs(),
-          builder: (context,snapshot){
-            print("name : ${snapshot.data}");
-            if(snapshot.hasData){
-          return Container(
-            padding: const EdgeInsets.only(bottom: 80),
-            child: FirebaseAnimatedList(
-                query: ref.orderByChild('petugas').equalTo("${snapshot.data}"),
-                itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                    Animation<double> animation, int index) {
+          future: AktivitasPetugasController().getAktivitasPetugas(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
                   return Column(
                     children: <Widget>[
                       Dismissible(
@@ -48,8 +43,8 @@ class _ActivityPageState extends State<ActivityPage> {
                         direction: DismissDirection.endToStart,
                         background: Container(
                           color: Colors.red,
-                          child:
-                              Text("Hapus", style: TextStyle(color: Colors.white)),
+                          child: Text("Hapus",
+                              style: TextStyle(color: Colors.white)),
                           alignment: Alignment.centerRight,
                           padding: EdgeInsets.only(right: 20),
                         ),
@@ -70,11 +65,9 @@ class _ActivityPageState extends State<ActivityPage> {
                                     TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
-                                          var key = snapshot.key;
-                                          DatabaseReference del = FirebaseDatabase
-                                              .instance
-                                              .ref("aktivitas_petugas/$key");
-                                          del.remove();
+                                          var key = snapshot.data[index].id;
+                                          AktivitasPetugasController
+                                              .deleteAktivitasPetugas(key);
                                         },
                                         child: Text("Yakin")),
                                   ],
@@ -102,29 +95,33 @@ class _ActivityPageState extends State<ActivityPage> {
                                           color: Colors.green)),
                                   TextSpan(
                                       text: snapshot
-                                          .child('alamat')
-                                          .value
-                                          .toString()),
+                                          .data[index].jadwal.cleanArea),
                                 ],
                               ),
                             ),
                             trailing: Column(children: <Widget>[
-                              snapshot.child('tanggalPengambilan').value.toString() ==
-                                      DateFormat('dd/MM/yyyy')
+                              DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                          snapshot.data[index].date
+                                              .toString())) ==
+                                      DateFormat('yyyy-MM-dd')
                                           .format(DateTime.now())
-                                  ? Text(snapshot.child('waktuPengambilan').value.toString(),
+                                  ? Text(
+                                    DateFormat('HH:mm').format(
+                                      DateTime.parse(snapshot.data[index].time
+                                              .toString())
+                                      ).toString(),
                                       style: TextStyle(color: Colors.grey))
-                                  : snapshot.child('tanggalPengambilan').value.toString() ==
-                                          DateFormat('dd/MM/yyyy').format(
+                                  : DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                          snapshot.data[index].date
+                                              .toString())) ==
+                                          DateFormat('yyyy-MM-dd').format(
                                               DateTime.now()
                                                   .subtract(Duration(days: 1)))
                                       ? Text("Yesterday",
                                           style: TextStyle(color: Colors.grey))
                                       : Text(
-                                          snapshot
-                                              .child('tanggal')
-                                              .value
-                                              .toString(),
+                                          DateFormat('yyyy-MM-dd').format(
+                                              DateTime.parse(snapshot.data[index].date.toString())),
                                           style: TextStyle(color: Colors.grey)),
                               SizedBox(height: 15),
                               Wrap(
@@ -144,12 +141,14 @@ class _ActivityPageState extends State<ActivityPage> {
                       Divider(color: Colors.black),
                     ],
                   );
-                }),
-          );
-              }else{
-                return Center(child: Text("Tidak ada aktivitas"));
-              }
-              }
+                },
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ));
   }
 

@@ -1,4 +1,4 @@
-import 'package:boilerplate/ui/activity/user_activity_page.dart';
+import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -158,8 +158,8 @@ class _HomeWargaPageState extends State<HomeWargaPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => UserActivityPage()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => UserActivityPage()));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(top: 40),

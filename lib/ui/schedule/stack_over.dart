@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:boilerplate/ui/schedule/jadwal_camera_page.dart';
-import 'package:boilerplate/ui/schedule/list_done_page.dart';
+import 'package:boilerplate/controllers/user_controller.dart';
+import 'package:boilerplate/ui/schedule/jadwal_koor_camera_page.dart';
+import 'package:boilerplate/ui/schedule/laporan_petugas_page.dart';
 import 'package:boilerplate/ui2/image/image_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -72,7 +73,7 @@ class _StackOverState extends State<StackOver>
         title: Text("Jadwal"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.only(top: 20.0),
         child: Column(
           children: [
             // give the tab bar a height [can change hheight to preferred height]
@@ -100,7 +101,7 @@ class _StackOverState extends State<StackOver>
                   Tab(
                     text: 'Laporan Petugas',
                   ),
-
+      
                   // second tab [you can add an icon using the icon property]
                   Tab(
                     text: 'Jadwal',
@@ -115,12 +116,11 @@ class _StackOverState extends State<StackOver>
                 children: [
                   // first tab bar view widget
                   Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: ListDonePage()),
+                      padding: EdgeInsets.only(top: 10), child: LaporanPetugasPage()),
                   // second tab bar view widget
                   Padding(
-                      padding: EdgeInsets.only(top: 10.0),
-                      child: JadwalCameraPage()),
+                      padding: EdgeInsets.only(top: 10),
+                      child: JadwalKoorCameraPage()),
                 ],
               ),
             ),

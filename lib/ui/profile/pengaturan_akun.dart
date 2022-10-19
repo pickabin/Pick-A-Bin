@@ -1,5 +1,5 @@
 import 'package:boilerplate/data/service/auth_service.dart';
-import 'package:boilerplate/ui/activity/user_activity_page.dart';
+import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
@@ -88,7 +88,7 @@ class _PengaturanMainState extends State<PengaturanMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              UserActivityPage()));
+                                              KoorActivityPage()));
                                 },
                               ),
                             ),

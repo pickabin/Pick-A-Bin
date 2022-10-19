@@ -1,17 +1,16 @@
 import 'dart:io';
-import 'package:boilerplate/controllers/user_controller.dart';
+import 'package:boilerplate/controllers/jadwal_controller.dart';
+import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/home/help_page.dart';
-import 'package:boilerplate/ui/home/saran_masukan.dart';
 import 'package:boilerplate/ui/image/image_preview.dart';
-import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:path/path.dart';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -26,6 +25,7 @@ class HomeKoordinatorPage extends StatefulWidget {
 
 class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
   //lebar dan tinggi layar
+  String? code;
   final ref = FirebaseDatabase.instance
       .ref()
       .child('jadwal')
@@ -38,34 +38,37 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
   int _activeIndex = 0;
   final imageAsset = [
     'assets/images/slide1.jpg',
-    'assets/images/slide2.jpg',
+    'assets/images/slide2.png',
     'assets/images/slide3.jpg',
     'assets/images/slide4.jpg'
   ];
 
-  Future _getImageCamera() async {
-    XFile? selectImage = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxHeight: 512,
-      maxWidth: 512,
-      imageQuality: 90,
-    );
-
-    if (selectImage != null) {
-      setState(() {
-        _image = File(selectImage.path);
-        fileName = basename(_image!.path);
-
-        //redirect image preview
-        Navigator.pushReplacement(
-          this.context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ImagePreview(image: _image, fileName: fileName),
-          ),
-        );
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      //return data from user code
+      KoorGedungController().getKoorGedungCode().then((value) {
+        setState(() {
+          //input
+          print("Ini value" + value.toString());
+          code = value;
+        });
+      }).then((value) {
+        if (code == null) {
+          //show dialog
+          showDialog(
+            context: this.context,
+            builder: (context) {
+              return AlertDialog(
+                content: AreaId(),
+              );
+            },
+          );
+        }
       });
-    }
+    });
+    super.initState();
   }
 
   @override
@@ -80,13 +83,19 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
         child: Column(children: [
           //Bagian paling atas form,logo dan notifikasi
           FutureBuilder(
-            future: UserController().getUserUid(),
+            future: KoorGedungController().getKoorByUid(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
+                      SharedPreferences.getInstance().then((prefs) {
+                        prefs.setInt('user_id', snapshot.data[index].user.id);
+                        prefs.setInt("koor_id", snapshot.data[index].id);
+                        prefs.setString('code', snapshot.data[index].code);
+                      });
+                      code = snapshot.data[index].code;
                       return Column(
                         children: [
                           Row(
@@ -112,7 +121,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                     context: context,
                                     builder: (_) {
                                       return FractionallySizedBox(
-                                        heightFactor: 0.5,
+                                        heightFactor: 0.7,
                                         child: AreaId(),
                                       );
                                     },
@@ -135,8 +144,14 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               right: 50.0),
-                                          child:
-                                              Center(child: Text("Lt2D4/D4")),
+                                          child: Center(
+                                              //get data
+                                              child: snapshot
+                                                          .data[index].code !=
+                                                      null
+                                                  ? Text(
+                                                      snapshot.data[index].code)
+                                                  : Text("null")),
                                         ),
                                         Icon(
                                           Icons.edit,
@@ -191,11 +206,11 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: snapshot.data[index].imageUrl != null
+                                  child: snapshot.data[index].user.photo != null
                                       ? CircleAvatar(
                                           radius: 30,
                                           backgroundImage: NetworkImage(
-                                              snapshot.data[index].imageUrl),
+                                              snapshot.data[index].user.photo),
                                         )
                                       : Image.asset(
                                           "assets/images/grup_logo2.png",
@@ -211,7 +226,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                     children: [
                                       Container(
                                         child: Text(
-                                          snapshot.data[index].name,
+                                          snapshot.data[index].user.name,
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
@@ -231,7 +246,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.33,
+                                                  0.17,
                                             ),
                                             Text(
                                               "Koordinator",
@@ -246,7 +261,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         margin: EdgeInsets.only(top: 5),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.73,
+                                                0.58,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -301,11 +316,11 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         primary: Colors.lightGreen,
                                       ),
                                       onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return SaranMasukan();
-                                            });
+                                        // showDialog(
+                                        //     context: context,
+                                        //     builder: (context) {
+                                        //       return SaranMasukan();
+                                        //     });
                                       },
                                       child: Text("Lihat Detail"),
                                     ),
@@ -362,6 +377,8 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                 height: 120.0,
                 viewportFraction: 1,
                 aspectRatio: 1.0,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 5),
                 onPageChanged: (index, reason) {
                   setState(() {
                     _activeIndex = index;
@@ -614,103 +631,71 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: FirebaseAnimatedList(
-                        shrinkWrap: true,
-                        //query status sama dengan
-                        query: ref,
-                        itemBuilder: (BuildContext context,
-                            DataSnapshot snapshot,
-                            Animation<double> animation,
-                            int index) {
-                          // bool isChecked = snapshot.child('status').value as bool;
-
-                          return Column(
-                            children: <Widget>[
-                              snapshot.child('status').value.toString() ==
-                                      'false'
-                                  ? ListTile(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: FutureBuilder(
+                      future: JadwalController().getJadwal(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: <Widget>[
+                                    ListTile(
                                       title: Text(
-                                        snapshot
-                                                .child('instansi')
-                                                .value
-                                                .toString() +
-                                            " - " +
-                                            snapshot
-                                                .child('penanggungJawab')
-                                                .value
-                                                .toString(),
+                                        snapshot.data[index].cleanArea +
+                                            "-" +
+                                            "PENS",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
                                       ),
-                                      subtitle: Text(
-                                        snapshot
-                                            .child('alamat')
-                                            .value
-                                            .toString(),
-                                      ),
+                                      subtitle: snapshot.data[index].status ==
+                                              "0"
+                                          ? Text("Belum dibersihkan")
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                  "Sudah dibersihkan",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              )),
                                       leading: CircleAvatar(
                                           backgroundImage: AssetImage(
                                         "assets/images/building_icon.png",
                                       )),
-                                      trailing: Text(
-                                        snapshot.child('date').value.toString(),
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      ),
+                                      trailing: Text(DateFormat('dd MMMM yyyy')
+                                          .format(DateTime.parse(snapshot
+                                              .data[index].updatedAt
+                                              .toString()))),
                                     )
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 241, 96, 96),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: ListTile(
-                                        title: Text(
-                                          snapshot
-                                                  .child('instansi')
-                                                  .value
-                                                  .toString() +
-                                              " - " +
-                                              snapshot
-                                                  .child('penanggungJawab')
-                                                  .value
-                                                  .toString(),
-                                        ),
-                                        subtitle: Text("Sampah sudah diambil",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle: FontStyle.italic)),
-                                        leading: CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                          "assets/images/building_icon.png",
-                                        )),
-                                        trailing: Column(
-                                          children: [
-                                            Text(
-                                              snapshot
-                                                  .child('tglSelesai')
-                                                  .value
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              snapshot
-                                                  .child('waktuSelesai')
-                                                  .value
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                            ],
-                          );
-                        }),
+                                  ],
+                                );
+                              });
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      },
+                      // child: Text(
+                      //   "Jadwal Harian",
+                      //   style: TextStyle(
+                      //     color: Colors.black,
+                      //     fontSize: 16.0,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                    ),
                   ),
                 ],
               ),

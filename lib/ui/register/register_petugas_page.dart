@@ -1,4 +1,5 @@
 import 'package:boilerplate/ui/login/login_koordinator_page.dart';
+import 'package:boilerplate/ui/login/login_petugas_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
@@ -299,7 +300,7 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LoginKoordinatorPage()));
+                                                    LoginPetugasPage()));
                                       },
                                   ),
                                 ])),
