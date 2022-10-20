@@ -33,10 +33,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   int _activeIndex = 0;
   final imageAsset = [
-    'assets/images/slide1.jpg',
-    'assets/images/slide2.jpg',
-    'assets/images/slide3.jpg',
-    'assets/images/slide4.jpg'
+    'assets/images/slide1.png',
+    'assets/images/slide2.png',
+    'assets/images/slide3.png'
   ];
 
   // Future _getImageCamera() async {
@@ -127,7 +126,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                               Container(
                                 padding: EdgeInsets.only(top: 10, left: 20),
                                 child: Image.asset(
-                                  "assets/images/grup_logo.png",
+                                  "assets/images/group_logo.png",
                                   width:
                                       MediaQuery.of(context).size.width * 0.200,
                                   height: 100,
@@ -316,7 +315,14 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                             width: MediaQuery.of(context).size.width * 0.9,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.green,
+                              color: Color(0xFF66E8A9),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromARGB(255, 128, 132, 136),
+                                    offset: const Offset(0.0, 0.8),
+                                    blurRadius: 2.0,
+                                    spreadRadius: 1.2)
+                              ],
                             ),
                             child: Stack(
                               children: [
@@ -343,7 +349,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     alignment: Alignment.bottomRight,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.lightGreen,
+                                        primary: Color(0xFF1DDB7F),
                                       ),
                                       onPressed: () {
                                         showDialog(
@@ -360,7 +366,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 15, bottom: 5),
+                                      left: 0, bottom: 10),
                                   child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Image.asset(
@@ -372,17 +378,20 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   padding: const EdgeInsets.only(
                                       left: 90, bottom: 50),
                                   child: Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                        width: 200,
-                                        child: Text(
-                                          "Sampaikan aspirasi Anda !\nAnda dapat menyampaikan saran dan masukan",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                          maxLines: 3,
-                                        ),
-                                      )),
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      width: 200,
+                                      child: Text(
+                                        "Sampaikan aspirasi Anda !\n\nAnda dapat menyampaikan saran dan masukan",
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                        maxLines: 4,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -400,12 +409,27 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                 }
               }),
           Container(
+            // decoration: BoxDecoration(
+            //   boxShadow: [
+            //     BoxShadow(
+            //         color: Color.fromARGB(255, 128, 132, 136),
+            //         offset: const Offset(0.0, 0.8),
+            //         blurRadius: 2.0,
+            //         spreadRadius: 1.2)
+            //   ],
+            // ),
             child: CarouselSlider.builder(
               itemCount: imageAsset.length,
               options: CarouselOptions(
                 height: 120.0,
                 viewportFraction: 1,
                 aspectRatio: 1.0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _activeIndex = index;
@@ -423,7 +447,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.green),
+                border: Border.all(width: 1.4, color: Color(0xFF66E8A9)),
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(5.0),
@@ -469,7 +493,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                           ? Text("Belum dibersihkan")
                                           : Container(
                                               decoration: BoxDecoration(
-                                                  color: Colors.green,
+                                                  color: Color(0xFF66E8A9),
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10)),
