@@ -9,7 +9,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 
 class HomePetugasPage extends StatefulWidget {
@@ -21,13 +20,16 @@ class HomePetugasPage extends StatefulWidget {
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
   String? code;
+   int? countPetugas;
+  int? listDone;
+  double? hasil;
   //lebar dan tinggi layar
-  final ref = FirebaseDatabase.instance
-      .ref()
-      .child('jadwal')
-      .orderByChild('date')
-      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
-      .limitToLast(4);
+  // final ref = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('jadwal')
+  //     .orderByChild('date')
+  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
+  //     .limitToLast(4);
   File? _image;
   String? fileName;
 
@@ -39,6 +41,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     'assets/images/slide4.jpg'
   ];
 
+ 
   // Future _getImageCamera() async {
   //   XFile? selectImage = await ImagePicker().pickImage(
   //     source: ImageSource.camera,
@@ -82,18 +85,31 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
             context: this.context,
             builder: (context) {
               return AlertDialog(
-                content: AreaId(),
+                content: AreaId(code: code,),
               );
             },
           );
         }
       });
     });
+
+
+      // CountPetugasController().getStatusPetugas().then((value) {
+      //   setState(() {
+      //     //input
+      //     countPetugas = value!.petugas;
+      //     listDone = value.listDone;
+      //     hasil = listDone! / countPetugas!;                              
+      //   });
+      // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+      
+
     //lebar dan tinggi layar
     // double width = MediaQuery.of(context).size.width * 0.9;
     // double height = MediaQuery.of(context).size.height*0.2;
@@ -146,7 +162,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     builder: (_) {
                                       return FractionallySizedBox(
                                         heightFactor: 0.9,
-                                        child: AreaId(),
+                                        child: AreaId(code: snapshot.data[index].code),
                                       );
                                     },
                                   );
@@ -287,23 +303,34 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.680,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black38,
-                                                width: 1.5),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text("4 / 16 Petugas"),
-                                        ),
-                                      )
+                                      // Container(
+                                      //   margin: EdgeInsets.only(top: 5),
+                                      //   width:
+                                      //       MediaQuery.of(context).size.width *
+                                      //           0.680,
+                                      //   height: 30,
+                                      //   decoration: BoxDecoration(
+                                      //       border: Border.all(
+                                      //           color: Colors.black38,
+                                      //           width: 1.5),
+                                      //       borderRadius: BorderRadius.all(
+                                      //           Radius.circular(10))),
+                                      //   // child: Padding(
+                                      //   //   padding: const EdgeInsets.all(4.0),
+                                      //   //   child: GFProgressBar(
+                                      //   //     percentage:  hasil == null ? 0 : hasil!,
+                                      //   //     lineHeight: 20,
+                                      //   //     backgroundColor: Colors.grey,
+                                      //   //     progressBarColor: Colors.green,
+                                      //       child: Center(
+                                      //         child: Text(listDone.toString() + "/" + countPetugas.toString() + " Petugas",
+                                      //             style: TextStyle(
+                                      //                 color: Colors.black,
+                                      //                 fontSize: 12)),
+                                      //       ),
+                                      //   //   ),
+                                      //   // ),
+                                      // )
                                     ],
                                   ),
                                 )
@@ -349,9 +376,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return SaranMasukan(
-                                                id: snapshot.data[index].id,
-                                              );
+                                              return SaranMasukan();
                                             });
                                       },
                                       child: Text("Lihat Detail"),

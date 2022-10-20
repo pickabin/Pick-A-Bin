@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'package:boilerplate/controllers/count_petugas_controller.dart';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/ui/help/help_koordinator.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
+import 'package:boilerplate/ui/home/saran_masukan.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +23,9 @@ class HomeKoordinatorPage extends StatefulWidget {
 class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
   //lebar dan tinggi layar
   String? code;
+  int? countPetugas;
+  int? listDone;
+  double? hasil;
   // final ref = FirebaseDatabase.instance
   //     .ref()
   //     .child('jadwal')
@@ -55,18 +61,31 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             context: this.context,
             builder: (context) {
               return AlertDialog(
-                content: AreaId(),
+                content: AreaId(
+                  code: code,
+                ),
               );
             },
           );
         }
       });
     });
+
+      CountPetugasController().getStatusPetugas().then((value) {
+        setState(() {
+          countPetugas = value!.petugas;
+          listDone = value.listDone;
+          hasil = listDone! / countPetugas!;                             
+        });
+      });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    //prefs count petugas
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     //lebar dan tinggi layar
     // double width = MediaQuery.of(context).size.width * 0.9;
     // double height = MediaQuery.of(context).size.height*0.2;
@@ -115,8 +134,10 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                     context: context,
                                     builder: (_) {
                                       return FractionallySizedBox(
-                                        heightFactor: 0.7,
-                                        child: AreaId(),
+                                        heightFactor: 0.9,
+                                        child: AreaId(
+                                          code: snapshot.data[index].code,
+                                        ),
                                       );
                                     },
                                   );
@@ -145,7 +166,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                                       null
                                                   ? Text(
                                                       snapshot.data[index].code)
-                                                  : Text("null")),
+                                                  : Text("Masukkan Code")),
                                         ),
                                         Icon(
                                           Icons.edit,
@@ -271,7 +292,18 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                                 Radius.circular(10))),
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
-                                          child: Text("4 / 16 Petugas"),
+                                          child: GFProgressBar(
+                                            percentage: hasil == null ? 0 : hasil!,
+                                            lineHeight: 20,
+                                            backgroundColor: Colors.grey,
+                                            progressBarColor: Colors.green,
+                                            child: Center(
+                                              child: listDone != null ? Text(listDone.toString() + "/" + countPetugas.toString() + " Petugas",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12)) : listDone == 0 ? Text("0 / " + "0" + " Petugas") : Text("Loading...")
+                                            ),
+                                          ),
                                         ),
                                       )
                                     ],
@@ -316,11 +348,11 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         primary: Colors.lightGreen,
                                       ),
                                       onPressed: () {
-                                        // showDialog(
-                                        //     context: context,
-                                        //     builder: (context) {
-                                        //       return SaranMasukan();
-                                        //     });
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return SaranMasukan();
+                                            });
                                       },
                                       child: Text("Lihat Detail"),
                                     ),
@@ -375,10 +407,10 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
               itemCount: imageAsset.length,
               options: CarouselOptions(
                 height: 120.0,
-                viewportFraction: 1,
+                viewportFraction: 0.849,
                 aspectRatio: 1.0,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 5),
+                autoPlayInterval: Duration(seconds: 8),
                 onPageChanged: (index, reason) {
                   setState(() {
                     _activeIndex = index;

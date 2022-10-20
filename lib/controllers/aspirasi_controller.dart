@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:boilerplate/models/aspirasi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AspirasiController {
   Future<List<Aspirasi>> getAspirasi() async {
@@ -15,9 +16,13 @@ class AspirasiController {
     }
   }
 
-  static Future<http.Response> addAspirasi(int id,String judul, String isi) async {
+  static Future<http.Response> addAspirasi(String judul, String isi) async {
+    //user id shared pref
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('user_id');
+    
     return http.post(
-      Uri.parse('https://azdevweb.online/api/aspirasi/store'),
+      Uri.parse('https://azdevweb.online/api/aspirasi/store/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

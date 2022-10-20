@@ -99,6 +99,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   flutter_custom_carousel_slider: ^1.2.0
   flutter_shimmer: ^2.1.2
+  getwidget: ^3.0.1
 
 dev_dependencies:
   

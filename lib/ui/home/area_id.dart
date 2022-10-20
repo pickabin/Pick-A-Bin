@@ -4,7 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AreaId extends StatefulWidget {
-  const AreaId({Key? key}) : super(key: key);
+  String? code;
+  String? cleanArea;
+  AreaId({Key? key, required this.code}) : super(key: key);
 
   @override
   _AreaIdState createState() => _AreaIdState();
@@ -193,6 +195,7 @@ class _AreaIdState extends State<AreaId> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
+
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   role = prefs.getString('role');
@@ -201,60 +204,128 @@ class _AreaIdState extends State<AreaId> {
                                     if (kodeGedungController.text.isNotEmpty ||
                                         namaTempatController.text.isNotEmpty) {
                                       //get shared preference role
-                                      if (role == 'petugas') {
-                                        JadwalController.updateJadwalPetugas(
-                                                kodeGedungController.text,
-                                                namaTempatController.text)
-                                            .then((value) {
-                                          if (value.statusCode == 200) {
-                                            Navigator.pop(context);
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "Update Jadwal Successfully",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg: "Update Jadwal Failed",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          }
-                                        });
+
+                                      if (widget.code != null) {
+                                        if (role == 'petugas') {
+                                          JadwalController
+                                              .updateCodeCleanPetugas(
+                                            kodeGedungController.text,
+                                            namaTempatController.text,
+                                          ).then((value) {
+                                            if (value.statusCode == 200) {
+                                              Navigator.pop(context);
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Update Jadwal Successfully",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.green,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: "Update Jadwal code petugas Failed",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            }
+                                          });
+                                        } else {
+                                          JadwalController.updateCodeCleanKoor(
+                                            kodeGedungController.text,
+                                            namaTempatController.text,
+                                          ).then((value) {
+                                            if (value.statusCode == 200) {
+                                              Navigator.pop(context);
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Update Jadwal Successfully",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.green,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: "Update Jadwal code koor Failed",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            }
+                                          });
+                                        }
                                       } else {
-                                        JadwalController.updateJadwalKoor(
-                                                kodeGedungController.text,
-                                                namaTempatController.text)
-                                            .then((value) {
-                                          if (value.statusCode == 200) {
-                                            Navigator.pop(context);
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "Update Jadwal Successfully",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg: "Update Jadwal Failed",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          }
-                                        });
+                                        if (role == 'petugas') {
+                                          JadwalController.updateJadwalPetugas(
+                                                  kodeGedungController.text,
+                                                  namaTempatController.text)
+                                              .then((value) {
+                                            if (value.statusCode == 200) {
+                                              Navigator.pop(context);
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Update Jadwal Successfully",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.green,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: "Update Jadwal Failed",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            }
+                                          });
+                                        } else {
+                                          JadwalController.updateJadwalKoor(
+                                                  kodeGedungController.text,
+                                                  namaTempatController.text)
+                                              .then((value) {
+                                            if (value.statusCode == 200) {
+                                              Navigator.pop(context);
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Update Jadwal Successfully",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.green,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: "Update Jadwal Failed",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            }
+                                          });
+                                        }
                                       }
                                     }
                                   }
@@ -265,14 +336,23 @@ class _AreaIdState extends State<AreaId> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
-                                child: Text(
-                                  "Submit",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                child: widget.code != null
+                                    ? Text(
+                                        "Edit",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : Text(
+                                        "Submit",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                               ),
                             )
                           ],

@@ -2,8 +2,7 @@ import 'package:boilerplate/controllers/aspirasi_controller.dart';
 import 'package:flutter/material.dart';
 
 class SaranMasukan extends StatefulWidget {
-  int id;
-  SaranMasukan({Key? key, required this.id}) : super(key: key);
+  SaranMasukan({Key? key}) : super(key: key);
 
   @override
   State<SaranMasukan> createState() => _SaranMasukanState();
@@ -59,7 +58,7 @@ class _SaranMasukanState extends State<SaranMasukan> {
                       filled: true,
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                      hintText: 'Your name',
+                      hintText: 'Title',
                       hintStyle: TextStyle(
                           color: Colors.blueGrey, fontFamily: 'RobotoSlab'),
                       border: OutlineInputBorder(
@@ -147,7 +146,7 @@ class _SaranMasukanState extends State<SaranMasukan> {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Card(
-                  color: Colors.green[300],
+                  color: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -158,7 +157,6 @@ class _SaranMasukanState extends State<SaranMasukan> {
                         if (_namaController.text.isNotEmpty &&
                             _messageController.text.isNotEmpty) {
                           AspirasiController.addAspirasi(
-                            widget.id,
                             _namaController.text,
                             _messageController.text,
                           ).then((value) {

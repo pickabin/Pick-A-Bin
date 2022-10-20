@@ -93,9 +93,41 @@ class JadwalController{
 
    static Future<http.Response> updateJadwalKoor(String code, String cleanArea) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String id = prefs.getInt('id').toString();
+    String id = prefs.getInt('user_id').toString();
     return http.post(
       Uri.parse('https://azdevweb.online/api/koorGedung/update/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'code' : code.toString(),
+        'clean_area' : cleanArea.toString(),
+      }),
+    );
+  }
+
+  //update code dan clean area petugas
+  static Future<http.Response> updateCodeCleanPetugas(String code, String cleanArea) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String id = prefs.getInt('user_id').toString();
+    return http.put(
+      Uri.parse('https://azdevweb.online/api/petugas/updateCode/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'code' : code.toString(),
+        'clean_area' : cleanArea.toString(),
+      }),
+    );
+  }
+
+  //update code dan clean area koor
+  static Future<http.Response> updateCodeCleanKoor(String code, String cleanArea) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String id = prefs.getInt('user_id').toString();
+    return http.put(
+      Uri.parse('https://azdevweb.online/api/koorGedung/updateCode/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

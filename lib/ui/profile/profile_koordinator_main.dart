@@ -9,6 +9,7 @@ import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
 import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
+import 'package:boilerplate/ui/schedule/notif_acara.dart';
 import 'package:boilerplate/ui/update_profile/update_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -167,8 +168,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                                   .data[index].user.name
                                                   .toString(),
                                               phone: snapshot
-                                                  .data[index].user.phone
-                                                  .toString(),
+                                                  .data[index].user.phone,
                                               email: snapshot
                                                   .data[index].user.email
                                                   .toString(),
@@ -176,86 +176,184 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                                   .data[index].user.photo
                                                   .toString(),
                                               address: snapshot
-                                                  .data[index].user.address
-                                                  .toString(),
+                                                  .data[index].user.address,
                                               id: snapshot.data[index].user.id,
                                             )));
                               },
                             ),
                           ],
                         ),
-                        Container(
-                          margin:
-                              new EdgeInsets.only(top: 12.0, right: 7, left: 3),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 10, left: 10, top: 5, bottom: 5),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 6.0, bottom: 6.0),
-                                  child: Text(
-                                    "Akun Anda sudah terverifikasi, jadi lebih aman.",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 10.0),
-                                  ),
+                        snapshot.data[index].user.phone != null && 
+                           snapshot.data[index].user.phone != "null" &&
+                                snapshot.data[index].user.address != null && 
+                                  snapshot.data[index].user.address != "null"
+                            ? Container(
+                                margin: new EdgeInsets.only(
+                                    top: 12.0, right: 7, left: 3),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10,
+                                          left: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 6.0, bottom: 6.0),
+                                        child: Text(
+                                          "Akun Anda sudah terverifikasi, jadi lebih aman.",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: 100,
+                                        height: 20,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          UpdateKoordinatorPage(
+                                                            name: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .name
+                                                                .toString(),
+                                                            phone: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .phone
+                                                                .toString(),
+                                                            email: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .email
+                                                                .toString(),
+                                                            imageUrl: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .photo
+                                                                .toString(),
+                                                            address: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .address
+                                                                .toString(),
+                                                            id: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .id,
+                                                          )));
+                                            },
+                                            child: Text('Periksa'),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.black38,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ))))
+                                  ],
                                 ),
+                                width: 340,
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                              )
+                            : Container(
+                                margin: new EdgeInsets.only(
+                                    top: 12.0, right: MediaQuery.of(context).size.width * 0.02, left: MediaQuery.of(context).size.width * 0.02),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 4,
+                                          left: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 6.0, bottom: 6.0),
+                                        child: Text(
+                                          "Akun Anda belum terverifikasi, silahkan lengkapi profil.",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.0235),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.30,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          UpdateKoordinatorPage(
+                                                            name: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .name
+                                                                .toString(),
+                                                            phone: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .phone,
+                                                            email: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .email
+                                                                .toString(),
+                                                            imageUrl: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .photo
+                                                                .toString(),
+                                                            address: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .address,
+                                                            id: snapshot
+                                                                .data[index]
+                                                                .user
+                                                                .id,
+                                                          )));
+                                            },
+                                            child: Text('Verifikasi',
+                                                style:
+                                                    TextStyle(fontSize: 10.0)),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.black38,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ))))
+                                  ],
+                                ),
+                                width: MediaQuery.of(context).size.width * 1,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
                               ),
-                              SizedBox(
-                                  width: 100,
-                                  height: 20,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    UpdateKoordinatorPage(
-                                                      name: snapshot
-                                                          .data[index].user.name
-                                                          .toString(),
-                                                      phone: snapshot
-                                                          .data[index]
-                                                          .user
-                                                          .phone
-                                                          .toString(),
-                                                      email: snapshot
-                                                          .data[index]
-                                                          .user
-                                                          .email
-                                                          .toString(),
-                                                      imageUrl: snapshot
-                                                          .data[index]
-                                                          .user
-                                                          .photo
-                                                          .toString(),
-                                                      address: snapshot
-                                                          .data[index]
-                                                          .user
-                                                          .address
-                                                          .toString(),
-                                                      id: snapshot
-                                                          .data[index].user.id,
-                                                    )));
-                                      },
-                                      child: Text('Periksa'),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.black38,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ))))
-                            ],
-                          ),
-                          width: 340,
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                        ),
                         SizedBox(
                           height: 20.0,
                         ),
@@ -283,7 +381,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileActivityKoordinator()));
+                                              KoorActivityPage()));
                                 },
                               ),
                             ),
@@ -339,16 +437,15 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                     Icon(Icons.arrow_forward_ios_outlined),
                                 title: const Text('Jadwal acara saya'),
                                 onTap: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  final String? uid = prefs.getString('uid');
+                                  // SharedPreferences prefs =
+                                  //     await SharedPreferences.getInstance();
+                                  // final String? uid = prefs.getString('uid');
 
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              JadwalKhususKoordinator(
-                                                  uid: uid)));
+                                              NotifAcara()));
                                 },
                               ),
                             ),

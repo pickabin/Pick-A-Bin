@@ -101,7 +101,7 @@ class _NotifAcaraState extends State<NotifAcara> {
                                             child: Icon(Icons.home_filled,
                                                 color: Colors.green)),
                                         TextSpan(
-                                            text: 'Tempat SPE Lantai 3 \n'),
+                                            text: snapshot.data[index].description + '\n'),
                                         WidgetSpan(
                                             child: Icon(Icons.timer_rounded,
                                                 color: Colors.green)),
