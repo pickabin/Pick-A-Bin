@@ -31,9 +31,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
 
   int _activeIndex = 0;
   final imageAsset = [
-    'assets/images/slide1.jpg',
+    'assets/images/slide1.png',
     'assets/images/slide2.png',
-    'assets/images/slide3.jpg'
+    'assets/images/slide3.png'
   ];
 
   @override
