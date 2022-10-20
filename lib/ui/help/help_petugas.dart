@@ -3,7 +3,6 @@ import 'package:boilerplate/ui/help/petugas_acara_tutorial.dart';
 import 'package:boilerplate/ui/help/petugas_schedule_tutorial.dart';
 import 'package:flutter/material.dart';
 
-
 class HelpPetugas extends StatelessWidget {
   const HelpPetugas({
     Key? key,
@@ -16,8 +15,8 @@ class HelpPetugas extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.green),
-          borderRadius: BorderRadius.circular(12),
+          border: Border.all(width: 1.4, color: Color(0xFF66E8A9)),
+          borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.all(5.0),
         child: Column(
@@ -29,6 +28,7 @@ class HelpPetugas extends StatelessWidget {
                 child: Text(
                   "Bingung ?",
                   style: TextStyle(
+                    fontFamily: 'Roboto' ,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -43,8 +43,9 @@ class HelpPetugas extends StatelessWidget {
                 child: Text(
                   "Yuk pelajari fitur kami!",
                   style: TextStyle(
+                    fontFamily: 'Roboto-Regular',
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    // fontWeight: FontWeight.,
                     fontSize: 14.0,
                   ),
                 ),
@@ -61,33 +62,31 @@ class HelpPetugas extends StatelessWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 70,
+                  height: 53,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/tutorial1.png"),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                     ),
-                    border:
-                        Border.all(width: 2, color: AppColors.borderTutorial),
-                    borderRadius: BorderRadius.circular(12),
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //     color: Color.fromARGB(255, 122, 122, 122),
-                    //     spreadRadius: 1,
-                    //     blurRadius: 1,
-                    //     offset: Offset(0, 1), // changes position of shadow
-                    //   )
-                    // ],
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromARGB(255, 128, 132, 136),
+                          offset: const Offset(0.0, 0.4),
+                          blurRadius: 1.0,
+                          spreadRadius: 1.0 
+                          )
+                    ],
                   ),
                   child: Row(children: [
                     Padding(
                         padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.16),
+                            left: MediaQuery.of(context).size.width * 0.22),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 15, top: 10),
+                              padding: EdgeInsets.only(left: 15, top: 2),
                               child: Row(children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,15 +94,18 @@ class HelpPetugas extends StatelessWidget {
                                     Text(
                                       "Laporan Acara",
                                       style: TextStyle(
-                                          color: Colors.black,
+                                          fontFamily: 'Roboto-Bold',
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.w500
+                                          ),
                                     ),
                                     Text(
-                                      "Deskripsi singkat tentang fitur",
+                                      "Periksa jadwal acara terdekat",
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
+                                        fontFamily: 'Roboto-Regular',
+                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        fontSize: 9,
                                       ),
                                     ),
                                   ],
@@ -111,12 +113,12 @@ class HelpPetugas extends StatelessWidget {
                                 Container(
                                   margin: EdgeInsets.only(
                                       left: MediaQuery.of(context).size.width *
-                                          0.05,
+                                          0.12,
                                       top: 12),
                                   child: Icon(
-                                    Icons.arrow_circle_right_outlined,
-                                    size: 28,
-                                    color: Colors.black,
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 25,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                   ),
                                 )
                               ]),
@@ -138,49 +140,50 @@ class HelpPetugas extends StatelessWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 70,
+                  height: 53,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/tutorial2.png"),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                     ),
-                    border:
-                        Border.all(width: 2, color: AppColors.borderTutorial),
-                    borderRadius: BorderRadius.circular(12),
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //     color: Color.fromARGB(255, 122, 122, 122),
-                    //     spreadRadius: 1,
-                    //     blurRadius: 1,
-                    //     offset: Offset(0, 1), // changes position of shadow
-                    //   )
-                    // ],
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromARGB(255, 128, 132, 136),
+                          offset: const Offset(0.0, 0.4),
+                          blurRadius: 1.0,
+                          spreadRadius: 1.0 // changes position of shadow
+                          )
+                    ],
                   ),
                   child: Row(children: [
                     Padding(
                         padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.16),
+                            left: MediaQuery.of(context).size.width * 0.22),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 15, top: 10),
+                              padding: EdgeInsets.only(left: 15, top: 2),
                               child: Row(children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Schedule",
+                                      "Jadwal",
                                       style: TextStyle(
-                                          color: Colors.black,
+                                          fontFamily: 'Roboto-Bold',
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.w500
+                                          ),
                                     ),
                                     Text(
-                                      "Deskripsi singkat tentang fitur",
+                                      "Periksa jadwal penugasan kamu",
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
+                                        fontFamily: 'Roboto-Regular',
+                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        fontSize: 9,
                                       ),
                                     ),
                                   ],
@@ -188,12 +191,12 @@ class HelpPetugas extends StatelessWidget {
                                 Container(
                                   margin: EdgeInsets.only(
                                       left: MediaQuery.of(context).size.width *
-                                          0.05,
+                                          0.09,
                                       top: 12),
                                   child: Icon(
-                                    Icons.arrow_circle_right_outlined,
-                                    size: 28,
-                                    color: Colors.black,
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 25,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                   ),
                                 )
                               ]),

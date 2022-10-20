@@ -157,6 +157,14 @@ flutter:
     fonts:
     - asset: assets/fonts/Product-Sans-Bold.ttf
       weight: 700
+  - family: Roboto
+    fonts:
+    - asset: assets/fonts/Roboto-Light.ttf
+    - asset: assets/fonts/Roboto-Medium.ttf
+    - asset: assets/fonts/Roboto-Regular.ttf
+    - asset: assets/fonts/Roboto-Bold.ttf
+      weight: 700
+  # uses-material-design: true
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages

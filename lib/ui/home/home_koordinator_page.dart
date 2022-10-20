@@ -37,10 +37,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
 
   int _activeIndex = 0;
   final imageAsset = [
-    'assets/images/slide1.jpg',
+    'assets/images/slide1.png',
     'assets/images/slide2.png',
-    'assets/images/slide3.jpg',
-    'assets/images/slide4.jpg'
+    'assets/images/slide3.png'
   ];
 
   @override
@@ -116,7 +115,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                               Container(
                                 padding: EdgeInsets.only(top: 10, left: 20),
                                 child: Image.asset(
-                                  "assets/images/grup_logo.png",
+                                  "assets/images/group_logo.png",
                                   width:
                                       MediaQuery.of(context).size.width * 0.200,
                                   height: 100,
