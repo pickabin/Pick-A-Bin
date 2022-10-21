@@ -1,4 +1,3 @@
-import 'package:boilerplate/ui/login/login_koordinator_page.dart';
 import 'package:boilerplate/ui/login/login_petugas_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';

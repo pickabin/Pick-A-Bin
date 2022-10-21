@@ -1,14 +1,11 @@
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
-import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
 import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
-import 'package:boilerplate/ui/home/daftar_petugas_page.dart';
+import 'package:boilerplate/ui/home/list_contact_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
-import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
-import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
 import 'package:boilerplate/ui/schedule/notif_acara.dart';
 import 'package:boilerplate/ui/update_profile/update_koordinator_page.dart';
 import 'package:flutter/material.dart';
@@ -395,33 +392,9 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                 leading: Icon(Icons.person_pin),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Petugas favorit'),
+                                title: const Text('Kontak Petugas'),
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ListContactPetugasPage()));
                                 },
                               ),
                             ),
@@ -607,8 +580,8 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
   }
 }
 
-Future<String?> _getPrefs() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? uid = prefs.getString('uid');
-  return uid;
-}
+// Future<String?> _getPrefs() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   String? uid = prefs.getString('uid');
+//   return uid;
+// }

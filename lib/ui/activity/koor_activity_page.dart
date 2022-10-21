@@ -1,9 +1,7 @@
 import 'package:boilerplate/controllers/aktivitas_koor_controller.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
 
 class KoorActivityPage extends StatefulWidget {
@@ -149,9 +147,4 @@ class _KoorActivityPageState extends State<KoorActivityPage> {
     );
   }
 
-  Future<String?> _getPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? nama = prefs.getString('nama');
-    return nama;
-  }
 }

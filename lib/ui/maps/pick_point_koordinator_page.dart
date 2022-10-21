@@ -25,7 +25,6 @@ class _PickPointKoordinatorState extends State<PickPointKoordinatorPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 1), () async {
       // Snackbar

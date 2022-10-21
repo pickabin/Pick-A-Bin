@@ -117,7 +117,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(children: [
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
           FutureBuilder(
               future: PetugasController().getPetugasByUid(),
               builder: (context, AsyncSnapshot snapshot) {
@@ -337,7 +339,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 10, bottom: 12),
+                            margin: EdgeInsets.only(top: 10),
                             height: MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width * 0.9,
                             decoration: BoxDecoration(
@@ -447,13 +449,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
               itemCount: imageAsset.length,
               options: CarouselOptions(
                 height: 120.0,
-                viewportFraction: 1,
+                viewportFraction: 0.9,
                 aspectRatio: 1.0,
                 enableInfiniteScroll: true,
                 reverse: false,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayInterval: Duration(seconds: 6),
+                autoPlayAnimationDuration: Duration(milliseconds: 900),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 onPageChanged: (index, reason) {
                   setState(() {

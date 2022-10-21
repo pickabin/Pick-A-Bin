@@ -4,15 +4,15 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ListContactPage extends StatefulWidget {
-  ListContactPage({Key? key}) : super(key: key);
+class ListContactPetugasPage extends StatefulWidget {
+  ListContactPetugasPage({Key? key}) : super(key: key);
   
 
   @override
-  State<ListContactPage> createState() => _ListContactPageState();
+  State<ListContactPetugasPage> createState() => _ListContactPetugasPageState();
 }
 
-class _ListContactPageState extends State<ListContactPage> {
+class _ListContactPetugasPageState extends State<ListContactPetugasPage> {
   // final ref = FirebaseDatabase.instance.ref().child('petugas');
 
   @override
@@ -23,7 +23,7 @@ class _ListContactPageState extends State<ListContactPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: const Text(
-            'List Koordinator',
+            'List Petugas',
             style: TextStyle(color: Color(0xff00783E)),
           ),
           automaticallyImplyLeading: false,
@@ -32,8 +32,10 @@ class _ListContactPageState extends State<ListContactPage> {
         body: FutureBuilder(
             future: PetugasController().getPetugas(),
             builder: (context, AsyncSnapshot snapshot) {
+             
               if (snapshot.hasData) {
-                return ListView.builder(
+                
+                return snapshot.data.length != 0 ? ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
@@ -82,7 +84,7 @@ class _ListContactPageState extends State<ListContactPage> {
                           )
                         ],
                       );
-                    });
+                    }) : Center(child: Text('Belum ada petugas yang terdaftar'));
               } else {
                 return ListView.builder(
                   itemCount: 3,

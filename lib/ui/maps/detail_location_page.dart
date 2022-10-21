@@ -35,7 +35,6 @@ class _DetailLocationPageState extends State<DetailLocationPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAddressFromLatLng();
   }

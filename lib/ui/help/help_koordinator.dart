@@ -1,10 +1,8 @@
 import 'package:boilerplate/constants/colors.dart';
-import 'package:boilerplate/ui/help/help_page.dart';
 import 'package:flutter/material.dart';
 import 'package:boilerplate/ui/help/koordinator_laporan_tutorial.dart';
 import 'package:boilerplate/ui/help/koordinator_schedule_tutorial.dart';
-import 'package:boilerplate/ui/help/petugas_acara_tutorial.dart';
-import 'package:boilerplate/ui/help/petugas_schedule_tutorial.dart';
+
 
 class HelpKoordinator extends StatelessWidget {
   const HelpKoordinator({
@@ -18,7 +16,7 @@ class HelpKoordinator extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.green),
+          border: Border.all(width: 1.4, color: Color(0xFF66E8A9)),
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(5.0),

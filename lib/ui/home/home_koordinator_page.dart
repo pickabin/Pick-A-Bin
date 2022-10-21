@@ -32,8 +32,8 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
   //     .orderByChild('date')
   //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
   //     .limitToLast(4);
-  File? _image;
-  String? fileName;
+  // File? _image;
+  // String? fileName;
 
   int _activeIndex = 0;
   final imageAsset = [
@@ -70,6 +70,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
       });
     });
 
+
       CountPetugasController().getStatusPetugas().then((value) {
         setState(() {
           countPetugas = value!.petugas;
@@ -92,7 +93,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
     // print("tinggi" + height.toString());
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(children: [
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
           //Bagian paling atas form,logo dan notifikasi
           FutureBuilder(
             future: KoorGedungController().getKoorByUid(),
@@ -312,7 +315,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 10, bottom: 12),
+                            margin: EdgeInsets.only(top: 10),
                             height: MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width * 0.9,
                             decoration: BoxDecoration(
@@ -406,7 +409,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
               itemCount: imageAsset.length,
               options: CarouselOptions(
                 height: 120.0,
-                viewportFraction: 0.849,
+                viewportFraction: 0.9,
                 aspectRatio: 1.0,
                 autoPlay: true,
                 autoPlayInterval: Duration(seconds: 8),
@@ -427,7 +430,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.green),
+                border: Border.all(width: 1.4, color: Color(0xFF66E8A9)),
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(5.0),

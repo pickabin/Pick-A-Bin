@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
+import 'package:boilerplate/ui/activity/petugas_activity_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 
 class JadwalPetugasCameraPage extends StatefulWidget {
@@ -122,7 +122,9 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                                       color: Colors.orange),
                                   onPressed: () {
                                     _getImageCamera().then((value) {
-                                      Navigator.pop(context);
+                                      setState(() {
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PetugasActivityPage()));
+                                      });
                                     });
                                   },
                                 ),
@@ -150,9 +152,9 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
         ));
   }
 
-  Future<String?> _getRole() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? role = prefs.getString('role');
-    return role;
-  }
+  // Future<String?> _getRole() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final String? role = prefs.getString('role');
+  //   return role;
+  // }
 }

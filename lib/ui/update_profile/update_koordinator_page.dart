@@ -96,7 +96,7 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+  
     super.initState();
   }
 

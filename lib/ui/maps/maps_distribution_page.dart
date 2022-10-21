@@ -63,7 +63,6 @@ class _MapsDistributionPageState extends State<MapsDistributionPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getMarkerData();
     super.initState();
   }

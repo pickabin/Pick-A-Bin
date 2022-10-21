@@ -1,7 +1,7 @@
 import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class PetugasActivityPage extends StatefulWidget {
   PetugasActivityPage({Key? key}) : super(key: key);
@@ -155,9 +155,9 @@ class _PetugasActivityPageState extends State<PetugasActivityPage> {
         ));
   }
 
-  Future<String?> _getPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? nama = prefs.getString('nama');
-    return nama;
-  }
+  // Future<String?> _getPrefs() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? nama = prefs.getString('nama');
+  //   return nama;
+  // }
 }

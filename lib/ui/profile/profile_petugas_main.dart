@@ -1,8 +1,9 @@
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/data/service/auth_service.dart';
+import 'package:boilerplate/ui/activity/petugas_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
+import 'package:boilerplate/ui/home/list_contact_koor_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
 import 'package:boilerplate/ui/profile/profile_activity_petugas.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
@@ -178,10 +179,10 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                             ),
                           ],
                         ),
-                        snapshot.data[index].user.phone != null && 
-                           snapshot.data[index].user.phone != "null" &&
-                                snapshot.data[index].user.address != null && 
-                                  snapshot.data[index].user.address != "null"
+                        snapshot.data[index].user.phone != null &&
+                                snapshot.data[index].user.phone != "null" &&
+                                snapshot.data[index].user.address != null &&
+                                snapshot.data[index].user.address != "null"
                             ? Container(
                                 margin: new EdgeInsets.only(
                                     top: 12.0, right: 7, left: 3),
@@ -264,7 +265,11 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                               )
                             : Container(
                                 margin: new EdgeInsets.only(
-                                    top: 12.0, right: MediaQuery.of(context).size.width * 0.02, left: MediaQuery.of(context).size.width * 0.02),
+                                    top: 12.0,
+                                    right: MediaQuery.of(context).size.width *
+                                        0.02,
+                                    left: MediaQuery.of(context).size.width *
+                                        0.02),
                                 child: Row(
                                   children: [
                                     Padding(
@@ -376,7 +381,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileActivityPetugas()));
+                                              PetugasActivityPage()));
                                 },
                               ),
                             ),
@@ -390,33 +395,13 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                 leading: Icon(Icons.person_pin),
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Petugas favorit'),
+                                title: const Text('Kontak Koordinator'),
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      title: const Text(
-                                          "Fitur ini belum tersedia"),
-                                      content: const Text(
-                                          "Fitur ini akan segera hadir di versi selanjutnya"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Colors.green,
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text(
-                                              "Oke",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ListContactKoorPage()));
                                 },
                               ),
                             ),
@@ -478,11 +463,36 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PengaturanMain()));
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             PengaturanMain()));
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                      title: const Text(
+                                          "Fitur ini belum tersedia"),
+                                      content: const Text(
+                                          "Fitur ini akan segera hadir di versi selanjutnya"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(ctx).pop();
+                                          },
+                                          child: Container(
+                                            color: Colors.green,
+                                            padding: const EdgeInsets.all(14),
+                                            child: const Text(
+                                              "Oke",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
                                 },
                               ),
                             ),

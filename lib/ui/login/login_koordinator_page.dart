@@ -158,13 +158,7 @@ class _LoginKoordinatorPageState extends State<LoginKoordinatorPage> {
                                       isLoggedIn = true;
                                     });
 
-                                    // final ref = FirebaseDatabase.instance
-                                    //     .ref()
-                                    //     .child('warga');
-                                    // final snapshot = await ref
-                                    //     .orderByChild('email')
-                                    //     .equalTo(authService.email.text)
-                                    //     .get();
+                        
                                     //get data koordinator from firestore
                                     final snapshot = await FirebaseFirestore
                                         .instance

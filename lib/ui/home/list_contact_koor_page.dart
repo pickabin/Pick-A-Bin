@@ -4,15 +4,15 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ListContactPage extends StatefulWidget {
-  ListContactPage({Key? key}) : super(key: key);
+class ListContactKoorPage extends StatefulWidget {
+  ListContactKoorPage({Key? key}) : super(key: key);
   
 
   @override
-  State<ListContactPage> createState() => _ListContactPageState();
+  State<ListContactKoorPage> createState() => _ListContactKoorPageState();
 }
 
-class _ListContactPageState extends State<ListContactPage> {
+class _ListContactKoorPageState extends State<ListContactKoorPage> {
   // final ref = FirebaseDatabase.instance.ref().child('petugas');
 
   @override

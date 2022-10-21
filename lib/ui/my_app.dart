@@ -33,22 +33,22 @@ class _MyAppState extends State<MyApp> {
 
   final UserStore _userStore = UserStore(getIt<Repository>());
 
-  void _forgotPassword(BuildContext context) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
-      backgroundColor: Colors.white,
-      context: context,
-      builder: (_) {
-        return FractionallySizedBox(
-          heightFactor: 0.8,
-          child: ErrorConnection(),
-        );
-      },
-    );
-  }
+  // void _forgotPassword(BuildContext context) {
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //             topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+  //     backgroundColor: Colors.white,
+  //     context: context,
+  //     builder: (_) {
+  //       return FractionallySizedBox(
+  //         heightFactor: 0.8,
+  //         child: ErrorConnection(),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {

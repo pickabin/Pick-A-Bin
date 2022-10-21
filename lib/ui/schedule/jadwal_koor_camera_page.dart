@@ -139,9 +139,9 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
         });
   }
 
-  Future<String?> _getRole() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? role = prefs.getString('role');
-    return role;
-  }
+  // Future<String?> _getRole() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final String? role = prefs.getString('role');
+  //   return role;
+  // }
 }
