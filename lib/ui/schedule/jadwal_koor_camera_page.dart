@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
+import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 
 class JadwalKoorCameraPage extends StatefulWidget {
@@ -56,6 +56,10 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                     backgroundColor: Colors.green,
                     textColor: Colors.white,
                     fontSize: 16.0);
+                    Navigator.pushReplacement(
+                    this.context,
+                    MaterialPageRoute(
+                        builder: (context) => KoorActivityPage()));
               } else {
                 Fluttertoast.showToast(
                     msg: "Update Failed",
@@ -110,9 +114,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                                     icon: new Icon(Icons.camera_alt_rounded,
                                         color: Colors.orange),
                                     onPressed: () {
-                                      _getImageCamera().then((value) {
-                                        Navigator.pop(context);
-                                      });
+                                      _getImageCamera();
                                     },
                                   ),
                                 ),

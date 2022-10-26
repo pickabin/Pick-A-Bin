@@ -56,6 +56,10 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                     backgroundColor: Colors.green,
                     textColor: Colors.white,
                     fontSize: 16.0);
+                Navigator.pushReplacement(
+                    this.context,
+                    MaterialPageRoute(
+                        builder: (context) => PetugasActivityPage()));
               } else {
                 Fluttertoast.showToast(
                     msg: "Update Failed",
@@ -69,8 +73,8 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
             });
           });
         });
+        print("GET URL");
       }
-      
 
       //redirect image preview
       // Navigator.pushReplacement(
@@ -121,11 +125,7 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                                   icon: new Icon(Icons.camera_alt_rounded,
                                       color: Colors.orange),
                                   onPressed: () {
-                                    _getImageCamera().then((value) {
-                                      setState(() {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PetugasActivityPage()));
-                                      });
-                                    });
+                                    _getImageCamera();
                                   },
                                 ),
                               ),

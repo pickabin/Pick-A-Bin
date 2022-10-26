@@ -1,4 +1,5 @@
 import 'package:boilerplate/controllers/jadwal_controller.dart';
+import 'package:boilerplate/ui/qrview/qr_scan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -131,12 +132,18 @@ class _AreaIdState extends State<AreaId> {
                                   borderRadius: BorderRadius.circular(15),
                                   borderSide: BorderSide(
                                     width: 2,
-                                    color: Colors.red,
+                                    color: Color.fromARGB(255, 221, 206, 205),
                                   ),
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.qr_code_scanner),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushReplacement(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return QRScanPage();
+                                      },
+                                    ));
+                                  },
                                 ),
                               ),
                             ),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:boilerplate/controllers/count_petugas_controller.dart';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
@@ -10,7 +9,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:intl/intl.dart';
 
 class HomeKoordinatorPage extends StatefulWidget {
@@ -44,7 +42,6 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(Duration(seconds: 3)).then((_) {
       //return data from user code
       KoorGedungController().getKoorGedungCode().then((value) {
@@ -70,14 +67,26 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
       });
     });
 
-
-      CountPetugasController().getStatusPetugas().then((value) {
+    KoorGedungController().getKoorByUid().then((value) {
+      //looping nilai value
+      for (var i = 0; i < value.length; i++) {
+        //input
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setInt('user_id', value[i].user.id);
+        });
+        print("Ini value userid pref" + value[i].user.id.toString());
+      }
+    }).then((value){
+       CountPetugasController().getStatusPetugas().then((value) {
         setState(() {
           countPetugas = value!.petugas;
           listDone = value.listDone;
-          hasil = listDone! / countPetugas!;                             
+          hasil = listDone! / countPetugas!;
         });
       });
+    });
+
+   
 
     super.initState();
   }
@@ -93,9 +102,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
     // print("tinggi" + height.toString());
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
           //Bagian paling atas form,logo dan notifikasi
           FutureBuilder(
             future: KoorGedungController().getKoorByUid(),
@@ -106,7 +113,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       SharedPreferences.getInstance().then((prefs) {
-                        prefs.setInt('user_id', snapshot.data[index].user.id);
+                        // prefs.setInt('user_id', snapshot.data[index].user.id);
                         prefs.setInt("koor_id", snapshot.data[index].id);
                         prefs.setString('code', snapshot.data[index].code);
                       });
@@ -295,16 +302,27 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: GFProgressBar(
-                                            percentage: hasil == null ? 0 : hasil!,
+                                            percentage:
+                                                hasil == null ? 0 : hasil!,
                                             lineHeight: 20,
                                             backgroundColor: Colors.grey,
                                             progressBarColor: Colors.green,
                                             child: Center(
-                                              child: listDone != null ? Text(listDone.toString() + "/" + countPetugas.toString() + " Petugas",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12)) : listDone == 0 ? Text("0 / " + "0" + " Petugas") : Text("Loading...")
-                                            ),
+                                                child: listDone != null
+                                                    ? Text(
+                                                        listDone.toString() +
+                                                            "/" +
+                                                            countPetugas
+                                                                .toString() +
+                                                            " Petugas",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12))
+                                                    : listDone == 0
+                                                        ? Text("0 / " +
+                                                            "0" +
+                                                            " Petugas")
+                                                        : Text("Loading...")),
                                           ),
                                         ),
                                       )
@@ -540,16 +558,5 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
     );
   }
 
-  Widget _buildIndicator() {
-    return AnimatedSmoothIndicator(
-      activeIndex: _activeIndex,
-      count: imageAsset.length,
-      effect: ExpandingDotsEffect(
-        dotHeight: 10,
-        dotWidth: 10,
-        activeDotColor: Colors.green,
-        dotColor: Colors.grey,
-      ),
-    );
-  }
+
 }

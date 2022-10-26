@@ -4,7 +4,6 @@ import 'package:boilerplate/ui/activity/petugas_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/home/list_contact_koor_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/profile_activity_petugas.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/schedule/jadwal_khusus_koordinator.dart';
 import 'package:boilerplate/ui/update_profile/update_petugas_page.dart';
@@ -224,8 +223,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                             phone: snapshot
                                                                 .data[index]
                                                                 .user
-                                                                .phone
-                                                                .toString(),
+                                                                .phone,
                                                             email: snapshot
                                                                 .data[index]
                                                                 .user
@@ -239,8 +237,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                             address: snapshot
                                                                 .data[index]
                                                                 .user
-                                                                .address
-                                                                .toString(),
+                                                                .address,
                                                             id: snapshot
                                                                 .data[index]
                                                                 .user

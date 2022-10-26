@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:intl/intl.dart';
 
 class HomePetugasPage extends StatefulWidget {
@@ -30,7 +28,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
   //     .orderByChild('date')
   //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
   //     .limitToLast(4);
-  File? _image;
+  // File? _image;
   String? fileName;
 
   int _activeIndex = 0;
@@ -68,7 +66,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(Duration(seconds: 3)).then((_) {
       //return data from user code
       PetugasController().getPetugasCode().then((value) {
@@ -584,16 +581,4 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     );
   }
 
-  Widget _buildIndicator() {
-    return AnimatedSmoothIndicator(
-      activeIndex: _activeIndex,
-      count: imageAsset.length,
-      effect: ExpandingDotsEffect(
-        dotHeight: 10,
-        dotWidth: 10,
-        activeDotColor: Colors.green,
-        dotColor: Colors.grey,
-      ),
-    );
-  }
 }

@@ -182,7 +182,7 @@ class _LaporanPageState extends State<LaporanPage> {
                                     ));
                                   })
                                   .catchError(
-                                      (error) => print("Failed to add: $error"));
+                                      (error) => print("Failed to add user: $error"));
                             });
                           }                           
                           },

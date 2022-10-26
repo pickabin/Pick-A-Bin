@@ -1,5 +1,4 @@
 import 'package:boilerplate/controllers/aktivitas_koor_controller.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../data/service/auth_service.dart';
@@ -12,7 +11,7 @@ class KoorActivityPage extends StatefulWidget {
 }
 
 class _KoorActivityPageState extends State<KoorActivityPage> {
-  final ref = FirebaseDatabase.instance.ref().child('aktivitas_warga');
+  // final ref = FirebaseDatabase.instance.ref().child('aktivitas_warga');
 
   // final data = FirebaseDatabase.instance.ref().child('aktivitas').child('penanggungJawab');
   AuthService authService = AuthService();
@@ -106,19 +105,37 @@ class _KoorActivityPageState extends State<KoorActivityPage> {
                                 ],
                               ),
                             ),
-                            trailing: snapshot.data[index].date.toString() ==
-                                    DateFormat('dd/MM/yyyy')
-                                        .format(DateTime.now())
-                                ? Text(snapshot.data[index].time.toString(),
-                                    style: TextStyle(color: Colors.grey))
-                                : snapshot.data[index].date.toString() ==
-                                        DateFormat('dd/MM/yyyy').format(
-                                            DateTime.now()
-                                                .subtract(Duration(days: 1)))
-                                    ? Text("Yesterday",
-                                        style: TextStyle(color: Colors.grey))
-                                    : Text(snapshot.data[index].date.toString(),
-                                        style: TextStyle(color: Colors.grey)),
+                            trailing: Column(children: <Widget>[
+                              DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                          snapshot.data[index].date
+                                              .toString())) ==
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now())
+                                  ? Text(
+                                    DateFormat('HH:mm').format(
+                                      DateTime.parse(snapshot.data[index].time
+                                              .toString())
+                                      ).toString(),
+                                      style: TextStyle(color: Colors.grey))
+                                  : DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                          snapshot.data[index].date
+                                              .toString())) ==
+                                          DateFormat('yyyy-MM-dd').format(
+                                              DateTime.now()
+                                                  .subtract(Duration(days: 1)))
+                                      ? Text("Yesterday",
+                                          style: TextStyle(color: Colors.grey))
+                                      : Text(
+                                          DateFormat('yyyy-MM-dd').format(
+                                              DateTime.parse(snapshot.data[index].date.toString())),
+                                          style: TextStyle(color: Colors.grey)),
+                              SizedBox(height: 15),
+                              Wrap(
+                                children: <Widget>[
+                                  Icon(Icons.arrow_back),
+                                ],
+                              ),
+                            ]),
                             leading: CircleAvatar(
                               backgroundImage:
                                   AssetImage("assets/images/activity_icon.png"),

@@ -1,4 +1,7 @@
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
+import 'package:boilerplate/models/koor_gedung.dart';
+import 'package:boilerplate/ui/image/image_preview.dart';
+import 'package:boilerplate/ui/search/search_koordinator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
@@ -28,9 +31,20 @@ class _ListContactKoorPageState extends State<ListContactKoorPage> {
           ),
           automaticallyImplyLeading: false,
           leadingWidth: 100,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.green,
+              ),
+              onPressed: () {
+                showSearch(context: context, delegate: SearchKoordinator());
+              },
+            )
+          ],
         ),
-        body: FutureBuilder(
-            future: KoorGedungController().getKoorGedung(),
+        body: FutureBuilder<List<KoorGedung>>(
+            future: KoorGedungController().searchKoorGedung(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -71,9 +85,17 @@ class _ListContactKoorPageState extends State<ListContactKoorPage> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               subtitle: snapshot.data[index].user.phone != null ? Text(snapshot.data[index].user.phone) : Text('No mobile number'),
-                              leading: CircleAvatar(
+                              leading: snapshot.data[index].user.photo == null ? CircleAvatar(
                                 backgroundImage:
                                     AssetImage("assets/images/user_icon.png"),
+                              ) : GestureDetector(
+                                child: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(snapshot.data[index].user.photo),
+                                ),
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImagePreview(image: snapshot.data[index].user.photo)));
+                                },
                               ),
                             ),
                           ),
@@ -91,6 +113,7 @@ class _ListContactKoorPageState extends State<ListContactKoorPage> {
                   }
                 );
               }
-            }));
+            })
+      );
   }
 }

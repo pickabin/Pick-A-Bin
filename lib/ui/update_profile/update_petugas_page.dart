@@ -108,6 +108,10 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
 
   @override
   Widget build(BuildContext context) {
+    var _nameController = new TextEditingController(text: widget.name);
+    var _alamatController = new TextEditingController(text: widget.address);
+    var _emailController = new TextEditingController(text: widget.email);
+    var _telpController = new TextEditingController(text: widget.phone);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -116,15 +120,6 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
       body: FutureBuilder(
         future: _getPrefs(),
         builder: (context, snapshot) {
-          final TextEditingController _nameController =
-              new TextEditingController(text: widget.name);
-          final TextEditingController _alamatController =
-              new TextEditingController(
-                  text: widget.address == null ? "" : widget.address);
-          final TextEditingController _emailController =
-              new TextEditingController(text: widget.email);
-          final TextEditingController _telpController =
-              new TextEditingController(text: widget.phone);
           if (snapshot.hasData) {
             return SingleChildScrollView(
                 child: Column(children: [

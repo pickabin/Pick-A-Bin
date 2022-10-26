@@ -103,9 +103,9 @@ class _NotifAcaraState extends State<NotifAcara> {
                                         TextSpan(
                                             text: snapshot.data[index].description + '\n'),
                                         WidgetSpan(
-                                            child: Icon(Icons.timer_rounded,
+                                            child: Icon(Icons.date_range,
                                                 color: Colors.green)),
-                                        TextSpan(text: DateFormat('hh:mm a').format(snapshot.data[index].time).toString()),
+                                        TextSpan(text: DateFormat.yMMMMEEEEd().format(snapshot.data[index].time).toString()),
                                       ],
                                     ),
                                   ),
@@ -143,9 +143,9 @@ class _NotifAcaraState extends State<NotifAcara> {
             }));
   }
 
-  Future<String?> _getPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? nama = prefs.getString('nama');
-    return nama;
-  }
+  // Future<String?> _getPrefs() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? nama = prefs.getString('nama');
+  //   return nama;
+  // }
 }

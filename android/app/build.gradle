@@ -43,8 +43,8 @@ apply plugin: 'com.google.gms.google-services'
         applicationId "com.pickabin.pickabin_app"
         minSdkVersion 20
         targetSdkVersion 30
-        versionCode 11
-        versionName "3.2"
+        versionCode 12
+        versionName "3.3"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

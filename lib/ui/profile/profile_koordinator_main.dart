@@ -225,8 +225,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                                             phone: snapshot
                                                                 .data[index]
                                                                 .user
-                                                                .phone
-                                                                .toString(),
+                                                                .phone,
                                                             email: snapshot
                                                                 .data[index]
                                                                 .user
@@ -240,8 +239,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                                             address: snapshot
                                                                 .data[index]
                                                                 .user
-                                                                .address
-                                                                .toString(),
+                                                                .address,
                                                             id: snapshot
                                                                 .data[index]
                                                                 .user

@@ -3,25 +3,32 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class JadwalController{
+class JadwalController {
   //get data dari jadwal dengan mengirimkan id dari user yang login
   Future<List<Jadwal>> getJadwal() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String id = prefs.getInt('user_id').toString();
-    print("Ini user id : " + id);
-    final response = await http.get(Uri.parse('https://azdevweb.online/api/jadwal/$id'));
-    if (response.statusCode == 200) {
-      JadwalResult jadwalResult = jadwalFromJson(response.body);
-      List<Jadwal> jadwal = jadwalResult.data;
-      return jadwal;
-    } else {
-      throw Exception('Failed to load data');
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String id = prefs.getInt('user_id').toString();
+      print("Ini user id : " + id);
+      final response =
+          await http.get(Uri.parse('https://azdevweb.online/api/jadwal/$id'));
+      if (response.statusCode == 200) {
+        JadwalResult jadwalResult = jadwalFromJson(response.body);
+        List<Jadwal> jadwal = jadwalResult.data;
+        return jadwal;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 
   //get all data jadwal
   Future<List<Jadwal>> getAllJadwal() async {
-    final response = await http.get(Uri.parse('https://azdevweb.online/api/jadwal'));
+    final response =
+        await http.get(Uri.parse('https://azdevweb.online/api/jadwal'));
     if (response.statusCode == 200) {
       JadwalResult jadwalResult = jadwalFromJson(response.body);
       List<Jadwal> jadwal = jadwalResult.data;
@@ -56,7 +63,7 @@ class JadwalController{
   // }
 
   //update jadwal
-    static Future<http.Response> updateJadwal(String photo) async {
+  static Future<http.Response> updateJadwal(String photo) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();
     String petugasId = prefs.getInt('petugas_id').toString();
@@ -76,7 +83,8 @@ class JadwalController{
   }
 
   //update and get jadwal petugas
-  static Future<http.Response> updateJadwalPetugas(String code, String cleanArea) async {
+  static Future<http.Response> updateJadwalPetugas(
+      String code, String cleanArea) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();
     return http.post(
@@ -85,13 +93,14 @@ class JadwalController{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'code' : code.toString(),
-        'clean_area' : cleanArea.toString(),
+        'code': code.toString(),
+        'clean_area': cleanArea.toString(),
       }),
     );
   }
 
-   static Future<http.Response> updateJadwalKoor(String code, String cleanArea) async {
+  static Future<http.Response> updateJadwalKoor(
+      String code, String cleanArea) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();
     return http.post(
@@ -100,14 +109,15 @@ class JadwalController{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'code' : code.toString(),
-        'clean_area' : cleanArea.toString(),
+        'code': code.toString(),
+        'clean_area': cleanArea.toString(),
       }),
     );
   }
 
   //update code dan clean area petugas
-  static Future<http.Response> updateCodeCleanPetugas(String code, String cleanArea) async {
+  static Future<http.Response> updateCodeCleanPetugas(
+      String code, String cleanArea) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();
     return http.put(
@@ -116,14 +126,15 @@ class JadwalController{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'code' : code.toString(),
-        'clean_area' : cleanArea.toString(),
+        'code': code.toString(),
+        'clean_area': cleanArea.toString(),
       }),
     );
   }
 
   //update code dan clean area koor
-  static Future<http.Response> updateCodeCleanKoor(String code, String cleanArea) async {
+  static Future<http.Response> updateCodeCleanKoor(
+      String code, String cleanArea) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();
     return http.put(
@@ -132,11 +143,9 @@ class JadwalController{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'code' : code.toString(),
-        'clean_area' : cleanArea.toString(),
+        'code': code.toString(),
+        'clean_area': cleanArea.toString(),
       }),
     );
   }
-
-
 }

@@ -76,7 +76,6 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
         fileName = basename(_image!.path);
       });
     }
-    
   }
 
 //Hapus Image from firebase storage
@@ -96,12 +95,15 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
 
   @override
   void initState() {
-  
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var _penanggungJawabController =
+        new TextEditingController(text: widget.name);
+    var _alamatController = new TextEditingController(text: widget.address);
+    var _telpController = new TextEditingController(text: widget.phone);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -110,12 +112,6 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
       body: FutureBuilder(
         future: _getPrefs(),
         builder: (context, snapshot) {
-          final TextEditingController _penanggungJawabController =
-              new TextEditingController(text: widget.name);
-          final TextEditingController _alamatController =
-              new TextEditingController(text: widget.address);
-          final TextEditingController _telpController =
-              new TextEditingController(text: widget.phone);
           if (snapshot.hasData) {
             return SingleChildScrollView(
                 child: Column(children: [
@@ -922,8 +918,9 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
                                         url = value;
                                         // data.update({"imageUrl": url});
                                       });
-                                    }).then((value){
-                                      UserController.updateUserImage(widget.id, url);
+                                    }).then((value) {
+                                      UserController.updateUserImage(
+                                          widget.id, url);
                                     });
                                   }
 

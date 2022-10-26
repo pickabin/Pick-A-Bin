@@ -15,10 +15,10 @@ class _RegisterPetugasPageState extends State<RegisterPetugasPage> {
   // Create a CollectionReference called users that references the firestore collection
 
   final TextEditingController _namaController = new TextEditingController();
-  final TextEditingController _alamatController = new TextEditingController();
+  // final TextEditingController _alamatController = new TextEditingController();
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-  final TextEditingController _telpController = new TextEditingController();
+  // final TextEditingController _telpController = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = new GlobalKey();
   final _auth = AuthService();
