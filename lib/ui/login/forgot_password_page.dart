@@ -115,15 +115,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Container(
                         height: 50,
                         width: double.infinity,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             final String email = _emailController.text.trim();
                             authService.resetPassword(email);
                           },
-                          color: Colors.green,
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
-                          ),
+                          ),),
                           child: Text(
                             "Send Request",
                             style: TextStyle(
