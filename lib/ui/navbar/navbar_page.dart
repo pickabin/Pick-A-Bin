@@ -35,12 +35,14 @@ class _NavbarPageState extends State<NavbarPage> {
     HomePetugasPage(),
     StackOver(),
     PetugasActivityPage(),
+    ProfilePetugasMain()
   ];
 
   final _pageOptionsKoordinator = [
     HomeKoordinatorPage(),
     StackOver(),
     KoorActivityPage(),
+    ProfileKoordinatorMain()
   ];
 
   @override
