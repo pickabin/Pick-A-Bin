@@ -3,6 +3,7 @@ import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/help/help_petugas.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
+import 'package:boilerplate/ui/notifikasi/notifikasi.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class HomePetugasPage extends StatefulWidget {
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
   String? code;
-   int? countPetugas;
+  int? countPetugas;
   int? listDone;
   double? hasil;
   //lebar dan tinggi layar
@@ -38,7 +39,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     'assets/images/slide3.png'
   ];
 
- 
   // Future _getImageCamera() async {
   //   XFile? selectImage = await ImagePicker().pickImage(
   //     source: ImageSource.camera,
@@ -81,7 +81,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
             context: this.context,
             builder: (context) {
               return AlertDialog(
-                content: AreaId(code: code,),
+                content: AreaId(
+                  code: code,
+                ),
               );
             },
           );
@@ -89,23 +91,19 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
       });
     });
 
-
-      // CountPetugasController().getStatusPetugas().then((value) {
-      //   setState(() {
-      //     //input
-      //     countPetugas = value!.petugas;
-      //     listDone = value.listDone;
-      //     hasil = listDone! / countPetugas!;                              
-      //   });
-      // });
+    // CountPetugasController().getStatusPetugas().then((value) {
+    //   setState(() {
+    //     //input
+    //     countPetugas = value!.petugas;
+    //     listDone = value.listDone;
+    //     hasil = listDone! / countPetugas!;
+    //   });
+    // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-      
-
     //lebar dan tinggi layar
     // double width = MediaQuery.of(context).size.width * 0.9;
     // double height = MediaQuery.of(context).size.height*0.2;
@@ -114,9 +112,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
           FutureBuilder(
               future: PetugasController().getPetugasByUid(),
               builder: (context, AsyncSnapshot snapshot) {
@@ -160,7 +156,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     builder: (_) {
                                       return FractionallySizedBox(
                                         heightFactor: 0.9,
-                                        child: AreaId(code: snapshot.data[index].code),
+                                        child: AreaId(
+                                            code: snapshot.data[index].code),
                                       );
                                     },
                                   );
@@ -204,7 +201,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                 child: Stack(children: [
                                   //Notification
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Notifikasi()));
+                                    },
                                     icon: Icon(
                                       Icons.notifications,
                                       color: Colors.black45,
@@ -580,5 +583,4 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
               fit: BoxFit.cover)),
     );
   }
-
 }

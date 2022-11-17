@@ -4,6 +4,7 @@ import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/ui/help/help_koordinator.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
+import 'package:boilerplate/ui/notifikasi/notifikasi.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +77,8 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
         });
         print("Ini value userid pref" + value[i].user.id.toString());
       }
-    }).then((value){
-       CountPetugasController().getStatusPetugas().then((value) {
+    }).then((value) {
+      CountPetugasController().getStatusPetugas().then((value) {
         setState(() {
           countPetugas = value!.petugas;
           listDone = value.listDone;
@@ -85,8 +86,6 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
         });
       });
     });
-
-   
 
     super.initState();
   }
@@ -177,9 +176,11 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                                       snapshot.data[index].code)
                                                   : Text("Masukkan Code")),
                                         ),
-                                        Icon(
-                                          Icons.edit,
-                                          color: Colors.black45,
+                                        Container(
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.black45,
+                                          ),
                                         ),
                                         SizedBox(width: 15)
                                       ],
@@ -190,7 +191,13 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                 child: Stack(children: [
                                   //Notification
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Notifikasi()));
+                                    },
                                     icon: Icon(
                                       Icons.notifications,
                                       color: Colors.black45,
@@ -557,6 +564,4 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
               fit: BoxFit.cover)),
     );
   }
-
-
 }

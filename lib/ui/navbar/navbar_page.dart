@@ -7,7 +7,7 @@ import 'package:boilerplate/ui/home/home_koordinator_page.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
 import 'package:boilerplate/ui/profile/profile_koordinator_main.dart';
 import 'package:boilerplate/ui/schedule/jadwal_petugas_camera_page.dart';
-import 'package:boilerplate/ui/schedule/notif_acara.dart';
+import 'package:boilerplate/ui/notifikasi/notif_acara.dart';
 import 'package:boilerplate/ui/schedule/stack_over.dart';
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';

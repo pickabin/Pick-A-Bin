@@ -6,7 +6,7 @@ import 'package:boilerplate/ui/home/list_contact_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
 import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
-import 'package:boilerplate/ui/schedule/notif_acara.dart';
+import 'package:boilerplate/ui/notifikasi/notif_acara.dart';
 import 'package:boilerplate/ui/update_profile/update_koordinator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
