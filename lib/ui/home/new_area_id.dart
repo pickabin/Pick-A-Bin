@@ -145,12 +145,13 @@ class _AreaIdState extends State<AreaId> {
                       Container(
                         height: 50,
                         width: double.infinity,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {},
-                          color: Colors.green,
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
-                          ),
+                          ),),
+                          
                           child: Text(
                             "Submit",
                             style: TextStyle(

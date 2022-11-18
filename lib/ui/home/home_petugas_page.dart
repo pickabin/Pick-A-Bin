@@ -231,17 +231,10 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                               snapshot.data[index].user.photo),
                                           radius: 30,
                                         )
-                                      : Image.asset(
-                                          "assets/images/grup_logo2.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.17,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.16,
-                                        ),
+                                      : CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: NetworkImage(
+                                              'assets/images/grup_logo2.png')),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),

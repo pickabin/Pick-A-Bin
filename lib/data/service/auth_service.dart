@@ -49,12 +49,15 @@ class AuthService {
             title: Text("Username atau Password Salah"),
             content: Text("Pastikan Username dan Password Anda Benar"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text("Close"),
-                color: Colors.red,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => LoginKoordinatorPage()));
+                      builder: (BuildContext context) =>
+                          LoginKoordinatorPage()));
                 },
               ),
             ],
@@ -90,9 +93,11 @@ class AuthService {
             title: Text("Username atau Password Salah"),
             content: Text("Pastikan Username dan Password Anda Benar"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
                 child: Text("Close"),
-                color: Colors.red,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (BuildContext context) => LoginPetugasPage()));

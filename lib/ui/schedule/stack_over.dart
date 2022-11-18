@@ -11,7 +11,6 @@ class _StackOverState extends State<StackOver>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-
   int _activeIndex = 0;
   final imageAsset = [
     'assets/images/slide1.jpg',
@@ -19,7 +18,6 @@ class _StackOverState extends State<StackOver>
     'assets/images/slide3.jpg',
     'assets/images/slide4.jpg'
   ];
-
 
   @override
   void initState() {
@@ -38,7 +36,7 @@ class _StackOverState extends State<StackOver>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text("Jadwal"),
+        title: Center(child: Text("Jadwal")),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -69,7 +67,7 @@ class _StackOverState extends State<StackOver>
                   Tab(
                     text: 'Laporan Petugas',
                   ),
-      
+
                   // second tab [you can add an icon using the icon property]
                   Tab(
                     text: 'Jadwal',
@@ -84,7 +82,8 @@ class _StackOverState extends State<StackOver>
                 children: [
                   // first tab bar view widget
                   Padding(
-                      padding: EdgeInsets.only(top: 10), child: LaporanPetugasPage()),
+                      padding: EdgeInsets.only(top: 10),
+                      child: LaporanPetugasPage()),
                   // second tab bar view widget
                   Padding(
                       padding: EdgeInsets.only(top: 10),

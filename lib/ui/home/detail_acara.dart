@@ -481,26 +481,30 @@ class _DetailAcaraState extends State<DetailAcara> {
                                                         Alignment.bottomCenter,
                                                     child: Container(
                                                         width: double.infinity,
-                                                        child: RaisedButton(
+                                                        child: ElevatedButton(
                                                           onPressed: () {
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          20.0))),
                                                           child: Text("Submit"),
-                                                          color: Colors.green,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  10,
-                                                                  10,
-                                                                  10,
-                                                                  10),
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            20.0))),
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    10,
+                                                                    10,
+                                                                    10,
+                                                                    10),
+                                                          ),
                                                         )),
                                                   )
                                                 ],
@@ -560,10 +564,11 @@ class _DetailAcaraState extends State<DetailAcara> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {}
-                         SharedPreferences prefs = await SharedPreferences.getInstance();
-  
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+
                         //insert into firestore
                         CollectionReference lokasi =
                             FirebaseFirestore.instance.collection('lokasi');

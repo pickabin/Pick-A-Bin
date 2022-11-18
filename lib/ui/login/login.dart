@@ -115,7 +115,11 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             AppIconWidget(image: 'assets/icons/green_logo.png'),
             SizedBox(height: 15.0),
-            Center(child: Text("Sign In", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),)),
+            Center(
+                child: Text(
+              "Sign In",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            )),
             SizedBox(height: 26.0),
             _buildUserIdField(),
             _buildPasswordField(),
@@ -174,8 +178,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildForgotPasswordButton() {
     return Align(
       alignment: FractionalOffset.centerRight,
-      child: FlatButton(
-        padding: EdgeInsets.all(0.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.all(0.0),
+        ),
         child: Text(
           AppLocalizations.of(context).translate('login_btn_forgot_password'),
           style: Theme.of(context)

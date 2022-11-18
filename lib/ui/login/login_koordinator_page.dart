@@ -147,12 +147,12 @@ class _LoginKoordinatorPageState extends State<LoginKoordinatorPage> {
                                         Colors.blue)))
                             : Container(
                                 width: double.infinity,
-                                child: RaisedButton(
-                                  color: Colors.green,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  padding: EdgeInsets.symmetric(vertical: 15),),
                                   onPressed: () async {
                                     setState(() {
                                       isLoggedIn = true;
@@ -194,9 +194,10 @@ class _LoginKoordinatorPageState extends State<LoginKoordinatorPage> {
                                               content: Text(
                                                   "Pastikan Username dan Password Anda Benar"),
                                               actions: <Widget>[
-                                                FlatButton(
+                                                TextButton(
+                                                  style: TextButton.styleFrom(backgroundColor: Colors.red,),
                                                   child: Text("Close"),
-                                                  color: Colors.red,
+                                                  
                                                   onPressed: () {
                                                     Navigator.of(context).pop(
                                                         MaterialPageRoute(
@@ -249,12 +250,13 @@ class _LoginKoordinatorPageState extends State<LoginKoordinatorPage> {
                         SizedBox(height: 8),
                         Container(
                           width: double.infinity,
-                          child: RaisedButton(
-                            color: Colors.white,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 15),
+                            padding: EdgeInsets.symmetric(vertical: 15),),
+                            
                             onPressed: () async {
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
