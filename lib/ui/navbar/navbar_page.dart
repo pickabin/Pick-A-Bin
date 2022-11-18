@@ -29,148 +29,87 @@ class _NavbarPageState extends State<NavbarPage> {
         .pantauConnectivity();
   }
 
+  int selectedPage = 0;
+
+  final _pageOptionsPetugas = [
+    HomePetugasPage(),
+    StackOver(),
+    PetugasActivityPage(),
+    ProfilePetugasMain(),
+  ];
+
+  final _pageOptionsKoordinator = [
+    HomeKoordinatorPage(),
+    StackOver(),
+    KoorActivityPage(),
+    ProfileKoordinatorMain(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConnectivityProvider>(builder: (context, value, child) {
-      return value.isOnline
-          ? WillPopScope(
-              onWillPop: () => _onWillPop(),
-              child: FutureBuilder(
-                future: _getRole(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    print(snapshot.data);
-                    return CurvedNavBar(
-                      actionButton: CurvedActionBar(
-                        onTab: (value) {
-                          /// perform action here
-                          snapshot.data == 'petugas'
-                              ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => JadwalPetugasCameraPage()))
-                              : Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      // builder: (context) => DetailAcara(
-                                      //       lat: null,
-                                      //       location: '',
-                                      //       long: null,
-                                      //     )));
-                                      builder: (context) => StackOver()));
-                        },
-                        activeIcon: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: Colors.green, shape: BoxShape.circle),
-                          child: snapshot.data == "petugas"
-                              ? Icon(
-                                  Icons.calendar_month_outlined,
-                                  size: 45,
-                                  color: Colors.white,
-                                )
-                              : Icon(
-                                  Icons.menu_book_outlined,
-                                  size: 45,
-                                  color: Colors.white,
-                                ),
+    return Consumer<ConnectivityProvider>(
+      builder: (context, value, child) {
+        return value.isOnline
+            ? WillPopScope(
+                onWillPop: () => _onWillPop(),
+                child: FutureBuilder(
+                  future: _getRole(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data);
+                      return Scaffold(
+                        backgroundColor: Colors.white,
+                        body: snapshot.data == 'petugas'
+                            ? _pageOptionsPetugas[selectedPage]
+                            : _pageOptionsKoordinator[selectedPage],
+                        bottomNavigationBar: BottomNavigationBar(
+                          type: BottomNavigationBarType.fixed,
+                          items: <BottomNavigationBarItem>[
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.home_outlined),
+                              label: 'Home',
+                            ),
+                            BottomNavigationBarItem(
+                              icon: snapshot.data == 'petugas'
+                                  ? Icon(Icons.calendar_month_outlined)
+                                  : Icon(Icons.calendar_month_outlined),
+                              label: snapshot.data == 'petugas'
+                                  ? "Jadwal"
+                                  : "Jadwal",
+                            ),
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.update_rounded),
+                              label: 'Riwayat',
+                            ),
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.person),
+                              label: 'Profil',
+                            ),
+                          ],
+                          showUnselectedLabels: true,
+                          currentIndex: selectedPage,
+                          unselectedItemColor: Colors.grey,
+                          selectedItemColor: Colors.green,
+                          onTap: (index) {
+                            setState(() {
+                              selectedPage = index;
+                            });
+                          },
                         ),
-                        inActiveIcon: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: Colors.green, shape: BoxShape.circle),
-                          child: snapshot.data == "petugas"
-                              ? Icon(
-                                  Icons.calendar_month_outlined,
-                                  size: 45,
-                                  color: Colors.white,
-                                )
-                              : Icon(
-                                  Icons.menu_book_outlined,
-                                  size: 45,
-                                  color: Colors.white,
-                                ),
+                      );
+                    } else {
+                      return Scaffold(
+                        body: Center(
+                          child: CircularProgressIndicator(),
                         ),
-                        // text: "Maps",
-                      ),
-                      activeColor: Colors.green,
-                      navBarBackgroundColor: Colors.white,
-                      inActiveColor: Colors.black45,
-                      appBarItems: [
-                        FABBottomAppBarItem(
-                            activeIcon: Icon(
-                              Icons.home,
-                              color: Colors.green,
-                            ),
-                            inActiveIcon: Icon(
-                              Icons.home,
-                              color: Colors.black26,
-                            ),
-                            text: 'Home'),
-                        FABBottomAppBarItem(
-                            activeIcon: Icon(
-                              snapshot.data == 'petugas'
-                                  ? Icons.format_list_bulleted
-                                  : Icons.calendar_month_outlined,
-                              color: Colors.green,
-                            ),
-                            inActiveIcon: Icon(
-                              snapshot.data == 'petugas'
-                                  ? Icons.format_list_bulleted
-                                  : Icons.calendar_month_outlined,
-                              color: Colors.black26,
-                            ),
-                            text: snapshot.data == 'petugas'
-                                ? "Acara"
-                                : "Acara"),
-                        FABBottomAppBarItem(
-                            activeIcon: Icon(
-                              Icons.list_alt_outlined,
-                              color: Colors.green,
-                            ),
-                            inActiveIcon: Icon(
-                              Icons.list_alt_outlined,
-                              color: Colors.black26,
-                            ),
-                            text: 'History'),
-                        FABBottomAppBarItem(
-                            activeIcon: Icon(
-                              Icons.supervised_user_circle_outlined,
-                              color: Colors.green,
-                            ),
-                            inActiveIcon: Icon(
-                              Icons.supervised_user_circle_outlined,
-                              color: Colors.black26,
-                            ),
-                            text: 'Profil'),
-                      ],
-                      bodyItems: [
-                        snapshot.data == 'petugas'
-                            ? HomePetugasPage()
-                            : HomeKoordinatorPage(),
-                        snapshot.data == 'petugas'
-                            ? NotifAcara()
-                            : NotifAcara(),
-                        snapshot.data == 'petugas'
-                            ? PetugasActivityPage()
-                            : KoorActivityPage(),
-                        snapshot.data == 'petugas'
-                            ? ProfilePetugasMain()
-                            : ProfileKoordinatorMain(),
-                      ],
-                    );
-                  } else {
-                    return Scaffold(
-                      body: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                },
-              ),
-            )
-          : ErrorConnection();
-    });
+                      );
+                    }
+                  },
+                ),
+              )
+            : ErrorConnection();
+      },
+    );
   }
 
   Future<String?> _getRole() async {
@@ -199,5 +138,4 @@ class _NavbarPageState extends State<NavbarPage> {
         )) ??
         false;
   }
-  
 }

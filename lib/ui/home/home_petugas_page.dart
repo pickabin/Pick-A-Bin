@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 
 class HomePetugasPage extends StatefulWidget {
@@ -18,17 +21,14 @@ class HomePetugasPage extends StatefulWidget {
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
   String? code;
-   int? countPetugas;
-  int? listDone;
-  double? hasil;
   //lebar dan tinggi layar
-  // final ref = FirebaseDatabase.instance
-  //     .ref()
-  //     .child('jadwal')
-  //     .orderByChild('date')
-  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
-  //     .limitToLast(4);
-  // File? _image;
+  final ref = FirebaseDatabase.instance
+      .ref()
+      .child('jadwal')
+      .orderByChild('date')
+      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
+      .limitToLast(4);
+  File? _image;
   String? fileName;
 
   int _activeIndex = 0;
@@ -38,7 +38,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     'assets/images/slide3.png'
   ];
 
- 
   // Future _getImageCamera() async {
   //   XFile? selectImage = await ImagePicker().pickImage(
   //     source: ImageSource.camera,
@@ -66,6 +65,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   @override
   void initState() {
+    // TODO: implement initState
     Future.delayed(Duration(seconds: 3)).then((_) {
       //return data from user code
       PetugasController().getPetugasCode().then((value) {
@@ -81,31 +81,18 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
             context: this.context,
             builder: (context) {
               return AlertDialog(
-                content: AreaId(code: code,),
+                content: AreaId(code: code),
               );
             },
           );
         }
       });
     });
-
-
-      // CountPetugasController().getStatusPetugas().then((value) {
-      //   setState(() {
-      //     //input
-      //     countPetugas = value!.petugas;
-      //     listDone = value.listDone;
-      //     hasil = listDone! / countPetugas!;                              
-      //   });
-      // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-      
-
     //lebar dan tinggi layar
     // double width = MediaQuery.of(context).size.width * 0.9;
     // double height = MediaQuery.of(context).size.height*0.2;
@@ -114,9 +101,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        child: Column(children: [
           FutureBuilder(
               future: PetugasController().getPetugasByUid(),
               builder: (context, AsyncSnapshot snapshot) {
@@ -136,114 +121,110 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                         code = snapshot.data[index].code;
                         return Column(children: [
                           //Bagian paling atas form,logo dan notifikasi
-                          Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(top: 10, left: 20),
-                                child: Image.asset(
-                                  "assets/images/group_logo.png",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.200,
-                                  height: 100,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20))),
-                                    backgroundColor: Colors.white,
-                                    context: context,
-                                    builder: (_) {
-                                      return FractionallySizedBox(
-                                        heightFactor: 0.9,
-                                        child: AreaId(code: snapshot.data[index].code),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                    margin: EdgeInsets.only(
-                                      top: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: 2),
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 5, top: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Image.asset(
+                                    "assets/images/group_logo.png",
                                     width: MediaQuery.of(context).size.width *
-                                        0.600,
-                                    height: 45,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 50.0),
-                                          child: Center(
-                                              //get data
-                                              child: snapshot
-                                                          .data[index].code !=
-                                                      null
-                                                  ? Text(
-                                                      snapshot.data[index].code)
-                                                  : Text("Masukkan Code")),
-                                        ),
-                                        Icon(
-                                          Icons.edit,
-                                          color: Colors.black45,
-                                        ),
-                                        SizedBox(width: 15)
-                                      ],
-                                    )),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 8),
-                                child: Stack(children: [
-                                  //Notification
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.notifications,
-                                      color: Colors.black45,
-                                      size: 32,
-                                    ),
+                                        0.200,
+                                    height: 100,
                                   ),
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: Colors.white, width: 2)),
-                                      child: Center(
-                                        child: Text(
-                                          "1",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              topLeft: Radius.circular(20))),
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 255, 255),
+                                      context: context,
+                                      builder: (_) {
+                                        return FractionallySizedBox(
+                                          heightFactor: 0.9,
+                                          child: AreaId(
+                                            code: code,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text("PENS",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 10,
+                                        )),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 13),
+                                  alignment: Alignment.centerRight,
+                                  child: Stack(children: [
+                                    //Notification
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.notifications,
+                                        color: Colors.black45,
+                                        size: 32,
                                       ),
                                     ),
-                                  )
-                                ]),
-                              ),
-                            ],
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Colors.white, width: 2)),
+                                        child: Center(
+                                          child: Text(
+                                            "1",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                              ],
+                            ),
                           ),
 
                           //Bagian 2, nama petugas
                           Container(
                             margin: EdgeInsets.all(8),
                             width: MediaQuery.of(context).size.width * 0.9,
+                            height: 88,
+                            decoration: BoxDecoration(
+                                color: Color(0xFF004C58),
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 5),
+                                      blurRadius: 10)
+                                ]),
                             child: Row(
                               children: [
                                 Container(
+                                  padding: EdgeInsets.only(left: 6),
                                   child: snapshot.data[index].user.photo != null
                                       ? CircleAvatar(
                                           backgroundImage: NetworkImage(
@@ -272,63 +253,28 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         child: Text(
                                           snapshot.data[index].user.name,
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontSize: 22,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       Container(
+                                        margin:
+                                            EdgeInsets.only(top: 2, left: 8),
                                         child: Row(
                                           //space between cleaning service dan petugas
                                           children: [
                                             Text(
-                                              "Cleaning Service",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.250,
-                                            ),
-                                            Text(
                                               "Petugas",
                                               style: TextStyle(
-                                                fontSize: 10,
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w100,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      // Container(
-                                      //   margin: EdgeInsets.only(top: 5),
-                                      //   width:
-                                      //       MediaQuery.of(context).size.width *
-                                      //           0.680,
-                                      //   height: 30,
-                                      //   decoration: BoxDecoration(
-                                      //       border: Border.all(
-                                      //           color: Colors.black38,
-                                      //           width: 1.5),
-                                      //       borderRadius: BorderRadius.all(
-                                      //           Radius.circular(10))),
-                                      //   // child: Padding(
-                                      //   //   padding: const EdgeInsets.all(4.0),
-                                      //   //   child: GFProgressBar(
-                                      //   //     percentage:  hasil == null ? 0 : hasil!,
-                                      //   //     lineHeight: 20,
-                                      //   //     backgroundColor: Colors.grey,
-                                      //   //     progressBarColor: Colors.green,
-                                      //       child: Center(
-                                      //         child: Text(listDone.toString() + "/" + countPetugas.toString() + " Petugas",
-                                      //             style: TextStyle(
-                                      //                 color: Colors.black,
-                                      //                 fontSize: 12)),
-                                      //       ),
-                                      //   //   ),
-                                      //   // ),
-                                      // )
                                     ],
                                   ),
                                 )
@@ -336,7 +282,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 10),
+                            margin: EdgeInsets.only(top: 10, bottom: 12),
                             height: MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width * 0.9,
                             decoration: BoxDecoration(
@@ -446,13 +392,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
               itemCount: imageAsset.length,
               options: CarouselOptions(
                 height: 120.0,
-                viewportFraction: 0.9,
+                viewportFraction: 1,
                 aspectRatio: 1.0,
                 enableInfiniteScroll: true,
                 reverse: false,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 6),
-                autoPlayAnimationDuration: Duration(milliseconds: 900),
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 onPageChanged: (index, reason) {
                   setState(() {
@@ -581,4 +527,16 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
     );
   }
 
+//   Widget _buildIndicator() {
+//     return AnimatedSmoothIndicator(
+//       activeIndex: _activeIndex,
+//       count: imageAsset.length,
+//       effect: ExpandingDotsEffect(
+//         dotHeight: 10,
+//         dotWidth: 10,
+//         activeDotColor: Colors.green,
+//         dotColor: Colors.grey,
+//       ),
+//     );
+//   }
 }
