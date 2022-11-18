@@ -99,7 +99,7 @@ class _NotifAcaraState extends State<NotifAcara> {
                                         TextSpan(
                                           children: <InlineSpan>[
                                             WidgetSpan(
-                                                child: Icon(Icons.home_filled,
+                                                child: Icon(Icons.list_alt,
                                                     color: Colors.green)),
                                             TextSpan(
                                                 text: snapshot.data[index]
@@ -116,13 +116,6 @@ class _NotifAcaraState extends State<NotifAcara> {
                                           ],
                                         ),
                                       ),
-                                      trailing: Column(children: <Widget>[
-                                        Wrap(
-                                          children: <Widget>[
-                                            Icon(Icons.arrow_back),
-                                          ],
-                                        ),
-                                      ]),
                                       leading: CircleAvatar(
                                         child: Icon(
                                           Icons.calendar_month_outlined,

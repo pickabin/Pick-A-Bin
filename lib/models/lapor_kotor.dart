@@ -26,6 +26,8 @@ class LaporKotor {
         required this.koorCode,
         required this.cleanArea,
         required this.photo,
+        required this.deskripsi,
+        required this.status,
         required this.createdAt,
         required this.updatedAt,
     });
@@ -34,6 +36,8 @@ class LaporKotor {
     String? koorCode;
     String? cleanArea;
     String? photo;
+    String? deskripsi;
+    String? status;
     DateTime? createdAt;
     DateTime? updatedAt;
 
@@ -42,6 +46,8 @@ class LaporKotor {
         koorCode: json["koor_code"],
         cleanArea: json["clean_area"],
         photo: json["photo"],
+        status: json["status"],
+        deskripsi: json["deskripsi"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
     );
