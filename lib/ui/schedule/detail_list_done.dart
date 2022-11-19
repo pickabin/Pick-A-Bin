@@ -1,14 +1,19 @@
 import 'package:boilerplate/models/laporan_petugas.dart';
 import 'package:boilerplate/ui/image/image_preview.dart';
+import 'package:boilerplate/ui/image/image_preview_activity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 
 class DetailLaporanPetugas extends StatefulWidget {
   String? cleanArea;
   String? name;
   List<PetugasActivity>? listAktivitasPetugas;
-  DetailLaporanPetugas({Key? key, required this.listAktivitasPetugas, required this.cleanArea, required this.name}) : super(key: key);
+  DetailLaporanPetugas(
+      {Key? key,
+      required this.listAktivitasPetugas,
+      required this.cleanArea,
+      required this.name})
+      : super(key: key);
 
   @override
   State<DetailLaporanPetugas> createState() => _DetailLaporanPetugasState();
@@ -32,7 +37,8 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
               ),
               subtitle: Text(
                 //convert dari string ke date
-                DateFormat.yMMMMEEEEd().format(DateTime.parse(widget.listAktivitasPetugas![index].date!)),
+                DateFormat.yMMMMEEEEd().format(
+                    DateTime.parse(widget.listAktivitasPetugas![index].date!)),
               ),
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -44,7 +50,8 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
                     margin: EdgeInsets.only(top: 15, right: 8),
                     child: Text(
                       //Time format
-                      DateFormat('HH:mm').format(DateTime.parse(widget.listAktivitasPetugas![index].time!)),
+                      DateFormat('HH:mm').format(DateTime.parse(
+                          widget.listAktivitasPetugas![index].time!)),
                     ),
                   ),
                   new Container(
@@ -54,7 +61,10 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ImagePreview(image: widget.listAktivitasPetugas![index].photo,)),
+                              builder: (context) => ImagePreviewActivity(
+                                    image: widget
+                                        .listAktivitasPetugas![index].photo,
+                                  )),
                         );
                       },
                     ),
@@ -63,7 +73,6 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
               ),
             );
           },
-        )
-      );
+        ));
   }
 }

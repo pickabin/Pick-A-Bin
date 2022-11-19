@@ -27,8 +27,7 @@ class Notifikasi extends StatelessWidget {
           children: [
             Padding(padding: EdgeInsets.only(top: 10), child: LaporKotorPage()),
             Padding(padding: EdgeInsets.only(top: 10), child: NotifAcara()),
-            Padding(
-                padding: EdgeInsets.only(top: 10), child: FeedbackPetugas()),
+            Padding(padding: EdgeInsets.only(top: 10), child: FeedbackPetugas()),
           ],
         ),
       ),
