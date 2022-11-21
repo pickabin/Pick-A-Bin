@@ -58,7 +58,9 @@ class _DetailAcaraState extends State<DetailAcara> {
               style: TextStyle(color: Color(0xff00783E)),
             ),
             style: ElevatedButton.styleFrom(
-                elevation: 0, primary: Colors.transparent),
+                elevation: 0, 
+                backgroundColor: Colors.transparent
+            ),
           ),
         ),
         body: SingleChildScrollView(

@@ -28,6 +28,8 @@ class AktivitasPetugas {
        required this.date,
        required this.time,
        required this.photo,
+       required this.feedback,
+       required this.status,
        required this.createdAt,
        required this.updatedAt,
        required this.jadwal,
@@ -38,6 +40,8 @@ class AktivitasPetugas {
     String? date;
     String? time;
     String? photo;
+    String? feedback;
+    int? status;
     DateTime? createdAt;
     DateTime? updatedAt;
     Jadwal jadwal;
@@ -48,6 +52,9 @@ class AktivitasPetugas {
         date: json["date"],
         time: json["time"],
         photo: json["photo"],
+        feedback: json["feedback"],
+        // konversi int 
+        status: json["status"] == null ? null : int.parse(json["status"]),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         jadwal: Jadwal.fromJson(json["jadwal"]),

@@ -26,6 +26,7 @@ class Jadwal {
         required this.id,
         required this.userId,
         required this.cleanArea,
+        required this.keterangan,
         required this.status,
         required this.createdAt,
         required this.updatedAt,
@@ -35,6 +36,7 @@ class Jadwal {
     int? id;
     String? userId;
     String? cleanArea;
+    String? keterangan;
     String? status;
     DateTime? createdAt;
     DateTime? updatedAt;
@@ -44,6 +46,7 @@ class Jadwal {
         id: json["id"],
         userId: json["user_id"],
         cleanArea: json["clean_area"],
+        keterangan: json["keterangan"],
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),

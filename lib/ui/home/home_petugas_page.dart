@@ -22,12 +22,12 @@ class HomePetugasPage extends StatefulWidget {
 class _HomePetugasPageState extends State<HomePetugasPage> {
   String? code;
   //lebar dan tinggi layar
-  final ref = FirebaseDatabase.instance
-      .ref()
-      .child('jadwal')
-      .orderByChild('date')
-      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
-      .limitToLast(4);
+  // final ref = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('jadwal')
+  //     .orderByChild('date')
+  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
+  //     .limitToLast(4);
   File? _image;
   String? fileName;
 
@@ -65,7 +65,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     Future.delayed(Duration(seconds: 3)).then((_) {
       //return data from user code
       PetugasController().getPetugasCode().then((value) {
@@ -233,8 +233,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         )
                                       : CircleAvatar(
                                           radius: 30,
-                                          backgroundImage: NetworkImage(
-                                              'assets/images/grup_logo2.png')),
+                                          backgroundImage: AssetImage(
+                                              "assets/images/grup_logo2.png"),)
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
@@ -314,7 +314,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     alignment: Alignment.bottomRight,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xFF1DDB7F),
+                                        backgroundColor: Color(0xFF1DDB7F),
                                       ),
                                       onPressed: () {
                                         showDialog(
@@ -406,7 +406,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
           ),
           HelpPetugas(),
           Padding(
-            padding: const EdgeInsets.only(left: 18.0, bottom: 18, right: 18),
+            padding: const EdgeInsets.only(left: 18.0, right: 18),
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -501,7 +501,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
               ),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.1)
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05)
         ]),
       ),
     );

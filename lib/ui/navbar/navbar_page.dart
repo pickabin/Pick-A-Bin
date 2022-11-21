@@ -33,7 +33,7 @@ class _NavbarPageState extends State<NavbarPage> {
 
   final _pageOptionsPetugas = [
     HomePetugasPage(),
-    StackOver(),
+    JadwalPetugasCameraPage(),
     PetugasActivityPage(),
     ProfilePetugasMain()
   ];

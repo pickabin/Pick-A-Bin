@@ -1,5 +1,6 @@
 import 'package:boilerplate/models/laporan_petugas.dart';
 import 'package:boilerplate/ui/image/image_preview.dart';
+import 'package:boilerplate/ui/image/image_preview_activity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -54,7 +55,7 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ImagePreview(image: widget.listAktivitasPetugas![index].photo,)),
+                              builder: (context) => ImagePreviewActivity(image: widget.listAktivitasPetugas![index].photo, id: widget.listAktivitasPetugas![index].id)),
                         );
                       },
                     ),

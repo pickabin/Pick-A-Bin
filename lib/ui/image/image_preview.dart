@@ -1,3 +1,4 @@
+import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
 import 'package:flutter/material.dart';
 
 class ImagePreview extends StatefulWidget {
@@ -21,8 +22,9 @@ class _ImagePreviewState extends State<ImagePreview> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               SizedBox(
-                height: 50,
+              
+              SizedBox(
+                height: 10,
               ),
               Hero(tag: "profile", child: Image.network(widget.image!)),
               SizedBox(
@@ -34,6 +36,84 @@ class _ImagePreviewState extends State<ImagePreview> {
                     color: Colors.red,
                   ),
                   onPressed: () => Navigator.of(context).pop()),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     OutlinedButton(
+              //         child: Icon(
+              //           Icons.chat,
+              //           color: Color(0xff4399A7),
+              //         ),
+              //         // onpresses dialog chat
+              //         onPressed: () => showDialog(
+              //             context: context,
+              //             builder: (context) => AlertDialog(
+              //                   title: Text("Feedback"),
+              //                   // content form feedback
+              //                   content: Column(
+              //                     mainAxisSize: MainAxisSize.min,
+              //                     children: [
+              //                       Form(
+              //                         child: Column(
+              //                           children: [
+              //                             TextField(
+              //                               maxLines: 3,
+              //                               decoration: InputDecoration(
+              //                                 labelText: 'Isi Feedback',
+              //                                 hintText: 'Masukkan Feedback',
+              //                                 enabledBorder: OutlineInputBorder(
+              //                                     borderRadius:
+              //                                         BorderRadius.circular(10),
+              //                                     borderSide: BorderSide(
+              //                                         color: Colors.green)),
+              //                                 focusedBorder: OutlineInputBorder(
+              //                                     borderRadius:
+              //                                         BorderRadius.circular(10),
+              //                                     borderSide: BorderSide(
+              //                                       color: Colors.green,
+              //                                       width: 2,
+              //                                     )),
+              //                               ),
+              //                             ),
+              //                             SizedBox(
+              //                               height: 10,
+              //                             ),
+              //                             TextButton(
+              //                                 child: Icon(
+              //                                   Icons.send,
+              //                                   color: Colors.white,
+              //                                 ),
+              //                                 style: TextButton.styleFrom(
+              //                                     backgroundColor:
+              //                                         Colors.green,
+              //                                     padding: EdgeInsets.only(
+              //                                         left: 100,
+              //                                         right: 100,
+              //                                         top: 5,
+              //                                         bottom: 5,
+              //                                     ),  
+              //                                 ),
+              //                                 onPressed: () {},
+              //                             )
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ))),
+              //     SizedBox(
+              //       width: 10,
+              //     ),
+              //     OutlinedButton(
+              //         child: Icon(
+              //           Icons.check,
+              //           color: Color(0xff1DDB7F),
+              //         ),
+              //         onPressed: () {
+              //           // AktivitasPetugasController().updateStatusAktivitasPetugas();
+              //       }),
+              //   ],
+              // ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //   children: [

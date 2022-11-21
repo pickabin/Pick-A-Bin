@@ -23,7 +23,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
   String? url;
 
 
-  Future _getImageCamera() async {
+  Future _getImageCamera(id) async {
     XFile? selectImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxHeight: 512,
@@ -46,7 +46,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
         storageRef.getDownloadURL().then((value) {
           setState(() {
             url = value;
-            JadwalController.updateJadwal(url!).then((value) {
+            JadwalController.updateJadwal(url!,id).then((value) {
               if (value.statusCode == 200) {
                 Fluttertoast.showToast(
                     msg: "Update Successfully",
@@ -98,7 +98,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                     return snapshot.data[index].status.toString() == "0"
                         ? ListTile(
                             title: Text(
-                              snapshot.data[index].cleanArea,
+                              snapshot.data[index].keterangan,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(DateFormat('dd MMMM yyyy H:m a')
@@ -114,7 +114,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                                     icon: new Icon(Icons.camera_alt_rounded,
                                         color: Colors.orange),
                                     onPressed: () {
-                                      _getImageCamera();
+                                      _getImageCamera(snapshot.data[index].id);
                                     },
                                   ),
                                 ),
