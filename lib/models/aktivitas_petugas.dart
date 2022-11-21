@@ -31,36 +31,32 @@ class AktivitasPetugas {
   AktivitasPetugas({
     required this.id,
     required this.jadwalId,
-    required this.petugasId,
     required this.date,
     required this.time,
     required this.photo,
-    required this.feedback,
     required this.createdAt,
     required this.updatedAt,
     required this.jadwal,
+    required petugasId,
   });
 
   int? id;
   String? jadwalId;
-  String? petugasId;
-  DateTime? date;
-  DateTime? time;
+  String? date;
+  String? time;
   String? photo;
-  String? feedback;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Jadwal? jadwal;
+  Jadwal jadwal;
 
   factory AktivitasPetugas.fromJson(Map<String, dynamic> json) =>
       AktivitasPetugas(
         id: json["id"],
         jadwalId: json["jadwal_id"],
         petugasId: json["petugas_id"],
-        date: DateTime.parse(json["date"]),
-        time: DateTime.parse(json["time"]),
+        date: json["date"],
+        time: json["time"],
         photo: json["photo"],
-        feedback: json["feedback"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         jadwal: Jadwal.fromJson(json["jadwal"]),

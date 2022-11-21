@@ -16,6 +16,16 @@ class AktivitasPetugasController{
     }
   }
 
+  // update status aktivitas petugas
+  Future<void> updateStatusAktivitasPetugas(int id) async {
+    final response = await http.put(Uri.parse('https://azdevweb.online/api/aktivitasPetugas/aktivitasConfirmed/$id'));
+    if (response.statusCode == 200) {
+      print('Success update status');
+    } else {
+      throw Exception('Failed to update status');
+    }
+  }
+
   //delete
   static Future<http.Response> deleteAktivitasPetugas(int? id) async {
     return http.delete(

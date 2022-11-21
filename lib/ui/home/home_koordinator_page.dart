@@ -87,6 +87,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
       });
     });
 
+
     super.initState();
   }
 
@@ -372,7 +373,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                     alignment: Alignment.bottomRight,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.lightGreen,
+                                        backgroundColor: Colors.lightGreen,
                                       ),
                                       onPressed: () {
                                         showDialog(
@@ -546,7 +547,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
               ),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.1)
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05)
         ]),
       ),
     );

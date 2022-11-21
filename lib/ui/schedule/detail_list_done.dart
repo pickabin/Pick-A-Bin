@@ -62,9 +62,9 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ImagePreviewActivity(
-                                    image: widget
-                                        .listAktivitasPetugas![index].photo,
-                                  )),
+                                  image:
+                                      widget.listAktivitasPetugas![index].photo,
+                                  id: widget.listAktivitasPetugas![index].id)),
                         );
                       },
                     ),

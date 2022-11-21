@@ -23,7 +23,7 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
   String? fileName;
   String? url;
 
-  Future _getImageCamera() async {
+  Future _getImageCamera(id) async {
     XFile? selectImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxHeight: 512,
@@ -46,7 +46,8 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
         storageRef.getDownloadURL().then((value) {
           setState(() {
             url = value;
-            JadwalController.updateJadwal(url!).then((value) {
+            JadwalController.updateJadwal(url!, id).then((value) {
+              print("ini jadwal id yang dikirim $id");
               if (value.statusCode == 200) {
                 Fluttertoast.showToast(
                     msg: "Update Successfully",
@@ -90,7 +91,7 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: Color(0xff1DDB7F),
           title: Text("Jadwal"),
         ),
         body: FutureBuilder(
@@ -107,41 +108,98 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   return snapshot.data[index].status.toString() == "0"
-                      ? ListTile(
-                          title: Text(
-                            snapshot.data[index].cleanArea,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(DateFormat('dd MMMM yyyy')
-                              .format(snapshot.data[index].createdAt)),
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.green,
-                            child: Icon(Icons.home, color: Colors.white),
-                          ),
-                          trailing: new Wrap(
-                            children: <Widget>[
-                              Container(
-                                child: new IconButton(
-                                  icon: new Icon(Icons.camera_alt_rounded,
-                                      color: Colors.orange),
-                                  onPressed: () {
-                                    _getImageCamera();
-                                  },
-                                ),
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15, top: 10),
+                              child: Text(
+                                "Piket" +
+                                    " " +
+                                    snapshot.data[index].keterangan.toString(),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          ),
+                            ),
+                            ListTile(
+                              title: Text(
+                                snapshot.data[index].cleanArea.toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(DateFormat('dd MMMM yyyy')
+                                  .format(snapshot.data[index].updatedAt)),
+                              leading: CircleAvatar(
+                                backgroundColor: Color(0xff4399A7),
+                                child: Icon(Icons.wysiwyg, color: Colors.white),
+                              ),
+                              trailing: new Wrap(
+                                children: <Widget>[
+                                  Container(
+                                    child: new IconButton(
+                                      icon: new Icon(Icons.camera_alt_rounded,
+                                          color: Color(0xff1DDB7F)),
+                                      onPressed: () {
+                                        _getImageCamera(
+                                            snapshot.data[index].id);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         )
                       : //widget kosong;
-                      Container(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text("Jadwal sudah dilaksanakan",
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15, top: 10),
+                              child: Text(
+                                "Piket" +
+                                    " " +
+                                    snapshot.data[index].keterangan.toString(),
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ),
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            ListTile(
+                              title: Text(
+                                snapshot.data[index].cleanArea.toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text("Piket Telah Dilaksanakan",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                    )
+                                  ),
+                              ),
+                              leading: CircleAvatar(
+                                backgroundColor: Color(0xff4399A7),
+                                child: Icon(Icons.wysiwyg, color: Colors.white),
+                              ),
+                              // trailing icon check
+                              trailing: new Wrap(
+                                children: <Widget>[
+                                  Container(
+                                    child: new IconButton(
+                                      icon: new Icon(Icons.done_all,
+                                          color: Color(0xff1DDB7F)),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         );
                 },
               );

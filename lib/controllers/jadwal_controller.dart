@@ -63,14 +63,14 @@ class JadwalController {
   // }
 
   //update jadwal
-  static Future<http.Response> updateJadwal(String photo) async {
+  static Future<http.Response> updateJadwal(String photo, idJadwal) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();
     String petugasId = prefs.getInt('petugas_id').toString();
     String koorId = prefs.getInt('koor_id').toString();
     print("Ini koor id : " + koorId);
     return http.put(
-      Uri.parse('https://azdevweb.online/api/jadwal/update/$id'),
+      Uri.parse('https://azdevweb.online/api/jadwal/update/$idJadwal'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -36,10 +36,11 @@ class PetugasController {
         searchResult = data.map((e) => Petugas.fromJson(e)).toList();
         if (query != null) {
           searchResult = searchResult
-              .where((element) =>
-                  element.user!.name!.toLowerCase().contains(query.toLowerCase()))
+              .where((element) => element.user!.name!
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
               .toList();
-        }else{
+        } else {
           print('Fetch Error');
         }
       } else {
@@ -74,22 +75,27 @@ class PetugasController {
 
   //get petugas code
   Future<String?> getPetugasCode() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uid = prefs.getString('uid');
-    final response = await http.get(Uri.parse(
-        'https://azdevweb.online/api/petugas/getPetugasByUid/' +
-            uid.toString()));
-    if (response.statusCode == 200) {
-      PetugasResult petugasResult = petugasFromJson(response.body);
-      //get data from json
-      List<Petugas> petugas = petugasResult.data;
-      petugas.forEach((element) {
-        print("ini kode" + element.code.toString());
-        this.dataCode = element.code;
-      });
-      return dataCode;
-    } else {
-      throw Exception('Failed to load data');
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? uid = prefs.getString('uid');
+      final response = await http.get(Uri.parse(
+          'https://azdevweb.online/api/petugas/getPetugasByUid/' +
+              uid.toString()));
+      if (response.statusCode == 200) {
+        PetugasResult petugasResult = petugasFromJson(response.body);
+        //get data from json
+        List<Petugas> petugas = petugasResult.data;
+        petugas.forEach((element) {
+          print("ini kode" + element.code.toString());
+          this.dataCode = element.code;
+        });
+        return dataCode;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 
