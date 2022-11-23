@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:boilerplate/models/aktivitas_petugas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +25,24 @@ class AktivitasPetugasController{
       print('Success update status');
     } else {
       throw Exception('Failed to update status');
+    }
+  }
+
+  // update feedback aktivitas petugas
+  static Future<void> updateFeedbackAktivitasPetugas(int id, String feedback) async {
+    final response = await http.put(
+      Uri.parse('https://azdevweb.online/api/aktivitasPetugas/update/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'feedback': feedback,
+      }),
+    );
+    if (response.statusCode == 200) {
+      print('Success update feedback');
+    } else {
+      throw Exception('Failed to update feedback');
     }
   }
 

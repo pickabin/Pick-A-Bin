@@ -66,6 +66,8 @@ class PetugasActivity {
        required this.date,
        required this.time,
        required this.photo,
+       required this.feedback,
+       required this.status,
        required this.createdAt,
        required this.updatedAt,
     });
@@ -76,6 +78,8 @@ class PetugasActivity {
     String? date;
     String? time;
     String? photo;
+    String? feedback;
+    String? status;
     DateTime? createdAt;
     DateTime? updatedAt;
 
@@ -86,6 +90,8 @@ class PetugasActivity {
         date: json["date"],
         time: json["time"],
         photo: json["photo"],
+        feedback: json["feedback"] == null ? null : json["feedback"],
+        status: json["status"] == null ? null : json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
     );

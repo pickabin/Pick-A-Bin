@@ -85,8 +85,6 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
         });
       });
     });
-
-
     super.initState();
   }
 
@@ -119,289 +117,220 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                       code = snapshot.data[index].code;
                       return Column(
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(top: 10, left: 20),
-                                child: Image.asset(
-                                  "assets/images/group_logo.png",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.200,
-                                  height: 100,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20))),
-                                    backgroundColor: Colors.white,
-                                    context: context,
-                                    builder: (_) {
-                                      return FractionallySizedBox(
-                                        heightFactor: 0.9,
-                                        child: AreaId(
-                                          code: snapshot.data[index].code,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                    margin: EdgeInsets.only(
-                                      top: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: 2),
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Image.asset(
+                                    "assets/images/group_logo.png",
                                     width: MediaQuery.of(context).size.width *
-                                        0.600,
-                                    height: 45,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 50.0),
-                                          child: Center(
-                                              //get data
-                                              child: snapshot
-                                                          .data[index].code !=
-                                                      null
-                                                  ? Text(
-                                                      snapshot.data[index].code)
-                                                  : Text("Masukkan Code")),
-                                        ),
-                                        Icon(
-                                          Icons.edit,
-                                          color: Colors.black45,
-                                        ),
-                                        SizedBox(width: 15)
-                                      ],
-                                    )),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 8),
-                                child: Stack(children: [
-                                  //Notification
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.notifications,
-                                      color: Colors.black45,
-                                      size: 32,
-                                    ),
+                                        0.200,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.07,
                                   ),
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: Colors.white, width: 2)),
-                                      child: Center(
-                                        child: Text(
-                                          "1",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              topLeft: Radius.circular(20))),
+                                      backgroundColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                      context: context,
+                                      builder: (_) {
+                                        return FractionallySizedBox(
+                                          heightFactor: 0.9,
+                                          child: AreaId(
+                                            code: code,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text("PENS",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 10,
+                                        )),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 13),
+                                  alignment: Alignment.centerRight,
+                                  child: Stack(children: [
+                                    //Notification
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.notifications,
+                                        color: Colors.black45,
+                                        size: 32,
                                       ),
                                     ),
-                                  )
-                                ]),
-                              ),
-                            ],
+                                    Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Colors.white, width: 2)),
+                                        child: Center(
+                                          child: Text(
+                                            "1",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                              ],
+                            ),
                           ),
                           //Bagian 2, nama petugas
                           Container(
-                            margin:
-                                EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                            margin: EdgeInsets.all(5),
                             width: MediaQuery.of(context).size.width * 0.9,
+                            height: 88,
+                            decoration: BoxDecoration(
+                                color: Color(0xFF004C58),
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 5),
+                                      blurRadius: 10)
+                                ]),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
+                                  padding: EdgeInsets.only(left: 6),
                                   child: snapshot.data[index].user.photo != null
                                       ? CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: NetworkImage(
-                                              snapshot.data[index].user.photo),
-                                        )
-                                      : Image.asset(
-                                          "assets/images/grup_logo2.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.17,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.16,
-                                        ),
+                                    backgroundImage: NetworkImage(
+                                        snapshot.data[index].user.photo),
+                                    radius: 30,
+                                  )
+                                      : CircleAvatar(
+                                      radius: MediaQuery .of(context).size.width * 0.06,
+                                      backgroundImage: AssetImage(
+                                          'assets/images/grup_logo2.png')),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.center,
                                     children: [
                                       Container(
+                                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width *
+                                            0.08),
                                         child: Text(
                                           snapshot.data[index].user.name,
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontSize: 15.5,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       Container(
-                                        child: Row(
-                                          //space between cleaning service dan petugas
-                                          children: [
-                                            Text(
-                                              "Cleaning Service",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.25,
-                                            ),
-                                            Text(
-                                              "Koordinator",
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.68,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black38,
-                                                width: 1.5),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: GFProgressBar(
-                                            percentage:
-                                                hasil == null ? 0 : hasil!,
-                                            lineHeight: 20,
-                                            backgroundColor: Colors.grey,
-                                            progressBarColor: Colors.green,
-                                            child: Center(
-                                                child: listDone != null
-                                                    ? Text(
-                                                        listDone.toString() +
-                                                            "/" +
-                                                            countPetugas
-                                                                .toString() +
-                                                            " Petugas",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12))
-                                                    : listDone == 0
-                                                        ? Text("0 / " +
-                                                            "0" +
-                                                            " Petugas")
-                                                        : Text("Loading...")),
+                                        child: Text(
+                                          "Cleaning Service",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w100,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.green,
-                            ),
-                            child: Stack(
-                              children: [
-                                //image full screen
-                                // Container(
-                                //   //image
-                                //   height: MediaQuery.of(context).size.height * 0.180,
-                                //   width: MediaQuery.of(context).size.width * 0.9,
-                                //   //image with radius
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(10),
-                                //     image: DecorationImage(
-                                //       image: AssetImage(
-                                //         'assets/images/slide3.jpg',
-                                //       ),
-                                //       fit: BoxFit.cover,
-                                //     ),
-                                //   ),
-                                // ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, bottom: 5),
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.lightGreen,
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                        MediaQuery.of(context).size.width *
+                                            0.07),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.37,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.07,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white70,
+                                      border: Border.all(
+                                        width: 0,
                                       ),
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return SaranMasukan();
-                                            });
-                                      },
-                                      child: Text("Lihat Detail"),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, bottom: 5),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Image.asset(
-                                          "assets/images/aspiration.png",
-                                          width: 115,
-                                          height: 115)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 90, bottom: 50),
-                                  child: Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                        width: 200,
-                                        child: Text(
-                                          "Sampaikan aspirasi Anda !\nAnda dapat menyampaikan saran dan masukan",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                          maxLines: 3,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top:
+                                              MediaQuery.of(context).size.width *
+                                                  0.02,
+                                              left: MediaQuery.of(context).size.width *
+                                                  0.01
+                                          ),
+                                          child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children:[
+                                                Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.black45,
+                                                  size: MediaQuery.of(context).size.width *
+                                                      0.05,
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("Penempatan Kerja", style: TextStyle(fontSize: MediaQuery.of(context).size.width *
+                                                        0.032, fontWeight: FontWeight.w500),),
+                                                    Row(
+                                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text("D4 PENS", style: TextStyle(fontSize: MediaQuery.of(context).size.width *
+                                                            0.032, fontWeight: FontWeight.w500),),
+                                                        SizedBox(width: MediaQuery.of(context).size.width * 0.09),
+                                                        IconButton(
+                                                            padding: EdgeInsets.zero,
+                                                            constraints: BoxConstraints(),
+                                                            onPressed: () {},
+                                                            icon: Icon(
+                                                              Icons.create_rounded,
+                                                              color: Colors.black45,
+                                                              size: MediaQuery.of(context).size.width *
+                                                                  0.05,
+                                                            )
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+
+                                              ]
+                                          ),
                                         ),
-                                      )),
+                                      ],
+                                    )
                                 ),
                               ],
                             ),
@@ -420,16 +349,213 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
               }
             },
           ),
-
+          Center(
+            child: Card(
+              color: Color(0xff4BB051),
+              margin: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05,
+                  right: MediaQuery.of(context).size.width * 0.05,
+                  top: MediaQuery.of(context).size.width * 0.01,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                    leading: Icon(Icons.people_alt_sharp,
+                      color: Colors.white),
+                    title: Text('Jumlah Piket Petugas',
+                                style: TextStyle(color: Colors.white)),
+                    subtitle: Text('Jumlah Petugas yang sudah piket hari ini',
+                                    style: TextStyle(color: Colors.white)),
+                  ),
+                  Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        width:
+                        MediaQuery.of(context).size.width *
+                            0.68,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.white70,
+                                width: 1.5),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(10))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: GFProgressBar(
+                            percentage:
+                            hasil == null ? 0 : hasil!,
+                            lineHeight: 20,
+                            backgroundColor: Colors.grey,
+                            progressBarColor: Colors.white,
+                            child: Center(
+                                child: listDone != null
+                                    ? Text(
+                                    listDone.toString() +
+                                        "/" +
+                                        countPetugas
+                                            .toString() +
+                                        " Petugas",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12))
+                                    : listDone == 0
+                                    ? Text("0 / " +
+                                    "0" +
+                                    " Petugas")
+                                    : Text("Loading...")),
+                          ),
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5, left: 16),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Tugas Terbaru Anda",
+              style: TextStyle(
+                  fontSize: 18.0, fontWeight: FontWeight.w600),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5, bottom: 5),
+            height: MediaQuery.of(context).size.height * 0.14,
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+                color: Color(0xff4BB051),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 5),
+                      blurRadius: 10)
+                ]),
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 8),
+                  child: Column(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin:
+                        EdgeInsets.only(top: 5, left: 8),
+                        child: Text(
+                          "Piket Pagi",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Container(
+                        margin:
+                        EdgeInsets.only(top: 2, left: 8),
+                        child: Row(
+                          //space between cleaning service dan petugas
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Selesai",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width *
+                                      0.6,
+                                ),
+                                Icon(
+                                  Icons.done_all,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin:
+                        EdgeInsets.only(top: 8, left: 8),
+                        child: Text(
+                          "Piket Siang",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Container(
+                        margin:
+                        EdgeInsets.only(top: 2, left: 8),
+                        child: Row(
+                          //space between cleaning service dan petugas
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "senin, 12/12/2020",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width *
+                                      0.42,
+                                ),
+                                Icon(
+                                  Icons.access_time,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5, bottom: 5, left: 16),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Manfaat Pick A Bin",
+              style: TextStyle(
+                  fontSize: 18.0, fontWeight: FontWeight.w600),
+            ),
+          ),
           Container(
             child: CarouselSlider.builder(
               itemCount: imageAsset.length,
               options: CarouselOptions(
                 height: 120.0,
-                viewportFraction: 0.9,
+                viewportFraction: 1,
                 aspectRatio: 1.0,
+                enableInfiniteScroll: true,
+                reverse: false,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 8),
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _activeIndex = index;
@@ -442,103 +568,80 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             ),
           ),
           HelpKoordinator(),
-          Padding(
-            padding: const EdgeInsets.only(left: 18.0, bottom: 18, right: 18),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.4, color: Color(0xFF66E8A9)),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 8),
-                    child: Align(
-                      alignment: Alignment.topLeft,
+          Container(
+            margin: EdgeInsets.only(bottom: 5, left: 16),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Sampaikan Aspirasi",
+              style: TextStyle(
+                  fontSize: 18.0, fontWeight: FontWeight.w600),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5, bottom: 12),
+            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xff4BB051),
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xff4BB051),
+                    offset: const Offset(0.0, 0.8),
+                    blurRadius: 2.0,
+                    spreadRadius: 1.2)
+              ],
+            ),
+
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 5),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xFF1DDB7F),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SaranMasukan();
+                            });
+                      },
+                      child: Text("Lihat Detail"),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0, bottom: 10),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Image.asset("assets/images/aspiration.png",
+                          width: 115, height: 115)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 90, bottom: 50),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 200,
                       child: Text(
-                        "Tugas Terkini",
+                        "Sampaikan aspirasi Anda !\n\nAnda dapat menyampaikan saran dan masukan",
                         style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
+                            fontFamily: 'Roboto',
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                        maxLines: 4,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: FutureBuilder(
-                      future: JadwalController().getJadwal(),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: <Widget>[
-                                    ListTile(
-                                      title: Text(
-                                        snapshot.data[index].cleanArea +
-                                            "-" +
-                                            "PENS",
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      subtitle: snapshot.data[index].status ==
-                                              "0"
-                                          ? Text("Belum dibersihkan")
-                                          : Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Text(
-                                                  "Sudah dibersihkan",
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              )),
-                                      leading: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                        "assets/images/building_icon.png",
-                                      )),
-                                      trailing: Text(DateFormat('dd MMMM yyyy')
-                                          .format(DateTime.parse(snapshot
-                                              .data[index].updatedAt
-                                              .toString()))),
-                                    )
-                                  ],
-                                );
-                              });
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      },
-                      // child: Text(
-                      //   "Jadwal Harian",
-                      //   style: TextStyle(
-                      //     color: Colors.black,
-                      //     fontSize: 16.0,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.05)
         ]),
       ),
     );
