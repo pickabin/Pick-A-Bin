@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
@@ -68,7 +67,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -92,8 +90,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                         return Column(children: [
                           //Bagian paling atas form,logo dan notifikasi
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 5),
+                            padding: const EdgeInsets.only(left: 15, right: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -106,37 +103,15 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                         0.07,
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20))),
-                                      backgroundColor:
-                                      Color.fromARGB(255, 255, 255, 255),
-                                      context: context,
-                                      builder: (_) {
-                                        return FractionallySizedBox(
-                                          heightFactor: 0.9,
-                                          child: AreaId(
-                                            code: code,
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: Text("PENS",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 10,
-                                        )),
-                                  ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Text("PENS",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 10,
+                                      )),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(right: 13),
@@ -144,7 +119,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   child: Stack(children: [
                                     //Notification
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Notifikasi()));
+                                      },
                                       icon: Icon(
                                         Icons.notifications,
                                         color: Colors.black45,
@@ -199,31 +180,34 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   padding: EdgeInsets.only(left: 6),
                                   child: snapshot.data[index].user.photo != null
                                       ? CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        snapshot.data[index].user.photo),
-                                    radius: 27,
-                                  )
+                                          backgroundImage: NetworkImage(
+                                              snapshot.data[index].user.photo),
+                                          radius: 27,
+                                        )
                                       : CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: AssetImage(
-                                          'assets/images/grup_logo2.png')),
+                                          radius: 30,
+                                          backgroundImage: AssetImage(
+                                              'assets/images/grup_logo2.png')),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.only(top: 20),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.2,
+                                        padding: EdgeInsets.only(top: 12),
                                         child: Text(
                                           snapshot.data[index].user.name,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                                  0.04,
+                                                      .size
+                                                      .width *
+                                                  0.038,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -243,8 +227,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                 Container(
                                     margin: EdgeInsets.only(
                                         left:
-                                        MediaQuery.of(context).size.width *
-                                            0.05),
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
                                     width: MediaQuery.of(context).size.width *
                                         0.37,
                                     height: MediaQuery.of(context).size.height *
@@ -258,57 +242,121 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     ),
                                     child: Column(
                                       children: [
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top:
-                                              MediaQuery.of(context).size.width *
-                                                  0.02,
-                                                  left: MediaQuery.of(context).size.width *
-                                                      0.01
-                                          ),
-                                          child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children:[
-                                                Icon(
-                                                  Icons.location_on,
-                                                  color: Colors.black45,
-                                                  size: MediaQuery.of(context).size.width *
-                                                      0.05,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text("Penempatan Kerja", style: TextStyle(fontSize: MediaQuery.of(context).size.width *
-                                                        0.030, fontWeight: FontWeight.w500),),
-                                                    Row(
-                                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Text("D4 PENS", style: TextStyle(fontSize: MediaQuery.of(context).size.width *
-                                                            0.03, fontWeight: FontWeight.w300),),
-                                                        SizedBox(width: MediaQuery.of(context).size.width * 0.09),
-                                                        IconButton(
-                                                            padding: EdgeInsets.zero,
-                                                            constraints: BoxConstraints(),
-                                                            onPressed: () {},
-                                                            icon: Icon(
-                                                              Icons.create_rounded,
-                                                              color: Colors.black45,
-                                                              size: MediaQuery.of(context).size.width *
-                                                                  0.05,
-                                                            )
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-
-                                              ]
+                                        GestureDetector(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  20),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  20))),
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              context: context,
+                                              builder: (_) {
+                                                return FractionallySizedBox(
+                                                  heightFactor: 0.9,
+                                                  child: AreaId(
+                                                    code: code,
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                top: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.02,
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01),
+                                            child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.black45,
+                                                    size: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.05,
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "Penempatan Kerja",
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.030,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Row(
+                                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "D4 PENS",
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.03,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300),
+                                                          ),
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.09),
+                                                          IconButton(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              constraints:
+                                                                  BoxConstraints(),
+                                                              onPressed: () {},
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .create_rounded,
+                                                                color: Colors
+                                                                    .black45,
+                                                                size: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.05,
+                                                              ))
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ]),
                                           ),
                                         ),
                                       ],
-                                    )
-                                )
+                                    ))
                               ],
                             ),
                           ),
@@ -324,19 +372,17 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                   );
                 }
               }),
-
           Container(
             margin: EdgeInsets.only(top: 5, left: 16),
             alignment: Alignment.centerLeft,
             child: Text(
               "Tugas Terbaru Anda",
-              style: TextStyle(
-                  fontSize: 18.0, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
             margin: EdgeInsets.only(top: 5, bottom: 5),
-            height: MediaQuery.of(context).size.height * 0.14,
+            height: MediaQuery.of(context).size.height * 0.18,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color(0xff4BB051),
@@ -352,12 +398,10 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                 Container(
                   margin: EdgeInsets.only(left: 8),
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin:
-                        EdgeInsets.only(top: 5, left: 8),
+                        margin: EdgeInsets.only(top: 5, left: 8),
                         child: Text(
                           "Piket Pagi",
                           style: TextStyle(
@@ -367,8 +411,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                         ),
                       ),
                       Container(
-                        margin:
-                        EdgeInsets.only(top: 2, left: 8),
+                        margin: EdgeInsets.only(top: 2, left: 8),
                         child: Row(
                           //space between cleaning service dan petugas
                           children: [
@@ -383,10 +426,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context)
-                                      .size
-                                      .width *
-                                      0.6,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
                                 ),
                                 Icon(
                                   Icons.done_all,
@@ -399,8 +440,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                         ),
                       ),
                       Container(
-                        margin:
-                        EdgeInsets.only(top: 8, left: 8),
+                        margin: EdgeInsets.only(top: 8, left: 8),
                         child: Text(
                           "Piket Siang",
                           style: TextStyle(
@@ -410,8 +450,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                         ),
                       ),
                       Container(
-                        margin:
-                        EdgeInsets.only(top: 2, left: 8),
+                        margin: EdgeInsets.only(top: 2, left: 8),
                         child: Row(
                           //space between cleaning service dan petugas
                           children: [
@@ -426,10 +465,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context)
-                                      .size
-                                      .width *
-                                      0.42,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.42,
                                 ),
                                 Icon(
                                   Icons.access_time,
@@ -452,8 +489,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Manfaat Pick A Bin",
-              style: TextStyle(
-                  fontSize: 18.0, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -486,8 +522,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Sampaikan Aspirasi",
-              style: TextStyle(
-                  fontSize: 18.0, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -505,7 +540,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                     spreadRadius: 1.2)
               ],
             ),
-
             child: Stack(
               children: [
                 Padding(

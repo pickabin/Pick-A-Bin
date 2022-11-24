@@ -31,20 +31,25 @@ class AktivitasPetugas {
   AktivitasPetugas({
     required this.id,
     required this.jadwalId,
+    required this.petugasId,
     required this.date,
     required this.time,
     required this.photo,
+    required this.feedback,
+    required this.status,
     required this.createdAt,
     required this.updatedAt,
     required this.jadwal,
-    required petugasId,
   });
 
   int? id;
   String? jadwalId;
+  String? petugasId;
   String? date;
   String? time;
   String? photo;
+  String? feedback;
+  String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
   Jadwal jadwal;
@@ -57,6 +62,8 @@ class AktivitasPetugas {
         date: json["date"],
         time: json["time"],
         photo: json["photo"],
+        feedback: json["feedback"] == null ? null : json["feedback"],
+        status: json["status"] == null ? null : json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         jadwal: Jadwal.fromJson(json["jadwal"]),
@@ -144,5 +151,5 @@ class User {
         photo: json["photo"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-    );
+      );
 }
