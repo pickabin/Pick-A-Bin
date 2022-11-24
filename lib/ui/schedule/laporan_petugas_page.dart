@@ -53,7 +53,7 @@ class _LaporanPetugasPageState extends State<LaporanPetugasPage> {
                                 builder: (context) => DetailLaporanPetugas(
                                     listAktivitasPetugas: listAktivitasPetugas, 
                                     cleanArea: snapshot.data[index].cleanArea,
-                                    name: snapshot.data[index].user.name
+                                    name: snapshot.data[index].user.name,
                               )),
                           );
                         },

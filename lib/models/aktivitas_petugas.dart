@@ -144,20 +144,5 @@ class User {
         photo: json["photo"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "uid": uid,
-        "name": name,
-        "address": address,
-        "phone": phone,
-        "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "password": password,
-        "remember_token": rememberToken,
-        "photo": photo,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
+    );
 }

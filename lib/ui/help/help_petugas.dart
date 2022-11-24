@@ -10,48 +10,29 @@ class HelpPetugas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(18.0),
+      padding: const EdgeInsets.only(left:5, right:5, top:10, bottom:5),
       child: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.4, color: Color(0xFF66E8A9)),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(2.0),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 10),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "Bingung ?",
+                  "Fitur - Fitur Pick A Bin",
                   style: TextStyle(
-                    fontFamily: 'Roboto' ,
+                    fontFamily: 'Roboto',
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, bottom: 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Yuk pelajari fitur kami!",
-                  style: TextStyle(
-                    fontFamily: 'Roboto-Regular',
-                    color: Colors.black,
-                    // fontWeight: FontWeight.,
-                    fontSize: 14.0,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.only(left:10, right:10),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -61,21 +42,20 @@ class HelpPetugas extends StatelessWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 53,
+                  height: 75,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/tutorial1.png"),
                       fit: BoxFit.fitWidth,
                     ),
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color.fromARGB(255, 128, 132, 136),
-                          offset: const Offset(0.0, 0.4),
-                          blurRadius: 1.0,
-                          spreadRadius: 1.0 
-                          )
-                    ],
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //       color: Color.fromARGB(255, 128, 132, 136),
+                    //       offset: const Offset(0.0, 0.8),
+                    //       blurRadius: 2.0,
+                    //       spreadRadius: 1.2)
+                    // ],
                   ),
                   child: Row(children: [
                     Padding(
@@ -85,7 +65,7 @@ class HelpPetugas extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 15, top: 2),
+                              padding: EdgeInsets.only(left: 17, top: 17),
                               child: Row(children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,16 +74,17 @@ class HelpPetugas extends StatelessWidget {
                                       "Laporan Acara",
                                       style: TextStyle(
                                           fontFamily: 'Roboto-Bold',
-                                          color: Color.fromARGB(255, 255, 255, 255),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500
-                                          ),
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                     Text(
                                       "Periksa jadwal acara terdekat",
                                       style: TextStyle(
                                         fontFamily: 'Roboto-Regular',
-                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                         fontSize: 9,
                                       ),
                                     ),
@@ -129,7 +110,7 @@ class HelpPetugas extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.only(left:10, right:10),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -139,21 +120,13 @@ class HelpPetugas extends StatelessWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 53,
+                  height: 75,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/tutorial2.png"),
                       fit: BoxFit.fitWidth,
                     ),
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color.fromARGB(255, 128, 132, 136),
-                          offset: const Offset(0.0, 0.4),
-                          blurRadius: 1.0,
-                          spreadRadius: 1.0 // changes position of shadow
-                          )
-                    ],
                   ),
                   child: Row(children: [
                     Padding(
@@ -163,7 +136,7 @@ class HelpPetugas extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 15, top: 2),
+                              padding: EdgeInsets.only(left: 15, top: 17),
                               child: Row(children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,16 +145,17 @@ class HelpPetugas extends StatelessWidget {
                                       "Jadwal",
                                       style: TextStyle(
                                           fontFamily: 'Roboto-Bold',
-                                          color: Color.fromARGB(255, 255, 255, 255),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500
-                                          ),
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                     Text(
                                       "Periksa jadwal penugasan kamu",
                                       style: TextStyle(
                                         fontFamily: 'Roboto-Regular',
-                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                         fontSize: 9,
                                       ),
                                     ),

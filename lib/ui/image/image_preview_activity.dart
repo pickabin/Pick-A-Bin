@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 class ImagePreviewActivity extends StatefulWidget {
   final String? image;
   final int? id;
-  ImagePreviewActivity({Key? key, required this.image, required this.id}) : super(key: key);
+  final String? status;
+  ImagePreviewActivity(
+      {Key? key, required this.image, required this.id, required this.status})
+      : super(key: key);
 
   @override
   State<ImagePreviewActivity> createState() => _ImagePreviewActivityState();
 }
 
 class _ImagePreviewActivityState extends State<ImagePreviewActivity> {
+  final feedbackController = new TextEditingController();
+  final GlobalKey<FormState> _formKey = new GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,87 +41,151 @@ class _ImagePreviewActivityState extends State<ImagePreviewActivity> {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton(
-                      child: Icon(
-                        Icons.chat,
-                        color: Color(0xff4399A7),
-                      ),
-                      // onpresses dialog chat
-                      onPressed: () => showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: Text("Feedback"),
-                                // content form feedback
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Form(
-                                      child: Column(
+              widget.status == null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        OutlinedButton(
+                            child: Icon(
+                              Icons.chat,
+                              color: Color(0xff4399A7),
+                            ),
+                            // onpresses dialog chat
+                            onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: Text("Feedback"),
+                                      // content form feedback
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          TextField(
-                                            maxLines: 3,
-                                            decoration: InputDecoration(
-                                              labelText: 'Isi Feedback',
-                                              hintText: 'Masukkan Feedback',
-                                              enabledBorder: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: BorderSide(
-                                                      color: Colors.green)),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: BorderSide(
-                                                    color: Colors.green,
-                                                    width: 2,
-                                                  )),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextButton(
-                                              child: Icon(
-                                                Icons.send,
-                                                color: Colors.white,
-                                              ),
-                                              style: TextButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.green,
-                                                  padding: EdgeInsets.only(
+                                          Form(
+                                            key: _formKey,
+                                            child: Column(
+                                              children: [
+                                                TextFormField(
+                                                  controller:
+                                                      feedbackController,
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Feedback harus diisi';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  maxLines: 3,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Isi Feedback',
+                                                    hintText:
+                                                        'Masukkan Feedback',
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      borderSide: BorderSide(
+                                                        width: 2,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .green)),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color:
+                                                                  Colors.green,
+                                                              width: 2,
+                                                            )),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                TextButton(
+                                                  child: Icon(
+                                                    Icons.send,
+                                                    color: Colors.white,
+                                                  ),
+                                                  style: TextButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    padding: EdgeInsets.only(
                                                       left: 100,
                                                       right: 100,
                                                       top: 5,
                                                       bottom: 5,
-                                                  ),  
-                                              ),
-                                              onPressed: () {},
-                                          )
+                                                    ),
+                                                  ),
+                                                  onPressed: () async{
+                                                    final String feedback =
+                                                        feedbackController.text;
+                                                    if (_formKey.currentState!
+                                                        .validate()) {
+                                                      if (feedback.isEmpty) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                                'Semua Field Harus Diisi'),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        AktivitasPetugasController.updateFeedbackAktivitasPetugas(widget.id!, feedback).then((value){
+                                                          // jika berhasil
+                                                            Navigator.of(context).pop();
+                                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text('Feedback Berhasil Dikirim'),
+                                                                backgroundColor: Colors.green,
+                                                              ),
+                                                            );
+                                                        });
+                                                      }
+                                                    }
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ))),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  OutlinedButton(
-                      child: Icon(
-                        Icons.check,
-                        color: Color(0xff1DDB7F),
-                      ),
-                      onPressed: () {
-                        AktivitasPetugasController().updateStatusAktivitasPetugas(widget.id!).then((value){
-                          // jika berhasil update status show snackbar
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Berhasil Update Status")));
-                        });
-                    }),
-                ],
-              ),
+                                    ))),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        OutlinedButton(
+                            child: Icon(
+                              Icons.check,
+                              color: Color(0xff1DDB7F),
+                            ),
+                            onPressed: () {
+                              AktivitasPetugasController()
+                                  .updateStatusAktivitasPetugas(widget.id!)
+                                  .then((value) {
+                                // jika berhasil update status show snackbar
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text("Berhasil Update Status")));
+                              });
+                            }),
+                      ],
+                    )
+                  : Container()
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //   children: [

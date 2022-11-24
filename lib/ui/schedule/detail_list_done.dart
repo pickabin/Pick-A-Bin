@@ -1,19 +1,13 @@
 import 'package:boilerplate/models/laporan_petugas.dart';
-import 'package:boilerplate/ui/image/image_preview.dart';
 import 'package:boilerplate/ui/image/image_preview_activity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DetailLaporanPetugas extends StatefulWidget {
-  String? cleanArea;
-  String? name;
-  List<PetugasActivity>? listAktivitasPetugas;
-  DetailLaporanPetugas(
-      {Key? key,
-      required this.listAktivitasPetugas,
-      required this.cleanArea,
-      required this.name})
-      : super(key: key);
+  final String? cleanArea;
+  final String? name;
+  final List<PetugasActivity>? listAktivitasPetugas;
+  DetailLaporanPetugas({Key? key, required this.listAktivitasPetugas, required this.cleanArea, required this.name}) : super(key: key);
 
   @override
   State<DetailLaporanPetugas> createState() => _DetailLaporanPetugasState();
@@ -62,9 +56,10 @@ class _DetailLaporanPetugasState extends State<DetailLaporanPetugas> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ImagePreviewActivity(
-                                  image:
-                                      widget.listAktivitasPetugas![index].photo,
-                                  id: widget.listAktivitasPetugas![index].id)),
+                                image: widget.listAktivitasPetugas![index].photo, 
+                                id: widget.listAktivitasPetugas![index].id,
+                                status: widget.listAktivitasPetugas![index].status,
+                            )),
                         );
                       },
                     ),
