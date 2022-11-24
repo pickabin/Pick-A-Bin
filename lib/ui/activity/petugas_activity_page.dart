@@ -1,5 +1,6 @@
 import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:intl/intl.dart';
 
 
@@ -11,9 +12,6 @@ class PetugasActivityPage extends StatefulWidget {
 }
 
 class _PetugasActivityPageState extends State<PetugasActivityPage> {
-  // final ref = FirebaseDatabase.instance
-  //     .ref()
-  //     .child('aktivitas_petugas');
 
   @override
   Widget build(BuildContext context) {
@@ -36,545 +34,133 @@ class _PetugasActivityPageState extends State<PetugasActivityPage> {
               return snapshot.data.length != 0 ? ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return snapshot.data[index].status == null ? Column(
+                  return Column(
                     children: <Widget>[
-                      Dismissible(
-                        key: Key(index.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          child: Text("Hapus",
-                              style: TextStyle(color: Colors.white)),
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 20),
-                        ),
-                        confirmDismiss: (direction) {
-                          return showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text("Konfirmasi"),
-                                  content: Text(
-                                      "Apakah Anda yakin akan menghapus aktivitas ini? "),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          // print("ini bukti id aktivitas" + snapshot.data[index].id.toString());
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Tidak")),
-                                    TextButton(
-                                        onPressed: () {
-                                          var key = snapshot.data[index].id;
-                                          AktivitasPetugasController
-                                              .deleteAktivitasPetugas(key);
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: ListTile(
+                          onTap: (){
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(snapshot.data[index].status == null ? "Sedang Ditinjau" : snapshot.data[index].status == 2 ? "Feedback" : "Selesai", textAlign: TextAlign.justify,),
+                                    content: Text(snapshot.data[index].status == null ? "Laporan yang Anda kirimkan sedang ditinjau oleh Koordinator" :
+                                    snapshot.data[index].status == 2 ? snapshot.data[index].feedback : "Laporan yang Anda kirimkan telah dikonfirmasi oleh Koordinator"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Tutup")),
+                                      snapshot.data[index].status == 2 ? TextButton(
+                                          onPressed: () {
+                                            AktivitasPetugasController()
+                                                .updateStatusAktivitasPetugas(snapshot.data[index].id)
+                                                .then((value) {
                                               setState(() {
-                                                Navigator.pop(context);
+                                                Navigator.of(context).pop();
                                               });
-                                        },
-                                        child: Text("Yakin")),
-                                  ],
-                                );
-                              });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text.rich(
-                              TextSpan(
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: 'Anda telah membersihkan',
-                                  ),
-                                ],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                      content:
+                                                      Text("Berhasil Update Status")));
+                                            });
+                                          },
+                                          child: Text("Selesaikan")) : Container()
+                                    ],
+                                  );
+                                });
+                          },
+                          title: Text.rich(
+                            TextSpan(
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: 'Anda telah membersihkan',
+                                ),
+                              ],
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.location_on_outlined,
-                                              color: Colors.green)),
-                                      TextSpan(
-                                          text: snapshot
-                                              .data[index].jadwal.cleanArea),
-                                    ],
-                                  ),
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.calendar_today,
-                                              color: Colors.green)),
-                                     DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(DateTime.now())
-                                  ? TextSpan(
-                                          text: DateFormat('HH:mm').format(
-                                      DateTime.parse(snapshot.data[index].time
-                                              .toString())
-                                      ).toString()) 
-                                      : DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                          DateFormat('yyyy-MM-dd').format(
-                                              DateTime.now()
-                                                  .subtract(Duration(days: 1))) ?
-                                        TextSpan(
-                                          text: "Yesterday",
-                                          style: TextStyle(color: Colors.grey)) :
-                                        TextSpan(
-                                          text:  DateFormat('yyyy-MM-dd').format(
-                                              DateTime.parse(snapshot.data[index].date.toString()))
-                                        )   
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 3, bottom: 3, left: 10, right: 10),
-                                  margin: EdgeInsets.only(top: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xff4399A7),
-                                  ),
-                                  child: Text.rich(
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text.rich(
                                     TextSpan(
                                       children: <InlineSpan>[
+                                        WidgetSpan(
+                                            child: Icon(Icons.location_on_outlined,
+                                              color: Colors.green, size: 15,)),
                                         TextSpan(
-                                            text: "Sedang ditinjau"),
+                                            text: snapshot
+                                                .data[index].jadwal.cleanArea),
                                       ],
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            trailing: Column(children: <Widget>[
-                              Wrap(
-                                children: <Widget>[
-                                  Icon(Icons.arrow_back),
-                                ],
-                              ),
-                            ]),
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/activity_icon.png"),
-                              backgroundColor: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Divider(color: Colors.black),
-                    ],
-                  ) : snapshot.data[index].status == 1 ? Column(
-                    children: <Widget>[
-                      Dismissible(
-                        key: Key(index.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          child: Text("Hapus",
-                              style: TextStyle(color: Colors.white)),
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 20),
-                        ),
-                        confirmDismiss: (direction) {
-                          return showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text("Konfirmasi"),
-                                  content: Text(
-                                      "Apakah Anda yakin akan menghapus aktivitas ini? "),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          // print("ini bukti id aktivitas" + snapshot.data[index].id.toString());
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Tidak")),
-                                    TextButton(
-                                        onPressed: () {
-                                          var key = snapshot.data[index].id;
-                                          AktivitasPetugasController
-                                              .deleteAktivitasPetugas(key);
-                                              setState(() {
-                                                Navigator.pop(context);
-                                              });
-                                        },
-                                        child: Text("Yakin")),
-                                  ],
-                                );
-                              });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text.rich(
-                              TextSpan(
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: 'Anda telah membersihkan',
-                                  ),
-                                ],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.location_on_outlined,
-                                              color: Colors.green)),
-                                      TextSpan(
-                                          text: snapshot
-                                              .data[index].jadwal.cleanArea),
-                                    ],
-                                  ),
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.calendar_today,
-                                              color: Colors.green)),
-                                     DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(DateTime.now())
-                                  ? TextSpan(
-                                          text: DateFormat('HH:mm').format(
-                                      DateTime.parse(snapshot.data[index].time
-                                              .toString())
-                                      ).toString()) 
-                                      : DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                          DateFormat('yyyy-MM-dd').format(
-                                              DateTime.now()
-                                                  .subtract(Duration(days: 1))) ?
-                                        TextSpan(
-                                          text: "Yesterday",
-                                          style: TextStyle(color: Colors.grey)) :
-                                        TextSpan(
-                                          text:  DateFormat('yyyy-MM-dd').format(
-                                              DateTime.parse(snapshot.data[index].date.toString()))
-                                        )   
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 3, bottom: 3, left: 10, right: 10),
-                                  margin: EdgeInsets.only(top: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xff4399A7),
-                                  ),
-                                  child: Text.rich(
+                                  SizedBox(width: 10),
+                                  Text.rich(
                                     TextSpan(
                                       children: <InlineSpan>[
+                                        WidgetSpan(
+                                            child: Icon(Icons.calendar_today,
+                                                color: Colors.green, size: 15)),
+                                        DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                            snapshot.data[index].date
+                                                .toString())) ==
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(DateTime.now())
+                                            ? TextSpan(
+                                            text: DateFormat('HH:mm').format(
+                                                DateTime.parse(snapshot.data[index].time
+                                                    .toString())
+                                            ).toString())
+                                            : DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                                            snapshot.data[index].date
+                                                .toString())) ==
+                                            DateFormat('yyyy-MM-dd').format(
+                                                DateTime.now()
+                                                    .subtract(Duration(days: 1))) ?
                                         TextSpan(
-                                            text: "Selesai"),
+                                            text: "Yesterday",
+                                            style: TextStyle(color: Colors.grey)) :
+                                        TextSpan(
+                                            text:  DateFormat('yyyy-MM-dd').format(
+                                                DateTime.parse(snapshot.data[index].date.toString()))
+                                        )
                                       ],
                                     ),
                                   ),
+                                ],
+                              ),
+                              SizedBox(height: 1),
+                              Container(
+                                padding: EdgeInsets.only(top: 3, bottom: 3, left: 10, right: 10),
+                                margin: EdgeInsets.only(top: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: snapshot.data[index].status == null ? Colors.orange :
+                                  snapshot.data[index].status == 1 ? Colors.green : Colors.red,
                                 ),
-                              ],
-                            ),
-                            trailing: Column(children: <Widget>[
-                              Wrap(
-                                children: <Widget>[
-                                  Icon(Icons.arrow_back),
-                                ],
-                              ),
-                            ]),
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/activity_icon.png"),
-                              backgroundColor: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Divider(color: Colors.black),
-                    ],
-                  ) : snapshot.data[index].feedback != null ? Column(
-                    children: <Widget>[
-                      Dismissible(
-                        key: Key(index.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          child: Text("Hapus",
-                              style: TextStyle(color: Colors.white)),
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 20),
-                        ),
-                        confirmDismiss: (direction) {
-                          return showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text("Konfirmasi"),
-                                  content: Text(
-                                      "Apakah Anda yakin akan menghapus aktivitas ini? "),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          // print("ini bukti id aktivitas" + snapshot.data[index].id.toString());
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Tidak")),
-                                    TextButton(
-                                        onPressed: () {
-                                          var key = snapshot.data[index].id;
-                                          AktivitasPetugasController
-                                              .deleteAktivitasPetugas(key);
-                                              setState(() {
-                                                Navigator.pop(context);
-                                              });
-                                        },
-                                        child: Text("Yakin")),
-                                  ],
-                                );
-                              });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text.rich(
-                              TextSpan(
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: 'Anda telah membersihkan',
-                                  ),
-                                ],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text.rich(
+                                child: Text.rich(
                                   TextSpan(
                                     children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.location_on_outlined,
-                                              color: Colors.green)),
                                       TextSpan(
-                                          text: snapshot
-                                              .data[index].jadwal.cleanArea),
+                                          text: snapshot.data[index].status == null ? "Sedang ditinjau" :
+                                          snapshot.data[index].status == 1 ? "Selesai" : "Lihat feedback",
+                                          style: TextStyle(color: Colors.white)
+                                      ),
                                     ],
                                   ),
                                 ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.calendar_today,
-                                              color: Colors.green)),
-                                     DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(DateTime.now())
-                                  ? TextSpan(
-                                          text: DateFormat('HH:mm').format(
-                                      DateTime.parse(snapshot.data[index].time
-                                              .toString())
-                                      ).toString()) 
-                                      : DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                          DateFormat('yyyy-MM-dd').format(
-                                              DateTime.now()
-                                                  .subtract(Duration(days: 1))) ?
-                                        TextSpan(
-                                          text: "Yesterday",
-                                          style: TextStyle(color: Colors.grey)) :
-                                        TextSpan(
-                                          text:  DateFormat('yyyy-MM-dd').format(
-                                              DateTime.parse(snapshot.data[index].date.toString()))
-                                        )   
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 3, bottom: 3, left: 10, right: 10),
-                                  margin: EdgeInsets.only(top: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xff4399A7),
-                                  ),
-                                  child: Text.rich(
-                                    TextSpan(
-                                      children: <InlineSpan>[
-                                        TextSpan(
-                                            text: "Terdapat Feedback"),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            trailing: Column(children: <Widget>[
-                              Wrap(
-                                children: <Widget>[
-                                  Icon(Icons.arrow_back),
-                                ],
                               ),
-                            ]),
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/activity_icon.png"),
-                              backgroundColor: Colors.red,
-                            ),
+                            ],
                           ),
-                        ),
-                      ),
-                      Divider(color: Colors.black),
-                    ],
-                  ) : Column(
-                    children: <Widget>[
-                      Dismissible(
-                        key: Key(index.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          child: Text("Hapus",
-                              style: TextStyle(color: Colors.white)),
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 20),
-                        ),
-                        confirmDismiss: (direction) {
-                          return showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text("Konfirmasi"),
-                                  content: Text(
-                                      "Apakah Anda yakin akan menghapus aktivitas ini? "),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          // print("ini bukti id aktivitas" + snapshot.data[index].id.toString());
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Tidak")),
-                                    TextButton(
-                                        onPressed: () {
-                                          var key = snapshot.data[index].id;
-                                          AktivitasPetugasController
-                                              .deleteAktivitasPetugas(key);
-                                              setState(() {
-                                                Navigator.pop(context);
-                                              });
-                                        },
-                                        child: Text("Yakin")),
-                                  ],
-                                );
-                              });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text.rich(
-                              TextSpan(
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: 'Anda telah membersihkan',
-                                  ),
-                                ],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.location_on_outlined,
-                                              color: Colors.green)),
-                                      TextSpan(
-                                          text: snapshot
-                                              .data[index].jadwal.cleanArea),
-                                    ],
-                                  ),
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: <InlineSpan>[
-                                      WidgetSpan(
-                                          child: Icon(Icons.calendar_today,
-                                              color: Colors.green)),
-                                     DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                      DateFormat('yyyy-MM-dd')
-                                          .format(DateTime.now())
-                                  ? TextSpan(
-                                          text: DateFormat('HH:mm').format(
-                                      DateTime.parse(snapshot.data[index].time
-                                              .toString())
-                                      ).toString()) 
-                                      : DateFormat('yyyy-MM-dd').format(DateTime.parse(
-                                          snapshot.data[index].date
-                                              .toString())) ==
-                                          DateFormat('yyyy-MM-dd').format(
-                                              DateTime.now()
-                                                  .subtract(Duration(days: 1))) ?
-                                        TextSpan(
-                                          text: "Yesterday",
-                                          style: TextStyle(color: Colors.grey)) :
-                                        TextSpan(
-                                          text:  DateFormat('yyyy-MM-dd').format(
-                                              DateTime.parse(snapshot.data[index].date.toString()))
-                                        )   
-                                    ],
-                                  ),
-                                ),
-                                // Container(
-                                //   padding: EdgeInsets.only(top: 3, bottom: 3, left: 10, right: 10),
-                                //   margin: EdgeInsets.only(top: 5),
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(10),
-                                //     color: Color(0xff4399A7),
-                                //   ),
-                                //   child: Text.rich(
-                                //     TextSpan(
-                                //       children: <InlineSpan>[
-                                //         TextSpan(
-                                //             text: "Selesai"),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                            trailing: Column(children: <Widget>[
-                              Wrap(
-                                children: <Widget>[
-                                  Icon(Icons.arrow_back),
-                                ],
-                              ),
-                            ]),
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/activity_icon.png"),
-                              backgroundColor: Colors.red,
-                            ),
+                          leading: CircleAvatar(
+                            backgroundImage:
+                            AssetImage("assets/images/activity_icon.png"),
+                            backgroundColor: Colors.red,
                           ),
                         ),
                       ),
@@ -585,16 +171,10 @@ class _PetugasActivityPageState extends State<PetugasActivityPage> {
               ) : Center(child: Text("Tidak ada aktivitas"));
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: ListTileShimmer(),
               );
             }
           },
         ));
   }
-
-  // Future<String?> _getPrefs() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? nama = prefs.getString('nama');
-  //   return nama;
-  // }
 }

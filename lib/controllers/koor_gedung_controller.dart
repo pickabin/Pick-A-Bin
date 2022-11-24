@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KoorGedungController {
+
   String? dataCode;
   var data = [];
   List<KoorGedung> searchResult = [];
@@ -86,39 +87,6 @@ class KoorGedungController {
     }
   }
 
-  // static Future<KoorGedung?> addUser(KoorGedung koorGedung, String email, String password) async {
-  //   final response = await http.post(
-  //     Uri.parse('https://azdevweb.online/api/koor_gedung'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: {
-  //       'uid': koorGedung.uid,
-  //       'name' : koorGedung.name,
-  //       'address' : koorGedung.address,
-  //       'phone' : koorGedung.phone,
-  //       'code' : koorGedung.code,
-  //       'email' : koorGedung.email,
-  //       'photo' : koorGedung.photo,
-  //       'created_at' : koorGedung.createdAt.toString(),
-  //       'updated_at' : koorGedung.updatedAt.toString(),
-  //     },
-  //   );
-  //   final data = json.decode(response.body);
-
-  //   return KoorGedung(
-  //     id: data['data']['id'],
-  //     uid: data['data']['user_id'],
-  //     name: data['data']['name'],
-  //     address: data['data']['address'],
-  //     phone: data['data']['phone'],
-  //     code: data['data']['code'],
-  //     email: data['data']['email'],
-  //     photo: data['data']['photo'],
-  //     createdAt: data['data']['created_at'],
-  //     updatedAt: data['data']['updated_at'],
-  //   );
-  // }
 
   static Future<http.Response> addKoorGedung(String uid) async {
     return http.post(

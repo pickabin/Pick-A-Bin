@@ -3,6 +3,7 @@ import 'package:boilerplate/models/lapor_kotor.dart';
 import 'package:http/http.dart' as http;
 
 class LaporKotorController{
+
   Future<List<LaporKotor>> getLaporKotor() async {
     final response = await http.get(Uri.parse('https://azdevweb.online/api/laporKotor'));
     if (response.statusCode == 200) {

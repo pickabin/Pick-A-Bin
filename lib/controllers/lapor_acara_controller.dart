@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LaporAcaraController{
+
   Future<List<LaporAcara>> getLaporAcara() async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();

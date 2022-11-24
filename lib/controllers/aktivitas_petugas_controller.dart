@@ -5,6 +5,7 @@ import 'package:boilerplate/models/aktivitas_petugas.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AktivitasPetugasController{
+
   Future<List<AktivitasPetugas>> getAktivitasPetugas() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();

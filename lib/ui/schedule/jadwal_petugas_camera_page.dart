@@ -57,10 +57,10 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                     backgroundColor: Colors.green,
                     textColor: Colors.white,
                     fontSize: 16.0);
-                Navigator.pushReplacement(
-                    this.context,
-                    MaterialPageRoute(
-                        builder: (context) => PetugasActivityPage()));
+                // Navigator.pushReplacement(
+                //     this.context,
+                //     MaterialPageRoute(
+                //         builder: (context) => PetugasActivityPage()));
               } else {
                 Fluttertoast.showToast(
                     msg: "Update Failed",
@@ -91,8 +91,15 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff1DDB7F),
-          title: Text("Jadwal"),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: const Text(
+            'Jadwal',
+            style: TextStyle(color: Color(0xff00783E)),
+          ),
+          automaticallyImplyLeading: false,
+          leadingWidth: 100,
         ),
         body: FutureBuilder(
           future: JadwalController().getJadwal(),
@@ -176,7 +183,7 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                                 ),
                                 child: Text("Piket Telah Dilaksanakan",
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FontStyle.italic,
                                     )

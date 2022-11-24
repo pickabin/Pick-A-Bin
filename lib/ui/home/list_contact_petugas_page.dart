@@ -15,7 +15,6 @@ class ListContactPetugasPage extends StatefulWidget {
 }
 
 class _ListContactPetugasPageState extends State<ListContactPetugasPage> {
-  // final ref = FirebaseDatabase.instance.ref().child('petugas');
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +74,6 @@ class _ListContactPetugasPageState extends State<ListContactPetugasPage> {
                                         icon: Icon(Icons.phone,
                                             color: Colors.green),
                                         onPressed: () {
-                                          // launch('tel:${snapshot.child('telp').value.toString()}');
                                           FlutterPhoneDirectCaller.callNumber(
                                               snapshot.data[index].user.phone);
                                         },

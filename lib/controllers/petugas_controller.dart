@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PetugasController {
+
   String? dataCode;
   var data = [];
   List<Petugas> searchResult = [];
@@ -98,28 +99,6 @@ class PetugasController {
       return null;
     }
   }
-
-  // Future<List<UserData>> getPetugas() async {
-  //   final response = await http.get(Uri.parse('https://azdevweb.online/api/petugas/'));
-  //   if (response.statusCode == 200) {
-  //     PetugasResult petugasResult = petugasFromJson(response.body);
-  //     List<Petugas> petugas = petugasResult.data;
-  //     List<UserData> user;
-  //     for(int i = 0; i < petugas.length; i++){
-  //       final response = await http.get(Uri.parse('https://azdevweb.online/api/petugas/getUser/' + petugas[i].userId));
-  //       if(response.statusCode == 200){
-  //         UserDataResult userDataResult = userFromJson(response.body);
-  //         print(userDataResult.data);
-  //         // user = userDataResult.data;
-  //       }else{
-  //         throw Exception('Failed to load data');
-  //       }
-  //     }
-  //     return user;
-  //   } else {
-  //     throw Exception('Failed to load data');
-  //   }
-  // }
 
   static Future<http.Response> addPetugas(String uid) async {
     return http.post(

@@ -42,7 +42,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3)).then((_) {
+    Future.delayed(Duration(seconds: 2)).then((_) {
       //return data from user code
       KoorGedungController().getKoorGedungCode().then((value) {
         setState(() {
@@ -423,7 +423,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
           ),
           Container(
             margin: EdgeInsets.only(top: 5, bottom: 5),
-            height: MediaQuery.of(context).size.height * 0.14,
+            height: MediaQuery.of(context).size.height * 0.16,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color(0xff4BB051),
@@ -444,7 +444,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                     children: [
                       Container(
                         margin:
-                        EdgeInsets.only(top: 5, left: 8),
+                        EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.010,
+                            left: 8),
                         child: Text(
                           "Piket Pagi",
                           style: TextStyle(

@@ -36,8 +36,15 @@ class _StackOverState extends State<StackOver>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Center(child: Text("Jadwal")),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Jadwal',
+          style: TextStyle(color: Color(0xff00783E)),
+        ),
+        automaticallyImplyLeading: false,
+        leadingWidth: 100,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20.0),

@@ -5,6 +5,7 @@ import '../models/user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserController {
+
   Future<List<UserData>> getUser() async {
     final response =
         await http.get(Uri.parse('https://azdevweb.online/api/user'));
@@ -55,11 +56,6 @@ class UserController {
 
   static Future<http.Response> updateUser(
       int? id, String name, String address, String phone) async {
-        // print("ini id: " + id.toString());
-        // print("Ini name : " + name);
-        // print("Ini address : " + address);
-        // print("Ini phone : " + phone);
-        // print("Ini image : " + imageUrl);
     return http.put(
       Uri.parse('https://azdevweb.online/api/user/update/' + id.toString()),
       headers: <String, String>{

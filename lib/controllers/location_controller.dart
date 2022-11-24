@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 
 class LocationController extends GetxController{
+
   Placemark _pickPlacemark = Placemark();
   Placemark get placemark => _pickPlacemark;
   

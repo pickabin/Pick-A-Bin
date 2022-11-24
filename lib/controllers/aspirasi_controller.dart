@@ -4,6 +4,7 @@ import 'package:boilerplate/models/aspirasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AspirasiController {
+
   Future<List<Aspirasi>> getAspirasi() async {
     final response =
         await http.get(Uri.parse('https://azdevweb.online/api/aspirasi'));

@@ -16,7 +16,6 @@ class ListContactKoorPage extends StatefulWidget {
 }
 
 class _ListContactKoorPageState extends State<ListContactKoorPage> {
-  // final ref = FirebaseDatabase.instance.ref().child('petugas');
 
   @override
   Widget build(BuildContext context) {

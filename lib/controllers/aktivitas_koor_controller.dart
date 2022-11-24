@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AktivitasKoorController{
+
   Future<List<AktivitasKoor>> getAktivitasKoor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = prefs.getInt('user_id').toString();

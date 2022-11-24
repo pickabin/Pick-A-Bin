@@ -49,13 +49,6 @@ class HelpPetugas extends StatelessWidget {
                       fit: BoxFit.fitWidth,
                     ),
                     borderRadius: BorderRadius.circular(10),
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //       color: Color.fromARGB(255, 128, 132, 136),
-                    //       offset: const Offset(0.0, 0.8),
-                    //       blurRadius: 2.0,
-                    //       spreadRadius: 1.2)
-                    // ],
                   ),
                   child: Row(children: [
                     Padding(

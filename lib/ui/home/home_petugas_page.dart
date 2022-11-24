@@ -192,6 +192,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                       blurRadius: 10)
                                 ]),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
@@ -214,28 +215,33 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                     CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: Text(
-                                          snapshot.data[index].user.name,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                                  0.04,
-                                              fontWeight: FontWeight.bold),
+                                        width: MediaQuery.of(context).size.width *0.27,
+                                      padding: EdgeInsets.only(top: 20),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              snapshot.data[index].user.name,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.04,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "Petugas",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                // fontWeight: FontWeight.w100,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          "Petugas",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w100,
-                                          ),
-                                        ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -335,7 +341,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
           ),
           Container(
             margin: EdgeInsets.only(top: 5, bottom: 5),
-            height: MediaQuery.of(context).size.height * 0.14,
+            height: MediaQuery.of(context).size.height * 0.16,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 color: Color(0xff4BB051),
@@ -356,7 +362,9 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                     children: [
                       Container(
                         margin:
-                        EdgeInsets.only(top: 5, left: 8),
+                        EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.010,
+                            left: 8),
                         child: Text(
                           "Piket Pagi",
                           style: TextStyle(

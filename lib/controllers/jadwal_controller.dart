@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JadwalController {
+
   //get data dari jadwal dengan mengirimkan id dari user yang login
   Future<List<Jadwal>> getJadwal() async {
     try {
@@ -37,30 +38,6 @@ class JadwalController {
       throw Exception('Failed to load data');
     }
   }
-
-  // static Future<Jadwal?> addProduct(Jadwal jadwal) async {
-  //   final response = await http.post(
-  //     Uri.parse('https://azdevweb.online/api/jadwal'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: {
-  //       'uid' : jadwal.id,
-  //       'clean_area' : jadwal.cleanArea,
-  //       'created_at' : jadwal.createdAt.toString(),
-  //       'updated_at' : jadwal.updatedAt.toString(),
-  //     },
-  //   );
-  //   final data = json.decode(response.body);
-
-  //   return Jadwal(
-  //     id: data['data']['id'],
-  //     uid: data['data']['user_id'],
-  //     cleanArea: data['data']['clean_area'],
-  //     createdAt: data['data']['created_at'],
-  //     updatedAt: data['data']['updated_at'],
-  //   );
-  // }
 
   //update jadwal
   static Future<http.Response> updateJadwal(String photo, idJadwal) async {
