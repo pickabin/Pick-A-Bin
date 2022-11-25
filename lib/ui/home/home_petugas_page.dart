@@ -4,6 +4,7 @@ import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/help/help_petugas.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
+import 'package:boilerplate/ui/notifikasi/notifikasi.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +21,10 @@ class HomePetugasPage extends StatefulWidget {
 
 class _HomePetugasPageState extends State<HomePetugasPage> {
   String? code;
-  //lebar dan tinggi layar
-  final ref = FirebaseDatabase.instance
-      .ref()
-      .child('jadwal')
-      .orderByChild('date')
-      .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
-      .limitToLast(4);
+  int? countPetugas;
+  int? listDone;
+  double? hasil;
+
   File? _image;
   String? fileName;
 
@@ -67,7 +65,6 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -143,7 +140,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                   child: Stack(children: [
                                     //Notification
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Notifikasi()));
+                                      },
                                       icon: Icon(
                                         Icons.notifications,
                                         color: Colors.black45,
