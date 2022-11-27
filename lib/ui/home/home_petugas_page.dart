@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/petugas_controller.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/help/help_petugas.dart';
@@ -373,116 +374,96 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                 }
               }),
           Container(
-            margin: EdgeInsets.only(top: 5, left: 16),
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.03, left: 16),
             alignment: Alignment.centerLeft,
             child: Text(
               "Tugas Terbaru Anda",
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 5, bottom: 5),
-            height: MediaQuery.of(context).size.height * 0.18,
-            width: MediaQuery.of(context).size.width * 0.9,
-            decoration: BoxDecoration(
-                color: Color(0xff4BB051),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 5),
-                      blurRadius: 10)
-                ]),
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 5, left: 8),
-                        child: Text(
-                          "Piket Pagi",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 2, left: 8),
-                        child: Row(
-                          //space between cleaning service dan petugas
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Selesai",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w100,
+          FutureBuilder(
+            future: JadwalController().getJadwal(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.length == 0) {
+                  return Center(
+                    child: Text("Tidak ada jadwal"),
+                  );
+                }
+                return Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0,
+                      vertical: MediaQuery.of(context).size.width * 0),
+                  margin:
+                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return snapshot.data[index].status.toString() == "0"
+                          ? ListTile(
+                              title: Text(
+                                "Piket" +
+                                    " " +
+                                    snapshot.data[index].keterangan.toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                DateFormat(
+                                  'dd MMMM yyyy',
+                                ).format(snapshot.data[index].updatedAt),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              trailing: new Wrap(
+                                children: <Widget>[
+                                  Container(
+                                    child: Icon(Icons.access_time_outlined,
+                                        color: Colors.white),
                                   ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                ),
-                                Icon(
-                                  Icons.done_all,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 8, left: 8),
-                        child: Text(
-                          "Piket Siang",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 2, left: 8),
-                        child: Row(
-                          //space between cleaning service dan petugas
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "senin, 12/12/2020",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w100,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.42,
-                                ),
-                                Icon(
-                                  Icons.access_time,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ],
+                                ],
+                              ),
                             )
-                          ],
-                        ),
-                      ),
-                    ],
+                          : //widget kosong;
+
+                          ListTile(
+                              title: Text(
+                                "Piket" +
+                                    " " +
+                                    snapshot.data[index].keterangan.toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                "Piket Telah Dilaksanakan",
+                                style: TextStyle(color: Colors.white),
+                              ),
+
+                              // trailing icon check
+                              trailing: new Wrap(
+                                children: <Widget>[
+                                  Container(
+                                    child: Icon(Icons.done_all,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            );
+                    },
                   ),
-                ),
-              ],
-            ),
+                );
+              } else {
+                return ListTileShimmer();
+              }
+            },
           ),
           Container(
             margin: EdgeInsets.only(top: 5, bottom: 5, left: 16),
