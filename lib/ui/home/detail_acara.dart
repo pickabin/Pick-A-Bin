@@ -463,7 +463,7 @@ class _DetailAcaraState extends State<DetailAcara> {
                                                         ),
                                                         style: OutlinedButton
                                                             .styleFrom(
-                                                          primary: Colors.green,
+                                                          backgroundColor: Colors.green,
                                                           side: BorderSide(
                                                             width: 2,
                                                             color: Colors.green,
@@ -517,7 +517,7 @@ class _DetailAcaraState extends State<DetailAcara> {
                                   });
                             },
                             style: OutlinedButton.styleFrom(
-                                primary: Colors.green,
+                                backgroundColor: Colors.green,
                                 side: BorderSide(color: Colors.green, width: 2),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:

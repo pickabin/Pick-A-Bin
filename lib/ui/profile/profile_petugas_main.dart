@@ -246,7 +246,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                             },
                                             child: Text('Periksa'),
                                             style: ElevatedButton.styleFrom(
-                                                primary: Colors.black38,
+                                                backgroundColor: Colors.black38,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -337,7 +337,7 @@ class _ProfilePetugasMainState extends State<ProfilePetugasMain> {
                                                 style:
                                                     TextStyle(fontSize: 10.0)),
                                             style: ElevatedButton.styleFrom(
-                                                primary: Colors.black38,
+                                                backgroundColor: Colors.black38,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(

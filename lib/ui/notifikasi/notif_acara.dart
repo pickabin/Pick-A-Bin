@@ -2,7 +2,6 @@ import 'package:boilerplate/controllers/lapor_acara_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifAcara extends StatefulWidget {
   NotifAcara({Key? key}) : super(key: key);

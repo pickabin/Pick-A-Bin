@@ -1,16 +1,13 @@
 import 'package:boilerplate/controllers/count_petugas_controller.dart';
-import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
 import 'package:boilerplate/ui/help/help_koordinator.dart';
 import 'package:boilerplate/ui/home/area_id.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
-import 'package:boilerplate/ui/notifikasi/notifikasi.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
 
 class HomeKoordinatorPage extends StatefulWidget {
   const HomeKoordinatorPage({Key? key}) : super(key: key);
@@ -36,9 +33,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
 
   int _activeIndex = 0;
   final imageAsset = [
-    'assets/images/slide1.png',
-    'assets/images/slide2.png',
-    'assets/images/slide3.png'
+    'assets/images/carousel1.png',
+    'assets/images/carousel2.png',
+    'assets/images/carousel3.png'
   ];
 
   @override
@@ -83,6 +80,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
           countPetugas = value!.petugas;
           listDone = value.listDone;
           hasil = listDone! / countPetugas!;
+          print("Ini hasil" + hasil.toString());
         });
       });
     });
@@ -219,6 +217,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                       blurRadius: 10)
                                 ]),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
@@ -238,11 +237,12 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                   margin: EdgeInsets.only(left: 8),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width *
-                                            0.08),
+                                        width: MediaQuery.of(context).size.width *
+                                            0.27,
+                                        padding: EdgeInsets.only(top: 20),
                                         child: Text(
                                           snapshot.data[index].user.name,
                                           style: TextStyle(
@@ -253,7 +253,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                       ),
                                       Container(
                                         child: Text(
-                                          "Cleaning Service",
+                                          "Koordinator",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.white,
@@ -308,8 +308,8 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                                     Row(
                                                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text("D4 PENS", style: TextStyle(fontSize: MediaQuery.of(context).size.width *
-                                                            0.032, fontWeight: FontWeight.w500),),
+                                                       snapshot.data[index].code != null ? Text(snapshot.data[index].code, style: TextStyle(fontSize: MediaQuery.of(context).size.width *
+                                                            0.032, fontWeight: FontWeight.w500),) : Text("Belum ada", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.032)), 
                                                         SizedBox(width: MediaQuery.of(context).size.width * 0.09),
                                                         IconButton(
                                                             padding: EdgeInsets.zero,
@@ -383,10 +383,11 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                             borderRadius: BorderRadius.all(
                                 Radius.circular(10))),
                         child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: GFProgressBar(
+                          padding: EdgeInsets.all(4.0),
+                          child:  GFProgressBar(
+                            // jika hasil percentage NaN maka akan muncul 0
                             percentage:
-                            hasil == null ? 0 : hasil!,
+                            hasil == null || hasil!.isNaN  ? 0 : hasil!,
                             lineHeight: 20,
                             backgroundColor: Colors.grey,
                             progressBarColor: Colors.white,
@@ -604,7 +605,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF1DDB7F),
+                        backgroundColor: Color(0xFF1DDB7F),
                       ),
                       onPressed: () {
                         showDialog(

@@ -9,8 +9,6 @@ import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:intl/intl.dart';
 
 class HomePetugasPage extends StatefulWidget {
   const HomePetugasPage({Key? key}) : super(key: key);
@@ -30,14 +28,13 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
 
   int _activeIndex = 0;
   final imageAsset = [
-    'assets/images/slide1.png',
-    'assets/images/slide2.png',
-    'assets/images/slide3.png'
+    'assets/images/carousel1.png',
+    'assets/images/carousel2.png',
+    'assets/images/carousel3.png'
   ];
 
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(Duration(seconds: 3)).then((_) {
       //return data from user code
       PetugasController().getPetugasCode().then((value) {
@@ -166,7 +163,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                                 color: Colors.white, width: 2)),
                                         child: Center(
                                           child: Text(
-                                            "1",
+                                            "!",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12),
@@ -292,7 +289,7 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                                                     Row(
                                                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text("D4 PENS", style: TextStyle(fontSize: MediaQuery.of(context).size.width *
+                                                        Text(snapshot.data[index].code, style: TextStyle(fontSize: MediaQuery.of(context).size.width *
                                                             0.03, fontWeight: FontWeight.w300),),
                                                         SizedBox(width: MediaQuery.of(context).size.width * 0.09),
                                                         IconButton(
@@ -476,8 +473,8 @@ class _HomePetugasPageState extends State<HomePetugasPage> {
                 enableInfiniteScroll: true,
                 reverse: false,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayInterval: Duration(seconds: 5),
+                autoPlayAnimationDuration: Duration(milliseconds: 1000),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 onPageChanged: (index, reason) {
                   setState(() {

@@ -57,10 +57,10 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                     backgroundColor: Colors.green,
                     textColor: Colors.white,
                     fontSize: 16.0);
-                // Navigator.pushReplacement(
-                //     this.context,
-                //     MaterialPageRoute(
-                //         builder: (context) => PetugasActivityPage()));
+                Navigator.push(
+                    this.context,
+                    MaterialPageRoute(
+                        builder: (context) => PetugasActivityPage()));
               } else {
                 Fluttertoast.showToast(
                     msg: "Update Failed",
@@ -133,8 +133,14 @@ class _JadwalPetugasCameraPageState extends State<JadwalPetugasCameraPage> {
                                 snapshot.data[index].cleanArea.toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Text(DateFormat('dd MMMM yyyy')
-                                  .format(snapshot.data[index].updatedAt)),
+                              // date time now
+                              subtitle: Text(
+                                DateFormat('dd MMMM yyyy')
+                                    .format(
+                                      DateTime.now(),
+                                    )
+                                    .toString(),
+                              ),
                               leading: CircleAvatar(
                                 backgroundColor: Color(0xff4399A7),
                                 child: Icon(Icons.wysiwyg, color: Colors.white),

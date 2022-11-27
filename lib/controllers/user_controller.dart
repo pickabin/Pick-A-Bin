@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:boilerplate/models/user_data.dart';
 import 'package:http/http.dart' as http;
-import '../models/user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserController {

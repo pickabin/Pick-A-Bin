@@ -42,7 +42,7 @@ class JadwalController {
   //update jadwal
   static Future<http.Response> updateJadwal(String photo, idJadwal) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String id = prefs.getInt('user_id').toString();
+    // String id = prefs.getInt('user_id').toString();
     String petugasId = prefs.getInt('petugas_id').toString();
     String koorId = prefs.getInt('koor_id').toString();
     print("Ini koor id : " + koorId);

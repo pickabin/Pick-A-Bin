@@ -161,7 +161,7 @@ class _DetailLocationPageState extends State<DetailLocationPage> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
+                          backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
