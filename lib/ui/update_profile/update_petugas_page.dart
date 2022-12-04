@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:boilerplate/controllers/user_controller.dart';
 import 'package:boilerplate/ui/navbar/navbar_page.dart';
-import 'package:boilerplate/ui/profile/profile_activity_koordinator.dart';
 import 'package:boilerplate/ui/profile/profile_koordinator_main.dart';
 import 'package:boilerplate/ui/profile/profile_petugas_main.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/service/auth_service.dart';
 import 'package:path/path.dart';
+import 'package:boilerplate/data/service/global.dart' as global;
 
 class UpdatePetugasPage extends StatefulWidget {
   String? name;
@@ -68,6 +68,7 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
       storageRef.getDownloadURL().then((value) {
         setState(() {
           url = value;
+          global.photo = value;
           // data.update({"imageUrl": url});
         });
       });
@@ -90,6 +91,21 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
         fileName = basename(_image!.path);
       });
     }
+
+     FirebaseStorage storage = FirebaseStorage.instance;
+    if (fileName != null) {
+      Reference storageRef = storage.ref().child("imageUser/" + fileName!);
+      await storageRef.putFile(_image!);
+
+      storageRef.getDownloadURL().then((value) {
+        setState(() {
+          url = value;
+          global.photo = value;
+          // data.update({"imageUrl": url});
+        });
+      });
+    }
+        
   }
 
 //Hapus Image from firebase storage
@@ -98,6 +114,7 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
     setState(() {
       _image = null;
       url = '';
+      global.photo = null;
       UserController.updateUserImage(id, url);
     });
   }
@@ -184,11 +201,7 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                                   onTap: () async {
                                                     var id = widget.id;
                                                     _getImageCamera(id);
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ProfileActivityKoordinator()));
+                                                    Navigator.pop(context);
                                                   },
                                                   splashColor:
                                                       Colors.greenAccent,
@@ -658,53 +671,6 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //create email field
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 8.0),
-                        //   child: Text(
-                        //     "Nama Instansi",
-                        //     style: TextStyle(
-                        //       fontSize: 18,
-                        //     ),
-                        //   ),
-                        // ),
-                        SizedBox(height: 5),
-                        // TextFormField(
-                        //   controller: _instansiController,
-                        //   validator: (value) {
-                        //     if (value!.isEmpty) {
-                        //       return 'Nama Instansi Harus Diisi';
-                        //     }
-                        //     return null;
-                        //   },
-                        //   decoration: InputDecoration(
-                        //     prefixIcon: Icon(
-                        //       Icons.person,
-                        //       color: Colors.green,
-                        //     ),
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //       borderSide: BorderSide(
-                        //         width: 2,
-                        //         color: Colors.green,
-                        //       ),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //       borderSide: BorderSide(
-                        //         width: 2,
-                        //         color: Colors.green,
-                        //       ),
-                        //     ),
-                        //     errorBorder: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //       borderSide: BorderSide(
-                        //         width: 2,
-                        //         color: Colors.red,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                         SizedBox(height: 15),
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
@@ -944,14 +910,27 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                           widget.id, name, alamat, telp)
                                       .then((value) {
                                     if (value.statusCode == 200) {
-                                      Fluttertoast.showToast(
-                                          msg: "Data Berhasil Diubah",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.green,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                      setState(() {
+                                        global.nama = name;
+                                        global.alamat = alamat;
+                                        global.noHp = telp;
+                                      });
+                                      // arahkan ke halaman navbar current index 3
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavbarPage()));
+                                        Fluttertoast.showToast(
+                                            msg: "Data Berhasil Diubah",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.green,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                        
+                                
                                     } else {
                                       Fluttertoast.showToast(
                                           msg: "Data Gagal Diubah",
@@ -964,10 +943,13 @@ class _UpdatePetugasPageState extends State<UpdatePetugasPage> {
                                     }
                                   });
 
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => NavbarPage()));
+                                  // Navigator.pushReplacement(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => NavbarPage()));
+                                  
+                                  // navigator pop
+                            
                                 }
 
                                 // if (namaInstansi.isEmpty) {

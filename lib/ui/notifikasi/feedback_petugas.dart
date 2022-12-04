@@ -1,4 +1,5 @@
 import 'package:boilerplate/controllers/aktivitas_petugas_controller.dart';
+import 'package:boilerplate/models/aktivitas_petugas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:intl/intl.dart';
@@ -11,11 +12,21 @@ class FeedbackPetugas extends StatefulWidget {
 }
 
 class _FeedbackPetugasState extends State<FeedbackPetugas> {
+  late Future<List<AktivitasPetugas>> futureFeedback;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      futureFeedback = AktivitasPetugasController().getAktivitasPetugas();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(
-            future: AktivitasPetugasController().getAktivitasPetugas(),
+        body: FutureBuilder<List<AktivitasPetugas>>(
+            future: futureFeedback,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data.length != 0
@@ -62,6 +73,11 @@ class _FeedbackPetugasState extends State<FeedbackPetugas> {
                                               color: Colors.white,
                                             ),
                                             backgroundColor: Color(0xffEF7D31),
+                                          ),
+                                          trailing: Text(
+                                            DateFormat('dd MMMM yyyy')
+                                                .format(snapshot.data[index]
+                                                    .updatedAt),
                                           ),
                                         ),
                                       ),

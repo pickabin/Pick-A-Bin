@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:boilerplate/controllers/jadwal_controller.dart';
-import 'package:boilerplate/ui/activity/koor_activity_page.dart';
+import 'package:boilerplate/models/jadwal.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
@@ -21,7 +21,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
   File? _image;
   String? fileName;
   String? url;
-
+  late Future<List<Jadwal>> futureJadwal;
 
   Future _getImageCamera(id) async {
     XFile? selectImage = await ImagePicker().pickImage(
@@ -46,7 +46,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
         storageRef.getDownloadURL().then((value) {
           setState(() {
             url = value;
-            JadwalController.updateJadwal(url!,id).then((value) {
+            JadwalController.updateJadwal(url!, id).then((value) {
               if (value.statusCode == 200) {
                 Fluttertoast.showToast(
                     msg: "Update Successfully",
@@ -56,10 +56,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                     backgroundColor: Colors.green,
                     textColor: Colors.white,
                     fontSize: 16.0);
-                    Navigator.pushReplacement(
-                    this.context,
-                    MaterialPageRoute(
-                        builder: (context) => KoorActivityPage()));
+                  // pop ke halaman sebelumnya
               } else {
                 Fluttertoast.showToast(
                     msg: "Update Failed",
@@ -102,7 +99,7 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(DateFormat('dd MMMM yyyy H:m a')
-                                .format(snapshot.data[index].createdAt)),
+                                .format(snapshot.data[index].updatedAt)),
                             leading: CircleAvatar(
                               backgroundColor: Colors.green,
                               child: Icon(Icons.home, color: Colors.white),
@@ -121,16 +118,42 @@ class _JadwalKoorCameraPageState extends State<JadwalKoorCameraPage> {
                               ],
                             ),
                           )
-                        : Container(
-                          padding: EdgeInsets.only(top: 20),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Jadwal sudah dilaksanakan",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )
+                        : ListTile(
+                            title: Text(
+                              snapshot.data[index].keterangan,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green,
                               ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  "Piket Sudah Dilaksanakan",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.green,
+                              child: Icon(Icons.home, color: Colors.white),
+                            ),
+                            trailing: new Wrap(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: MediaQuery.of(context).size.width *
+                                          0.028),
+                                  child: Icon(Icons.check_circle_outline,
+                                      color: Colors.green),
+                                ),
+                              ],
                             ),
                           );
                   }),

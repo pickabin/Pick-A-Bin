@@ -1,4 +1,5 @@
 import 'package:boilerplate/controllers/lapor_kotor_controller.dart';
+import 'package:boilerplate/models/lapor_kotor.dart';
 import 'package:boilerplate/ui/image/image_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
@@ -12,11 +13,21 @@ class LaporKotorPage extends StatefulWidget {
 }
 
 class _LaporKotorPageState extends State<LaporKotorPage> {
+  late Future<List<LaporKotor>> futureLaporKotor;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      futureLaporKotor = LaporKotorController().getLaporKotor();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(
-            future: LaporKotorController().getLaporKotor(),
+        body: FutureBuilder<List<LaporKotor>>(
+            future: futureLaporKotor,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data.length != 0

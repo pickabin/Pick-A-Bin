@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AreaId extends StatefulWidget {
+class AreaIdKoor extends StatefulWidget {
   String? code;
   String? cleanArea;
-  AreaId({Key? key, required this.code}) : super(key: key);
+  AreaIdKoor({Key? key, required this.code}) : super(key: key);
 
   @override
-  _AreaIdState createState() => _AreaIdState();
+  _AreaIdKoorState createState() => _AreaIdKoorState();
 }
 
-class _AreaIdState extends State<AreaId> {
+class _AreaIdKoorState extends State<AreaIdKoor> {
   final GlobalKey<FormState> _formKey = new GlobalKey();
   final TextEditingController kodeGedungController =
       new TextEditingController();

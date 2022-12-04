@@ -42,9 +42,9 @@ apply plugin: 'com.google.gms.google-services'
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.pickabin.pickabin_app"
         minSdkVersion 20
-        targetSdkVersion 30
-        versionCode 12
-        versionName "3.3"
+        targetSdkVersion 31
+        versionCode 14
+        versionName "3.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

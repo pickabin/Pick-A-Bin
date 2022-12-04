@@ -26,6 +26,8 @@ class JadwalController {
     }
   }
 
+
+  
   //get all data jadwal
   Future<List<Jadwal>> getAllJadwal() async {
     final response =

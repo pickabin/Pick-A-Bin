@@ -1,12 +1,18 @@
 import 'package:boilerplate/controllers/count_petugas_controller.dart';
+import 'package:boilerplate/controllers/jadwal_controller.dart';
 import 'package:boilerplate/controllers/koor_gedung_controller.dart';
+import 'package:boilerplate/models/jadwal.dart';
+import 'package:boilerplate/models/koor_gedung.dart';
 import 'package:boilerplate/ui/help/help_koordinator.dart';
-import 'package:boilerplate/ui/home/area_id.dart';
+import 'package:boilerplate/ui/home/area_id_koor.dart';
 import 'package:boilerplate/ui/home/saran_masukan.dart';
+import 'package:boilerplate/ui/notifikasi/notifikasi.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeKoordinatorPage extends StatefulWidget {
@@ -22,14 +28,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
   int? countPetugas;
   int? listDone;
   double? hasil;
-  // final ref = FirebaseDatabase.instance
-  //     .ref()
-  //     .child('jadwal')
-  //     .orderByChild('date')
-  //     .equalTo(DateFormat('dd/MM/yyyy').format(DateTime.now()).toString())
-  //     .limitToLast(4);
-  // File? _image;
-  // String? fileName;
+  late Future<List<KoorGedung>> futureKoorGedung;
 
   int _activeIndex = 0;
   final imageAsset = [
@@ -38,11 +37,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
     'assets/images/carousel3.png'
   ];
 
-  @override
-  void initState() {
-    Future.delayed(Duration(seconds: 2)).then((_) {
-      //return data from user code
-      KoorGedungController().getKoorGedungCode().then((value) {
+  // function
+  Future<void> getKoorGedung() async {
+    KoorGedungController().getKoorGedungCode().then((value) {
         setState(() {
           //input
           print("Ini value" + value.toString());
@@ -55,7 +52,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             context: this.context,
             builder: (context) {
               return AlertDialog(
-                content: AreaId(
+                content: AreaIdKoor(
                   code: code,
                 ),
               );
@@ -63,8 +60,9 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
           );
         }
       });
-    });
+  }
 
+  Future<void> getKoorByUid() async {
     KoorGedungController().getKoorByUid().then((value) {
       //looping nilai value
       for (var i = 0; i < value.length; i++) {
@@ -84,24 +82,31 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
         });
       });
     });
+  }
+
+  @override
+  void initState() {
     super.initState();
+    getKoorGedung();
+    getKoorByUid();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      futureKoorGedung = KoorGedungController().getKoorByUid();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    //prefs count petugas
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    //lebar dan tinggi layar
-    // double width = MediaQuery.of(context).size.width * 0.9;
-    // double height = MediaQuery.of(context).size.height*0.2;
-    // print(width);
-    // print("tinggi" + height.toString());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           //Bagian paling atas form,logo dan notifikasi
-          FutureBuilder(
-            future: KoorGedungController().getKoorByUid(),
+          FutureBuilder<List<KoorGedung>>(
+            future: futureKoorGedung,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -117,8 +122,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                       return Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 5),
+                            padding: const EdgeInsets.only(left: 15, right: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -131,37 +135,15 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                         0.07,
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20))),
-                                      backgroundColor:
-                                      Color.fromARGB(255, 255, 255, 255),
-                                      context: context,
-                                      builder: (_) {
-                                        return FractionallySizedBox(
-                                          heightFactor: 0.9,
-                                          child: AreaId(
-                                            code: code,
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: Text("PENS",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 10,
-                                        )),
-                                  ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Text("PENS",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 10,
+                                      )),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(right: 13),
@@ -169,7 +151,13 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                   child: Stack(children: [
                                     //Notification
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Notifikasi()));
+                                      },
                                       icon: Icon(
                                         Icons.notifications,
                                         color: Colors.black45,
@@ -189,7 +177,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                                 color: Colors.white, width: 2)),
                                         child: Center(
                                           child: Text(
-                                            "1",
+                                            "!",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12),
@@ -224,14 +212,18 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                   padding: EdgeInsets.only(left: 6),
                                   child: snapshot.data[index].user.photo != null
                                       ? CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        snapshot.data[index].user.photo),
-                                    radius: 30,
-                                  )
+                                          backgroundImage: CachedNetworkImageProvider(
+                                              snapshot.data[index].user.photo
+                                            ),
+                                          radius: 30,
+                                        )
                                       : CircleAvatar(
-                                      radius: MediaQuery .of(context).size.width * 0.06,
-                                      backgroundImage: AssetImage(
-                                          'assets/images/grup_logo2.png')),
+                                          radius: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.06,
+                                          backgroundImage: AssetImage(
+                                              'assets/images/grup_logo2.png')),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
@@ -267,8 +259,8 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                 Container(
                                     margin: EdgeInsets.only(
                                         left:
-                                        MediaQuery.of(context).size.width *
-                                            0.07),
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
                                     width: MediaQuery.of(context).size.width *
                                         0.37,
                                     height: MediaQuery.of(context).size.height *
@@ -311,17 +303,6 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                                        snapshot.data[index].code != null ? Text(snapshot.data[index].code, style: TextStyle(fontSize: MediaQuery.of(context).size.width *
                                                             0.032, fontWeight: FontWeight.w500),) : Text("Belum ada", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.032)), 
                                                         SizedBox(width: MediaQuery.of(context).size.width * 0.09),
-                                                        IconButton(
-                                                            padding: EdgeInsets.zero,
-                                                            constraints: BoxConstraints(),
-                                                            onPressed: () {},
-                                                            icon: Icon(
-                                                              Icons.create_rounded,
-                                                              color: Colors.black45,
-                                                              size: MediaQuery.of(context).size.width *
-                                                                  0.05,
-                                                            )
-                                                        )
                                                       ],
                                                     ),
                                                   ],
@@ -331,8 +312,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                           ),
                                         ),
                                       ],
-                                    )
-                                ),
+                                    ))
                               ],
                             ),
                           ),
@@ -354,21 +334,20 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             child: Card(
               color: Color(0xff4BB051),
               margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.05,
-                  top: MediaQuery.of(context).size.width * 0.01,
+                left: MediaQuery.of(context).size.width * 0.05,
+                right: MediaQuery.of(context).size.width * 0.05,
+                top: MediaQuery.of(context).size.width * 0.01,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
                     visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    leading: Icon(Icons.people_alt_sharp,
-                      color: Colors.white),
+                    leading: Icon(Icons.people_alt_sharp, color: Colors.white),
                     title: Text('Jumlah Piket Petugas',
-                                style: TextStyle(color: Colors.white)),
+                        style: TextStyle(color: Colors.white)),
                     subtitle: Text('Jumlah Petugas yang sudah piket hari ini',
-                                    style: TextStyle(color: Colors.white)),
+                        style: TextStyle(color: Colors.white)),
                   ),
                   Container(
                         margin: EdgeInsets.only(bottom: 5),
@@ -396,19 +375,15 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                                     ? Text(
                                     listDone.toString() +
                                         "/" +
-                                        countPetugas
-                                            .toString() +
+                                        countPetugas.toString() +
                                         " Petugas",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12))
-                                    : listDone == 0
-                                    ? Text("0 / " +
-                                    "0" +
-                                    " Petugas")
+                                        color: Colors.black, fontSize: 12))
+                                : listDone == 0
+                                    ? Text("0 / " + "0" + " Petugas")
                                     : Text("Loading...")),
-                          ),
-                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -419,132 +394,93 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Tugas Terbaru Anda",
-              style: TextStyle(
-                  fontSize: 18.0, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 5, bottom: 5),
-            height: MediaQuery.of(context).size.height * 0.16,
-            width: MediaQuery.of(context).size.width * 0.9,
-            decoration: BoxDecoration(
-                color: Color(0xff4BB051),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 5),
-                      blurRadius: 10)
-                ]),
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 8),
-                  child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin:
-                        EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.010,
-                            left: 8),
-                        child: Text(
-                          "Piket Pagi",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Container(
-                        margin:
-                        EdgeInsets.only(top: 2, left: 8),
-                        child: Row(
-                          //space between cleaning service dan petugas
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Selesai",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w100,
+          FutureBuilder<List<Jadwal>>(
+            future: JadwalController().getJadwal(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0,
+                      vertical: MediaQuery.of(context).size.width * 0),
+                  margin:
+                      EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return snapshot.data[index].status.toString() == "0"
+                          ? ListTile(
+                              title: Text(
+                                "Piket" +
+                                    " " +
+                                    snapshot.data[index].keterangan.toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                DateFormat(
+                                  'dd MMMM yyyy',
+                                ).format(snapshot.data[index].updatedAt),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              trailing: new Wrap(
+                                children: <Widget>[
+                                  Container(
+                                    child: Icon(Icons.access_time_outlined,
+                                        color: Colors.white),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context)
-                                      .size
-                                      .width *
-                                      0.6,
-                                ),
-                                Icon(
-                                  Icons.done_all,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin:
-                        EdgeInsets.only(top: 8, left: 8),
-                        child: Text(
-                          "Piket Siang",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Container(
-                        margin:
-                        EdgeInsets.only(top: 2, left: 8),
-                        child: Row(
-                          //space between cleaning service dan petugas
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "senin, 12/12/2020",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w100,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context)
-                                      .size
-                                      .width *
-                                      0.42,
-                                ),
-                                Icon(
-                                  Icons.access_time,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ],
+                                ],
+                              ),
                             )
-                          ],
-                        ),
-                      ),
-                    ],
+                          : //widget kosong;
+
+                          ListTile(
+                              title: Text(
+                                "Piket" +
+                                    " " +
+                                    snapshot.data[index].keterangan.toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                "Piket Telah Dilaksanakan",
+                                style: TextStyle(color: Colors.white),
+                              ),
+
+                              // trailing icon check
+                              trailing: new Wrap(
+                                children: <Widget>[
+                                  Container(
+                                    child: Icon(Icons.done_all,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            );
+                    },
                   ),
-                ),
-              ],
-            ),
+                );
+              } else {
+                return ListTileShimmer();
+              }
+            },
           ),
           Container(
             margin: EdgeInsets.only(top: 5, bottom: 5, left: 16),
             alignment: Alignment.centerLeft,
             child: Text(
               "Manfaat Pick A Bin",
-              style: TextStyle(
-                  fontSize: 18.0, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -577,8 +513,7 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               "Sampaikan Aspirasi",
-              style: TextStyle(
-                  fontSize: 18.0, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
             ),
           ),
           Container(
@@ -596,7 +531,6 @@ class _HomeKoordinatorPageState extends State<HomeKoordinatorPage> {
                     spreadRadius: 1.2)
               ],
             ),
-
             child: Stack(
               children: [
                 Padding(

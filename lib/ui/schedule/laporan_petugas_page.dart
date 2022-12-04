@@ -14,14 +14,21 @@ class _LaporanPetugasPageState extends State<LaporanPetugasPage> {
   // final fb = FirebaseDatabase.instance;
 
   // final databaseRef = FirebaseDatabase.instance.ref();
+  late Future<List<LaporanPetugas>> laporanPetugas;
+
+  @override
+  void initState() {
+    super.initState();
+    laporanPetugas = LaporanPetugasController().getAktivitasPetugasByCode();
+  }
 
   @override
   Widget build(BuildContext context) {
     // final ref = fb.ref().child('jadwal').orderByChild('status').equalTo(true);
 
     return Scaffold(
-        body: FutureBuilder(
-      future: LaporanPetugasController().getAktivitasPetugasByCode(),
+      body: FutureBuilder<List<LaporanPetugas>>(
+      future: laporanPetugas,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(

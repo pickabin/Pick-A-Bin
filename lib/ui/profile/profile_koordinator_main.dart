@@ -4,15 +4,17 @@ import 'package:boilerplate/ui/activity/koor_activity_page.dart';
 import 'package:boilerplate/ui/authentication/role_selection.dart';
 import 'package:boilerplate/ui/home/list_contact_petugas_page.dart';
 import 'package:boilerplate/ui/laporan/laporan_page.dart';
-import 'package:boilerplate/ui/profile/pengaturan_akun.dart';
 import 'package:boilerplate/ui/profile/profile_detail_image.dart';
 import 'package:boilerplate/ui/notifikasi/notif_acara.dart';
 import 'package:boilerplate/ui/update_profile/update_koordinator_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
+// import variabel global
+import 'package:boilerplate/data/service/global.dart' as global;
 
 class ProfileKoordinatorMain extends StatefulWidget {
   const ProfileKoordinatorMain({Key? key}) : super(key: key);
@@ -65,10 +67,12 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                             MediaQuery.of(context).size.width *
                                                 0.2,
                                         child: CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: NetworkImage(
-                                                snapshot.data[index].user.photo
-                                                    .toString())),
+                                          radius: 60,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                                  snapshot
+                                                      .data[index].user.photo),
+                                        ),
                                       ),
                                       onTap: () {
                                         Navigator.push(
@@ -180,10 +184,10 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                             ),
                           ],
                         ),
-                        snapshot.data[index].user.phone != null && 
-                           snapshot.data[index].user.phone != "null" &&
-                                snapshot.data[index].user.address != null && 
-                                  snapshot.data[index].user.address != "null"
+                        snapshot.data[index].user.phone != null &&
+                                snapshot.data[index].user.phone != "null" &&
+                                snapshot.data[index].user.address != null &&
+                                snapshot.data[index].user.address != "null"
                             ? Container(
                                 margin: new EdgeInsets.only(
                                     top: 12.0, right: 7, left: 3),
@@ -264,7 +268,11 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                               )
                             : Container(
                                 margin: new EdgeInsets.only(
-                                    top: 12.0, right: MediaQuery.of(context).size.width * 0.02, left: MediaQuery.of(context).size.width * 0.02),
+                                    top: 12.0,
+                                    right: MediaQuery.of(context).size.width *
+                                        0.02,
+                                    left: MediaQuery.of(context).size.width *
+                                        0.02),
                                 child: Row(
                                   children: [
                                     Padding(
@@ -392,31 +400,11 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                     Icon(Icons.arrow_forward_ios_outlined),
                                 title: const Text('Kontak Petugas'),
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ListContactPetugasPage()));
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 70.0),
-                              child: Divider(thickness: 1, color: Colors.black),
-                            ),
-                            Container(
-                              height: 35.0,
-                              child: ListTile(
-                                leading: Icon(Icons.calendar_today_rounded),
-                                trailing:
-                                    Icon(Icons.arrow_forward_ios_outlined),
-                                title: const Text('Jadwal acara saya'),
-                                onTap: () async {
-                                  // SharedPreferences prefs =
-                                  //     await SharedPreferences.getInstance();
-                                  // final String? uid = prefs.getString('uid');
-
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              NotifAcara()));
+                                              ListContactPetugasPage()));
                                 },
                               ),
                             ),
@@ -453,11 +441,23 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
                                 trailing:
                                     Icon(Icons.arrow_forward_ios_outlined),
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PengaturanMain()));
+                                  // show dialog fitur belum tersedia
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Fitur belum tersedia"),
+                                          content: Text(
+                                              "Fitur ini sedang dalam pengembangan"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("OK"))
+                                          ],
+                                        );
+                                      });
                                 },
                               ),
                             ),
@@ -577,6 +577,7 @@ class _ProfileKoordinatorMainState extends State<ProfileKoordinatorMain> {
     );
   }
 }
+
 
 // Future<String?> _getPrefs() async {
 //   SharedPreferences prefs = await SharedPreferences.getInstance();

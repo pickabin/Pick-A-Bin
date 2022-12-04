@@ -231,3 +231,4 @@ class _ImagePreviewActivityState extends State<ImagePreviewActivity> {
     );
   }
 }
+

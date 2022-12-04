@@ -4,7 +4,6 @@ import 'package:boilerplate/ui/navbar/navbar_page.dart';
 import 'package:boilerplate/ui/profile/profile_koordinator_main.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,7 +38,6 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
   String? fileName;
   String? url;
   //Read data once from Realtime Database
-  final ref = FirebaseDatabase.instance.ref().child('Koordinator');
 
 // Upload dan get image from firebase storage
   Future _getImageCamera(key) async {
@@ -176,7 +174,7 @@ class _UpdateKoordinatorPageState extends State<UpdateKoordinatorPage> {
                                                   onTap: () async {
                                                     var id = widget.id;
                                                     _getImageCamera(id);
-                                                    Navigator.pushReplacement(
+                                                    Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>

@@ -1,3 +1,4 @@
+import 'package:boilerplate/models/cek_code.dart';
 import 'package:boilerplate/models/petugas.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -124,4 +125,18 @@ class PetugasController {
       }),
     );
   }
+
+   // get data cek code from api
+  Future<String> getCekCode(String code) async {
+    print("ini code " + code);
+    final response = await http.get(Uri.parse('https://azdevweb.online/api/petugas/cekCode/$code'));
+    if (response.statusCode == 200) {
+      CekCode cekCodeResult = cekCodeFromJson(response.body);
+      int? cekCode = cekCodeResult.data;
+      return cekCode.toString();
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
 }
